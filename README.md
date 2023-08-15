@@ -47,8 +47,5 @@ This repo is for our class project (IT4409E). We used MERN stack to build the we
     POST /coupons/
     PATCH /coupons/:id
     DELETE /coupons/:id
-## Authors
-Nguyen Hai Nam<br/>
-Ngo Quang Minh<br/>
-Tran Quang Nam<br/>
+
 
