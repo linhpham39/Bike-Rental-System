@@ -4,21 +4,21 @@ import { faTh, faBars } from "@fortawesome/free-solid-svg-icons";
 import axios from 'axios';
 const Pagination = lazy(() => import("../../components/Pagination"));
 const Breadcrumb = lazy(() => import("../../components/Breadcrumb"));
-const FilterCategory = lazy(() => import("../../components/filter/Category"));
+const FilterDock = lazy(() => import("../../components/filter/Dock"));
 const FilterPrice = lazy(() => import("../../components/filter/Price"));
 const FilterClearButton = lazy(() => import("../../components/filter/Clear"));
 const CardServices = lazy(() => import("../../components/card/CardServices"));
 const CardBikeGrid = lazy(() => import("../../components/card/CardBikeGrid"));
 const CardBikeList = lazy(() => import("../../components/card/CardBikeList"));
 
-const categoryNameMap = {
-  "business-finance": "Business & Finance",
-  "fiction": "Fiction",
-  "health-fitness": "Health & Fitness",
-  "history-archaeology": "History & Archaeology",
-  "art-photography": "Art & Photography",
-  "romance": "Romance",
-  "food-drink": "Food & Drink",
+const dockNameMap = {
+  "D5": "D5",
+  "D3": "D3",
+  "D7": "D7",
+  "D9": "D9",
+  "B1": "B1",
+  // "romance": "Romance",
+  // "food-drink": "Food & Drink",
   "all": "All"
 };
 
@@ -80,7 +80,7 @@ const BikeListView = ({ catName }) => {
     }
     else {
       console.log(catName);
-      setBikesByCat(bikes.filter(bike => bike.categories.includes(catName)));
+      setBikesByCat(bikes.filter(bike => bike.dock.includes(catName)));
     }
   }, [catName, bikes]);
 
@@ -150,16 +150,16 @@ const BikeListView = ({ catName }) => {
       >
         <div className="container text-center">
           <span className="display-5 px-3 rounded shadow" style={{ backgroundColor: 'rgb(13 169 253)', color: 'white' }}>
-            <b>{categoryNameMap[catName]}</b>
+            <b>{dockNameMap[catName]}</b>
           </span>
 
         </div>
       </div>
-      <Breadcrumb catName={categoryNameMap[catName]} />
+      <Breadcrumb catName={dockNameMap[catName]} />
       <div className="container-fluid mb-3">
         <div className="row">
           <div className="col-md-3">
-            <FilterCategory />
+            <FilterDock />
             <FilterPrice handleChangePriceFilter={handleChangePriceFilter} />
             <FilterClearButton clearFilters={clearFilters} />
             <CardServices />

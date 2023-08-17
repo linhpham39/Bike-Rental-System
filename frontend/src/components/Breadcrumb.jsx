@@ -11,7 +11,7 @@ const Breadcrumb = (props) => {
           </Link>
         </li>
         <li className="breadcrumb-item">
-          <Link to="/" title="Fiction">
+          <Link to="/" title="D3">
             {catName}
           </Link>
         </li>

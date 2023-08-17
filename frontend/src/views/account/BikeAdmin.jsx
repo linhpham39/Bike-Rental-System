@@ -10,7 +10,7 @@ const BikeAdmin = () => {
   const [name, setName] = useState('');
   const [publisher, setPublisher] = useState('');
   const [author, setAuthor] = useState('');
-  const [categories, setCategories] = useState('');
+  const [categories, setDock] = useState('');
   const [detail, setDetail] = useState('');
   const [imageUrls, setImageUrls] = useState('');
   const [price, setPrice] = useState(0);
@@ -46,7 +46,7 @@ const BikeAdmin = () => {
           name,
           publisher,
           author,
-          categories: categories.split(',').map((category) => category.trim()),
+          categories: categories.split(',').map((dock) => dock.trim()),
           detail,
           imageUrls: imageUrls.split(',').map((imageUrl) => imageUrl.trim()),
           price,
@@ -114,7 +114,7 @@ const BikeAdmin = () => {
     setName('');
     setPublisher('');
     setAuthor('');
-    setCategories('');
+    setDock('');
     setDetail('');
     setImageUrls('');
     setPrice(0);
@@ -156,12 +156,12 @@ const BikeAdmin = () => {
             onChange={(e) => setAuthor(e.target.value)}
             required
           />
-          <label htmlFor="categories"><b>Categories (comma-separated)</b></label>
+          <label htmlFor="categories"><b>Dock (comma-separated)</b></label>
           <input
             type="text"
             id="categories"
             value={categories}
-            onChange={(e) => setCategories(e.target.value)}
+            onChange={(e) => setDock(e.target.value)}
             required
           />
           <label htmlFor="detail"><b>Detail</b></label>
@@ -238,7 +238,7 @@ const BikeAdmin = () => {
           <thead>
             <tr>
               <th>Name</th>
-              <th>Categories</th>
+              <th>Dock</th>
               <th>Price</th>
               <th>Is Available</th>
               <th>Action</th>

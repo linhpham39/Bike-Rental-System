@@ -64,7 +64,7 @@ const HomeView = () => {
       <div className="container-fluid bg-light mb-3">
         <div className="row g-3">
           <div className="col-md-9">
-            <Carousel id="elect-bike-category" className="mb-3">
+            <Carousel id="elect-bike-dock" className="mb-3">
               {carouselContent}
             </Carousel>
             <Support />

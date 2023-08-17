@@ -34,7 +34,7 @@ This repo is for our class project (IT4409E). We used MERN stack to build the we
     POST /bikes/
     PATCH /bikes/:id
     DELETE /bikes/:id
-    GET /bikes/category/:category
+    GET /bikes/dock/:dock
 ### Rating
     GET /rating/
     GET /rating/:id

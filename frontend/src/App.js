@@ -69,14 +69,14 @@ function App() {
               path="/account/notification"
               element={<NotificationView />}
             />
-            <Route exact path="/category" element={<BikeListView catName="all" />} />
-            <Route exact path="/category/fiction" element={<BikeListView catName="fiction" />} />
-            <Route exact path="/category/business-finance" element={<BikeListView catName="business-finance" />} />
-            <Route exact path="/category/health-fitness" element={<BikeListView catName="health-fitness" />} />
-            <Route exact path="/category/history-archaeology" element={<BikeListView catName="history-archaeology" />} />
-            <Route exact path="/category/art-photography" element={<BikeListView catName="art-photography" />} />
-            <Route exact path="/category/romance" element={<BikeListView catName="romance" />} />
-            <Route exact path="/category/food-drink" element={<BikeListView catName="food-drink" />} />
+            <Route exact path="/dock" element={<BikeListView catName="all" />} />
+            <Route exact path="/dock/D3" element={<BikeListView catName="D3" />} />
+            <Route exact path="/dock/D5" element={<BikeListView catName="D5" />} />
+            <Route exact path="/dock/D7" element={<BikeListView catName="D7" />} />
+            <Route exact path="/dock/D9" element={<BikeListView catName="D9" />} />
+            <Route exact path="/dock/B1" element={<BikeListView catName="B1" />} />
+            {/* <Route exact path="/dock/romance" element={<BikeListView catName="romance" />} />
+            <Route exact path="/dock/food-drink" element={<BikeListView catName="food-drink" />} /> */}
 
             <Route path='/bike/:id' element={<BikeDetailView />} />
             <Route exact path="/star/zone" element={<StarZoneView />} />
