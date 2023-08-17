@@ -24,17 +24,8 @@ const CheckoutView = () => {
       quantity: bike.quantity,
       key: index // Unique key prop
     })),
-    delivery: {
-      name: customer.shippingInformation[0].firstName + " " + customer.shippingInformation[0].lastName,
-      shippingAddress: {
-        address: customer.shippingInformation[0].address,
-        district: customer.shippingInformation[0].district,
-        city: customer.shippingInformation[0].city
-      },
-      fee: 5.00
-    },
     coupon: "",
-    totalPrice: totalPrice - coupon.value + 5.00,
+    totalPrice: totalPrice - coupon.value,
     status: "pending",
     createdDate: Date.now()
   });
@@ -128,7 +119,7 @@ const CheckoutView = () => {
               </div>
             </div>
 
-            <div className="card mb-3">
+            {/* <div className="card mb-3">
               <div className="card-header">
                 <IconTruck className="i-va" /> Shipping Infomation
               </div>
@@ -214,7 +205,7 @@ const CheckoutView = () => {
 
                 </div>
               </div>
-            </div>
+            </div> */}
             <div className="card mb-3 border-info">
               <div className="card-header bg-info">
                 <IconCreditCard2Front className="i-va" /> Payment Method
@@ -331,19 +322,14 @@ const CheckoutView = () => {
                     <li className="list-group-item d-flex justify-content-between lh-sm">
                       <div>
                         <h6 className="my-0">{bike.bikeId.name}</h6>
-                        <small className="text-muted">Quantity: {bike.quantity}</small>
+                        <small className="text-muted">Renting hour: {bike.quantity}</small>
                       </div>
                       <span className="text-muted">${((bike.bikeId.price - bike.bikeId.discount.value) * bike.quantity).toFixed(2)}</span>
                     </li>
                   )
                 })}
 
-                <li className="list-group-item d-flex justify-content-between bg-light">
-                  <div className="text-success">
-                    <h6 className="my-0">Shipping Fee</h6>
-                  </div>
-                  <span className="text-success">$5.00</span>
-                </li>
+            
                 <li className="list-group-item d-flex justify-content-between bg-light">
                   <div className="text-success">
                     <h6 className="my-0">Coupon</h6>
