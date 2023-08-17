@@ -64,6 +64,7 @@ const createBike = async (req, res) => {
         });
         res.status(201).json(bike);
     } catch (error) {
+        console.log(error);
         res.status(500).json({ error: 'Failed to create bike' });
     }
 };

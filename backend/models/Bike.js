@@ -17,6 +17,10 @@ const bikeSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    dock: {
+        type: String,
+        required: true
+    },
     imageUrls: {
         type: [String],
         required: true
