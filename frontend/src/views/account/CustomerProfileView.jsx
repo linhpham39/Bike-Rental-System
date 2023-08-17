@@ -85,7 +85,7 @@ const CustomerProfile = () => {
                     <i className="bi bi-calendar3"></i>
                   </span>
                 </div>
-                <input type="text" value={birthday.substring(0, 10)} className="form-control" readOnly />
+                <input type="text" value={birthday?.substring(0, 10)} className="form-control" readOnly />
               </div>
             </div>
             <div className="form-group">
