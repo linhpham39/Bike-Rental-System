@@ -27,8 +27,6 @@ const BikeDetailView = () => {
   const handleContentChange = (event) => {
     setContent(event.target.value);
   };
-
-
   useEffect(() => {
     const getBike = async (id) => {
       try {
@@ -175,21 +173,22 @@ const BikeDetailView = () => {
                 <dt className="col-sm-3">Availability</dt>
                 {bike && bike.isAvailable && <dd className="col-sm-9 text-success strong">In Stock</dd>}
                 {bike && !bike.isAvailable && <dd className="col-sm-9 text-danger">Out of Stock</dd>}
-                <dt className="col-sm-3">Publisher</dt>
-                <dd className="col-sm-9">{bike && bike.publisher}</dd>
-                <dt className="col-sm-3">Author</dt>
-                <dd className="col-sm-9">{bike && bike.author}</dd>
+                <dt className="col-sm-3">Brand</dt>
+                <dd className="col-sm-9">{bike && bike.brand}</dd>
+                <dt className="col-sm-3">Model</dt>
+                <dd className="col-sm-9">{bike && bike.model}</dd>
               </dl>
 
               <div className="mb-3">
-                <span className="fw-bold h5 me-2">{bike && (bike.price - bike.discount.value).toFixed(2)}</span>
-                <del className="small text-muted me-2">{bike && bike.price}</del>
+                <span className="fw-bold h5 me-2">${bike && (bike.price - bike.discount.value).toFixed(2)}/h</span>
+                <del className="small text-muted me-2">${bike && bike.price}/h</del>
                 <span className="rounded p-1 bg-warning  me-2 small">
-                  ${bike && bike.discount.value}
+                  -${bike && bike.discount.value}
                 </span>
               </div>
               <div className="mb-3">
                 <div className="d-inline float-start me-2">
+                  Rent Hour
                   <div className="input-group input-group-sm mw-140">
                     <button
                       className="btn btn-primary text-white"
@@ -341,7 +340,7 @@ const BikeDetailView = () => {
           </div>
         </div>
         <div className="col-md-4">
-          <CardFeaturedBike cat={bike && bike.categories[0]} />
+          <CardFeaturedBike />
           <CardServices />
         </div>
       </div>
