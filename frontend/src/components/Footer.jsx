@@ -60,47 +60,47 @@ const Footer = () => {
               </p>
             </div>
             <div className="col-md-3 py-3">
-              <div className="h6">Categories</div>
+              <div className="h6">Dock</div>
               <hr />
               <ul className="list-group list-group-flush">
                 <li className="list-group-item bg-dark text-white border-light">
                   <Link
-                    to="/category/business-finance"
+                    to="/dock/D5"
                     className="text-decoration-none text-white stretched-link"
                   >
-                    Business & Finance
+                    D5
                   </Link>
                 </li>
                 <li className="list-group-item bg-dark text-white border-light">
                   <Link
-                    to="/category/fiction"
+                    to="/dock/D3"
                     className="text-decoration-none text-white stretched-link"
                   >
-                    Fiction
+                    D3
                   </Link>
                 </li>
                 <li className="list-group-item bg-dark text-white border-light">
                   <Link
-                    to="/category/health-fitness"
+                    to="/dock/D7"
                     className="text-decoration-none text-white stretched-link"
                   >
-                    Health & Fitness
+                    D7
                   </Link>
                 </li>
                 <li className="list-group-item bg-dark text-white border-light">
                   <Link
-                    to="/category/history-archaeology"
+                    to="/dock/D9"
                     className="text-decoration-none text-white stretched-link"
                   >
-                    History & Archaeology
+                    D9
                   </Link>
                 </li>
                 <li className="list-group-item bg-dark text-white border-light">
                   <Link
-                    to="/category/art-photography"
+                    to="/dock/B1"
                     className="text-decoration-none text-white stretched-link"
                   >
-                    Art & Photography
+                    B1
                   </Link>
                 </li>
               </ul>
