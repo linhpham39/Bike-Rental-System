@@ -2,14 +2,13 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from 'axios';
 
-const CardFeaturedBike = ({ cat }) => {
+const CardFeaturedBike = () => {
   const [bikes, setBikes] = useState([])
-  const getBikes = async (cat) => {
+  const getBikes = async () => {
 
     try {
       let response
-      if (cat === null) response = await axios.get("http://localhost:8000/bikes")
-      else response = await axios.get(`http://localhost:8000/bikes/category/${cat}`)
+      response = await axios.get(`http://localhost:8000/bikes/`)
       const bikes = response.data
 
       setBikes(bikes.slice(0, 5));
@@ -18,13 +17,13 @@ const CardFeaturedBike = ({ cat }) => {
     }
   };
   useEffect(() => {
-    getBikes(cat);
+    getBikes();
   }, [])
 
   return (
     <div className="card mb-3">
       <div className="card-header fw-bold text-uppercase">
-        Featured Bikes
+        Recommended Bikes
       </div>
       <div className="card-body">
         {bikes && bikes.map((bike, idx) => (
@@ -41,10 +40,10 @@ const CardFeaturedBike = ({ cat }) => {
                   {bikes && bike.name}
                 </Link>
               </h6>
-              <span className="fw-bold h5">${(bike.price - bike.discount.value).toFixed(2)}</span>
+              <span className="fw-bold h5">${(bike.price - bike.discount.value).toFixed(2)}/h</span>
               {bike.price > 0 && (
                 <del className="small text-muted ms-2">
-                  ${bike.price}
+                  ${bike.price}/h
                 </del>
               )}
             </div>
