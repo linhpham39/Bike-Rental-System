@@ -1,6 +1,6 @@
 .bike-admin-container {
     display: grid;
-    grid-template-columns: 500px 1fr;
+    grid-template-columns: 400px 700px;
     grid-gap: 20px;
   }
   

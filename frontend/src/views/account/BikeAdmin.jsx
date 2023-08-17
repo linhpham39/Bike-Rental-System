@@ -8,9 +8,9 @@ const BikeAdmin = () => {
   const [bikes, setBikes] = useState([]);
   const [filteredBikes, setFilteredBikes] = useState([]);
   const [name, setName] = useState('');
-  const [publisher, setPublisher] = useState('');
-  const [author, setAuthor] = useState('');
-  const [categories, setDock] = useState('');
+  const [brand, setBrand] = useState('');
+  const [model, setModel] = useState('');
+  const [dock, setDock] = useState('');
   const [detail, setDetail] = useState('');
   const [imageUrls, setImageUrls] = useState('');
   const [price, setPrice] = useState(0);
@@ -44,9 +44,9 @@ const BikeAdmin = () => {
         'http://localhost:8000/bikes',
         {
           name,
-          publisher,
-          author,
-          categories: categories.split(',').map((dock) => dock.trim()),
+          brand,
+          model,
+          dock,
           detail,
           imageUrls: imageUrls.split(',').map((imageUrl) => imageUrl.trim()),
           price,
@@ -112,8 +112,8 @@ const BikeAdmin = () => {
 
   const clearForm = () => {
     setName('');
-    setPublisher('');
-    setAuthor('');
+    setBrand('');
+    setModel('');
     setDock('');
     setDetail('');
     setImageUrls('');
@@ -140,27 +140,27 @@ const BikeAdmin = () => {
             onChange={(e) => setName(e.target.value)}
             required
           />
-          <label htmlFor="publisher"><b>Publisher</b></label>
+          <label htmlFor="brand"><b>Brand</b></label>
           <input
             type="text"
-            id="publisher"
-            value={publisher}
-            onChange={(e) => setPublisher(e.target.value)}
+            id="brand"
+            value={brand}
+            onChange={(e) => setBrand(e.target.value)}
             required
           />
-          <label htmlFor="author"><b>Author</b></label>
+          <label htmlFor="model"><b>Model</b></label>
           <input
             type="text"
-            id="author"
-            value={author}
-            onChange={(e) => setAuthor(e.target.value)}
+            id="model"
+            value={model}
+            onChange={(e) => setModel(e.target.value)}
             required
           />
-          <label htmlFor="categories"><b>Dock (comma-separated)</b></label>
+          <label htmlFor="dock"><b>Dock </b></label>
           <input
             type="text"
-            id="categories"
-            value={categories}
+            id="dock"
+            value={dock}
             onChange={(e) => setDock(e.target.value)}
             required
           />
@@ -248,7 +248,7 @@ const BikeAdmin = () => {
             {currentItems.map((bike) => (
               <tr key={bike._id}>
                 <td>{bike.name}</td>
-                <td>{bike.categories.join(', ')}</td>
+                <td>{bike.dock}</td>
                 <td>{bike.price}</td>
                 <td>{bike.isAvailable ? 'Yes' : 'No'}</td>
                 <td>
