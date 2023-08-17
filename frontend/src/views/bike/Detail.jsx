@@ -9,7 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const CardFeaturedBike = lazy(() => import("../../components/card/CardFeaturedBike"));
 const CardServices = lazy(() => import("../../components/card/CardServices"));
 const RatingsReviews = lazy(() => import("../../components/others/RatingsReviews"));
-const ShippingReturns = lazy(() => import("../../components/others/ShippingReturns"));
+const RentingReturn = lazy(() => import("../../components/others/RentingReturn"));
 const SizeChart = lazy(() => import("../../components/others/SizeChart"));
 const BikeDetailView = () => {
   const [bike, setBike] = useState(null);
@@ -278,7 +278,7 @@ const BikeDetailView = () => {
                     aria-controls="nav-ship-returns"
                     aria-selected="false"
                   >
-                    Shipping & Returns
+                    Renting & Returns
                   </a>
 
                 </div>
@@ -325,7 +325,7 @@ const BikeDetailView = () => {
                   role="tabpanel"
                   aria-labelledby="nav-ship-returns-tab"
                 >
-                  <ShippingReturns />
+                  <RentingReturn />
                 </div>
                 <div
                   className="tab-pane fade"
