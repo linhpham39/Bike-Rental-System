@@ -24,16 +24,29 @@ const getBikeById = async (req, res) => {
     }
 };
 
-const getBikesByCategory = async (req, res) => {
-    const { category } = req.params;
+// const getBikesByCategory = async (req, res) => {
+//     const { category } = req.params;
+
+//     try {
+//         const bikes = await Bike.find({ categories: category });
+
+//         res.json(bikes);
+//     } catch (error) {
+//         console.error('Error retrieving bikes by category:', error);
+//         res.status(500).json({ error: 'Failed to retrieve bikes by category' });
+//     }
+// };
+
+const getBikesByBrand = async (req, res) => {
+    const { brand } = req.params;
 
     try {
-        const bikes = await Bike.find({ categories: category });
+        const bikes = await Bike.find({ brand });
 
         res.json(bikes);
     } catch (error) {
-        console.error('Error retrieving bikes by category:', error);
-        res.status(500).json({ error: 'Failed to retrieve bikes by category' });
+        console.error('Error retrieving bikes by brand:', error);
+        res.status(500).json({ error: 'Failed to retrieve bikes by brand' });
     }
 };
 
@@ -100,7 +113,7 @@ const deleteBikeById = async (req, res) => {
 module.exports = {
     getAllBikes,
     getBikeById,
-    getBikesByCategory,
+    getBikesByBrand,
     createBike,
     updateBikeById,
     deleteBikeById
