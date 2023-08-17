@@ -14,6 +14,6 @@ router.patch("/:id", isAuth, BikeController.updateBikeById);
 
 router.delete("/:id", isAuth, BikeController.deleteBikeById);
 
-router.get('/category/:category', BikeController.getBikesByCategory);
+router.get('/brand/:brand', BikeController.getBikesByBrand);
 
 module.exports = router;
