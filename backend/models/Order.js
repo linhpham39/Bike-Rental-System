@@ -6,11 +6,11 @@ const orderSchema = new mongoose.Schema({
     ref: 'Customer',
     required: true
   },
-  products: [
+  bikes: [
     {
-      productId: {
+      bikeId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Product',
+        ref: 'Bike',
         required: true
       },
       rentHour: {
@@ -27,6 +27,7 @@ const orderSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
+  //admin xác nhận đơn hàng
   status: {
     type: String,
     required: true

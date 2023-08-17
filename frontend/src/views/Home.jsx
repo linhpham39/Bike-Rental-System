@@ -32,23 +32,23 @@ const components = {
 const HomeView = () => {
   const isAuthenticated = localStorage.getItem("token");
 
-  const iconProducts = data.iconProducts;
+  const iconBikes = data.iconBikes;
 
   const carouselContent = (
     <div className="carousel-item active">
       <div className="row g-3">
-        {iconProducts.map((product, idx) => {
-          const ProductImage = components[product.img];
+        {iconBikes.map((bike, idx) => {
+          const BikeImage = components[bike.img];
           return (
             <div key={idx} className="col-md-3">
               <CardIcon
-                title={product.title}
-                text={product.text}
-                tips={product.tips}
-                to={product.to}
+                title={bike.title}
+                text={bike.text}
+                tips={bike.tips}
+                to={bike.to}
               >
-                <ProductImage
-                  className={product.cssClass}
+                <BikeImage
+                  className={bike.cssClass}
                   width="80"
                   height="80"
                 />
@@ -66,7 +66,7 @@ const HomeView = () => {
       <div className="container-fluid bg-light mb-3">
         <div className="row g-3">
           <div className="col-md-9">
-            <Carousel id="elect-product-category" className="mb-3">
+            <Carousel id="elect-bike-category" className="mb-3">
               {carouselContent}
             </Carousel>
             <Support />

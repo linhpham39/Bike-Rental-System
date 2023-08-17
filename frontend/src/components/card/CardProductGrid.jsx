@@ -5,9 +5,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartPlus, faHeart, faStar } from "@fortawesome/free-solid-svg-icons";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import "./CardProductGrid.css";
+import "./CardBikeGrid.css";
 
-const CardProductGrid = ({ product }) => {
+const CardBikeGrid = ({ bike }) => {
   const [notification, setNotification] = useState(null);
 
   const getCustomerData = async (token) => {
@@ -24,48 +24,48 @@ const CardProductGrid = ({ product }) => {
     }
   };
 
-  const handleAddToCart = async (productId) => {
+  const handleAddToCart = async (bikeId) => {
     try {
       const token = localStorage.getItem("token");
       const customer = await getCustomerData(token);
 
-      if (customer.cart.some(item => item.productId._id == productId)) {
-        toast.success("Product is already in the cart!");
+      if (customer.cart.some(item => item.bikeId._id == bikeId)) {
+        toast.success("Bike is already in the cart!");
 
         return 0;
       }
 
       if (customer) {
-        const updatedCart = [...customer.cart, { productId: productId, quantity: 1 }];
+        const updatedCart = [...customer.cart, { bikeId: bikeId, quantity: 1 }];
         await axios.patch(`http://localhost:8000/customers/${customer._id}`, { cart: updatedCart }, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        toast.success("Product added to Cart successfully!");
+        toast.success("Bike added to Cart successfully!");
       }
     } catch (error) {
-      console.error("Error adding product to Cart:", error);
-      toast.error("Error adding product to Cart:", error);
+      console.error("Error adding bike to Cart:", error);
+      toast.error("Error adding bike to Cart:", error);
     }
   };
 
-  const handleAddToWishlist = async (productId) => {
+  const handleAddToWishlist = async (bikeId) => {
     try {
       const token = localStorage.getItem("token");
       const customer = await getCustomerData(token);
       if (customer) {
-        const updatedWishlist = [...customer.wishList, { productId: productId }];
+        const updatedWishlist = [...customer.wishList, { bikeId: bikeId }];
         await axios.patch(`http://localhost:8000/customers/${customer._id}`, { wishList: updatedWishlist }, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        toast.success("Product added to Wish List successfully!");
+        toast.success("Bike added to Wish List successfully!");
       }
     } catch (error) {
-      console.error("Error adding product to Wish List:", error);
-      toast.error("Error adding product to Wish List:", error);
+      console.error("Error adding bike to Wish List:", error);
+      toast.error("Error adding bike to Wish List:", error);
     }
   };
 
@@ -74,26 +74,26 @@ const CardProductGrid = ({ product }) => {
       <ToastContainer autoClose={2000} />
       {notification && <div className="alert alert-success">{notification}</div>}
       <div className="card-img-container">
-        <Link to={`/product/${product._id}`} className="text-decoration-none">
-          <img src={product.imageUrls[0]} className="card-img-top" alt="Product" />
+        <Link to={`/bike/${bike._id}`} className="text-decoration-none">
+          <img src={bike.imageUrls[0]} className="card-img-top" alt="Bike" />
         </Link>
       </div>
       <div className="card-body">
         <h6 className="card-subtitle mb-2">
-          <Link to={`/product/${product._id}`} className="text-decoration-none">
-            {product.name}
+          <Link to={`/bike/${bike._id}`} className="text-decoration-none">
+            {bike.name}
           </Link>
         </h6>
         <div className="my-2">
-          <span className="fw-bold h5">${(product.price - product.discount.value).toFixed(2)}</span>
-          {product.discount.value > 0 && (
+          <span className="fw-bold h5">${(bike.price - bike.discount.value).toFixed(2)}</span>
+          {bike.discount.value > 0 && (
             <del className="small text-muted ms-2">
-              ${(product.price).toFixed(2)}
+              ${(bike.price).toFixed(2)}
             </del>
           )}
-          {product.discount.value > 0 && (
+          {bike.discount.value > 0 && (
             <span className={`rounded p-1 bg-warning ms-2 small`}>
-              -${product.discount.value}
+              -${bike.discount.value}
             </span>
           )}
         </div>
@@ -102,19 +102,19 @@ const CardProductGrid = ({ product }) => {
             {Array.from({ length: 5 }, (_, key) => (
               <FontAwesomeIcon
                 icon={faStar}
-                className={product.ratings && key < product.ratings.length ? "text-warning me-1" : "text-secondary me-1"}
+                className={bike.ratings && key < bike.ratings.length ? "text-warning me-1" : "text-secondary me-1"}
                 key={key}
               />
             ))}
           </div>
-          <span className="text-muted small">{product.rating}</span>
+          <span className="text-muted small">{bike.rating}</span>
         </div>
         <div className="btn-group d-flex" role="group">
           <button
             type="button"
             className="btn btn-sm btn-primary"
             title="Add to cart"
-            onClick={() => handleAddToCart(product._id)}
+            onClick={() => handleAddToCart(bike._id)}
           >
             <FontAwesomeIcon icon={faCartPlus} />
           </button>
@@ -122,7 +122,7 @@ const CardProductGrid = ({ product }) => {
             type="button"
             className="btn btn-sm btn-outline-secondary"
             title="Add to wishlist"
-            onClick={() => handleAddToWishlist(product._id)}
+            onClick={() => handleAddToWishlist(bike._id)}
           >
             <FontAwesomeIcon icon={faHeart} />
           </button>
@@ -132,4 +132,4 @@ const CardProductGrid = ({ product }) => {
   );
 };
 
-export default CardProductGrid;
+export default CardBikeGrid;

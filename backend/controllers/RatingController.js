@@ -23,11 +23,11 @@ const getRatingById = async (req, res) => {
 };
 
 const createRating = async (req, res) => {
-    const { customerId, productId, content, star, likes, dislikes } = req.body;
+    const { customerId, bikeId, content, star, likes, dislikes } = req.body;
     try {
         const rating = await Rating.create({
             customerId,
-            productId,
+            bikeId,
             content,
             star,
             likes,

@@ -48,7 +48,7 @@ const OrdersView = () => {
         })
         setOrders(ordersFetch);
       } catch (error) {
-        console.error("Error fetching products:", error);
+        console.error("Error fetching bikes:", error);
       }
     };
     getOrders();
@@ -78,12 +78,12 @@ const OrdersView = () => {
                 </div>
               </div>
               <div className="card-body">
-                {order.products.map((product, key) => {
+                {order.bikes.map((bike, key) => {
                   return (
                     <div className="card row g-0 list-group-item m-2">
                       <div className="col-md-2 text-center m-1">
                         <img
-                          src={product.productId.imageUrls[0]}
+                          src={bike.bikeId.imageUrls[0]}
                           className="img-fluid"
                           alt="..."
                         />
@@ -91,16 +91,16 @@ const OrdersView = () => {
                       <div className="col-md-10">
                         <div className="card-body">
                           <h6>
-                            <Link to={`/product/${product.productId._id}`} className="text-decoration-none">
-                              {product.productId.name}
+                            <Link to={`/bike/${bike.bikeId._id}`} className="text-decoration-none">
+                              {bike.bikeId.name}
                             </Link>
                           </h6>
                           <div className="small">
                             <span className="text-muted me-2">Price:</span>
-                            <span className="me-3">{`$${(product.productId.price - product.productId.discount.value).toFixed(2)}`}</span>
-                            <del className="me-3 text-muted">{`$${product.productId.price.toFixed(2)}`}</del>
+                            <span className="me-3">{`$${(bike.bikeId.price - bike.bikeId.discount.value).toFixed(2)}`}</span>
+                            <del className="me-3 text-muted">{`$${bike.bikeId.price.toFixed(2)}`}</del>
                             <span className="text-muted me-2">Quantity:</span>
-                            <span className="me-3">{`${product.quantity}`}</span>
+                            <span className="me-3">{`${bike.quantity}`}</span>
                           </div>
                           <div className="mt-2"></div>
                         </div>

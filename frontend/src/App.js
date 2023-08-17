@@ -8,7 +8,7 @@ import Footer from "./components/Footer";
 import "./App.min.css";
 import CustomerProfile from "./views/account/CustomerProfileView";
 import AdminPage from "./views/account/AdminPage";
-// import ProductListView from "./views/product/List"
+// import BikeListView from "./views/bike/List"
 const HomeView = lazy(() => import("./views/Home"));
 const SignInView = lazy(() => import("./views/account/SignIn"));
 const SignUpView = lazy(() => import("./views/account/SignUp"));
@@ -17,9 +17,9 @@ const OrdersView = lazy(() => import("./views/account/Orders"));
 const WishlistView = lazy(() => import("./views/account/Wishlist"));
 const NotificationView = lazy(() => import("./views/account/Notification"));
 const MyProfileView = lazy(() => import("./views/account/CustomerProfileEditor.jsx"));
-const ProductListView = lazy(() => import("./views/product/List"));
-const ProductDetailView = lazy(() => import("./views/product/Detail"));
-const StarZoneView = lazy(() => import("./views/product/StarZone"));
+const BikeListView = lazy(() => import("./views/bike/List"));
+const BikeDetailView = lazy(() => import("./views/bike/Detail"));
+const StarZoneView = lazy(() => import("./views/bike/StarZone"));
 const CartView = lazy(() => import("./views/cart/Cart"));
 const CheckoutView = lazy(() => import("./views/cart/Checkout"));
 const InvoiceView = lazy(() => import("./views/cart/Invoice"));
@@ -69,16 +69,16 @@ function App() {
               path="/account/notification"
               element={<NotificationView />}
             />
-            <Route exact path="/category" element={<ProductListView catName="all" />} />
-            <Route exact path="/category/fiction" element={<ProductListView catName="fiction" />} />
-            <Route exact path="/category/business-finance" element={<ProductListView catName="business-finance" />} />
-            <Route exact path="/category/health-fitness" element={<ProductListView catName="health-fitness" />} />
-            <Route exact path="/category/history-archaeology" element={<ProductListView catName="history-archaeology" />} />
-            <Route exact path="/category/art-photography" element={<ProductListView catName="art-photography" />} />
-            <Route exact path="/category/romance" element={<ProductListView catName="romance" />} />
-            <Route exact path="/category/food-drink" element={<ProductListView catName="food-drink" />} />
+            <Route exact path="/category" element={<BikeListView catName="all" />} />
+            <Route exact path="/category/fiction" element={<BikeListView catName="fiction" />} />
+            <Route exact path="/category/business-finance" element={<BikeListView catName="business-finance" />} />
+            <Route exact path="/category/health-fitness" element={<BikeListView catName="health-fitness" />} />
+            <Route exact path="/category/history-archaeology" element={<BikeListView catName="history-archaeology" />} />
+            <Route exact path="/category/art-photography" element={<BikeListView catName="art-photography" />} />
+            <Route exact path="/category/romance" element={<BikeListView catName="romance" />} />
+            <Route exact path="/category/food-drink" element={<BikeListView catName="food-drink" />} />
 
-            <Route path='/product/:id' element={<ProductDetailView />} />
+            <Route path='/bike/:id' element={<BikeDetailView />} />
             <Route exact path="/star/zone" element={<StarZoneView />} />
             <Route exact path="/cart" element={<CartView />} />
             <Route exact path="/checkout" element={<CheckoutView />} />

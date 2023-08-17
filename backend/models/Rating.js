@@ -6,9 +6,9 @@ const ratingSchema = new mongoose.Schema({
     ref: 'Customer',
     required: true
   },
-  productId: {
+  bikeId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Product',
+    ref: 'Bike',
     required: true
   },
   content: {

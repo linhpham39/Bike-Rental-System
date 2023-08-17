@@ -15,7 +15,7 @@ const getCustomerByToken = async (req, res) => {
         return res.status(401).json({ error: 'Invalid token' });
     }
     try {
-        const customer = await Customer.findById(customerId).populate('cart.productId').populate('wishList.productId');
+        const customer = await Customer.findById(customerId).populate('cart.bikeId').populate('wishList.bikeId');
         if (!customer) {
             return res.status(404).json({ error: 'Customer not found' });
         }
@@ -28,7 +28,7 @@ const getCustomerByToken = async (req, res) => {
 const getCustomerById = async (req, res) => {
     const { id } = req.params;
     try {
-      const customer = await Customer.findById(id).populate('cart.productId').populate('wishList.productId');
+      const customer = await Customer.findById(id).populate('cart.bikeId').populate('wishList.bikeId');
       if (!customer) {
         return res.status(404).json({ error: 'Customer not found' });
       }

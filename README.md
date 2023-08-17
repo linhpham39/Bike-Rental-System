@@ -28,13 +28,13 @@ This repo is for our class project (IT4409E). We used MERN stack to build the we
     POST /orders/
     PATCH /orders/:id
     DELETE /orders/:id
-### Product
-    GET /products/
-    GET /products/:id
-    POST /products/
-    PATCH /products/:id
-    DELETE /products/:id
-    GET /products/category/:category
+### Bike
+    GET /bikes/
+    GET /bikes/:id
+    POST /bikes/
+    PATCH /bikes/:id
+    DELETE /bikes/:id
+    GET /bikes/category/:category
 ### Rating
     GET /rating/
     GET /rating/:id

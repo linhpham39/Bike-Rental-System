@@ -24,7 +24,7 @@ const Invoice = () => {
         let orderFetch = response.data;
         setOrder(orderFetch);
       } catch (error) {
-        console.error("Error fetching products:", error);
+        console.error("Error fetching bikes:", error);
       }
     };
     getOrders(id);
@@ -93,7 +93,7 @@ const Invoice = () => {
                   <thead className="card-header">
                     <tr>
                       <td className="col-6">
-                        <strong>Product</strong>
+                        <strong>Bike</strong>
                       </td>
                       <td className="col-2 text-center">
                         <strong>Price</strong>
@@ -107,13 +107,13 @@ const Invoice = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {order.products && order.products.map((product) => {
+                    {order.bikes && order.bikes.map((bike) => {
                       return (
                         <tr>
-                          <td className="col-6">{product.productId.name}</td>
-                          <td className="col-2 text-center">${(product.productId.price - product.productId.discount.value).toFixed(2)}</td>
-                          <td className="col-2 text-center">{product.quantity}</td>
-                          <td className="col-2 text-end">${((product.productId.price - product.productId.discount.value) * product.quantity).toFixed(2)}</td>
+                          <td className="col-6">{bike.bikeId.name}</td>
+                          <td className="col-2 text-center">${(bike.bikeId.price - bike.bikeId.discount.value).toFixed(2)}</td>
+                          <td className="col-2 text-center">{bike.quantity}</td>
+                          <td className="col-2 text-end">${((bike.bikeId.price - bike.bikeId.discount.value) * bike.quantity).toFixed(2)}</td>
                         </tr>
                       )
                     })}

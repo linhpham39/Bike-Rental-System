@@ -44,7 +44,7 @@ const RatingsReviews = ({ rating }) => {
         const customer = response.data;
         setCustomer(customer);
       } catch (error) {
-        console.error("Error fetching product:", error);
+        console.error("Error fetching bike:", error);
       }
     };
 

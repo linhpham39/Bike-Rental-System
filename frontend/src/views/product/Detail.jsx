@@ -6,13 +6,13 @@ import { faCartPlus, faHeart, faShoppingCart, faMinus, faPlus } from "@fortaweso
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-const CardFeaturedProduct = lazy(() => import("../../components/card/CardFeaturedProduct"));
+const CardFeaturedBike = lazy(() => import("../../components/card/CardFeaturedBike"));
 const CardServices = lazy(() => import("../../components/card/CardServices"));
 const RatingsReviews = lazy(() => import("../../components/others/RatingsReviews"));
 const ShippingReturns = lazy(() => import("../../components/others/ShippingReturns"));
 const SizeChart = lazy(() => import("../../components/others/SizeChart"));
-const ProductDetailView = () => {
-  const [product, setProduct] = useState(null);
+const BikeDetailView = () => {
+  const [bike, setBike] = useState(null);
   const [value, setValue] = useState(1);
   const { id } = useParams();
   const [rating, setRating] = useState(0);
@@ -30,18 +30,18 @@ const ProductDetailView = () => {
 
 
   useEffect(() => {
-    const getProduct = async (id) => {
+    const getBike = async (id) => {
       try {
-        const response = await axios.get(`http://localhost:8000/products/${id}`);
-        const product = response.data;
-        setProduct(product);
+        const response = await axios.get(`http://localhost:8000/bikes/${id}`);
+        const bike = response.data;
+        setBike(bike);
       } catch (error) {
-        console.error("Error fetching product:", error);
+        console.error("Error fetching bike:", error);
       }
     };
 
 
-    getProduct(id);
+    getBike(id);
     getRatings(id);
   }, [])
   useEffect(() => {
@@ -50,10 +50,10 @@ const ProductDetailView = () => {
   const getRatings = async (id) => {
     try {
       const response = await axios.get(`http://localhost:8000/ratings`);
-      const ratings = response.data.filter((rating) => { return (rating.productId === id) });
+      const ratings = response.data.filter((rating) => { return (rating.bikeId === id) });
       setRatings(ratings);
     } catch (error) {
-      console.error("Error fetching product:", error);
+      console.error("Error fetching bike:", error);
     }
   };
 
@@ -75,24 +75,24 @@ const ProductDetailView = () => {
       const token = localStorage.getItem("token");
       const customer = await getCustomerData(token);
 
-      if (customer.cart.some(item => item.productId._id == id)) {
-        toast.success("Product is already in the cart!");
+      if (customer.cart.some(item => item.bikeId._id == id)) {
+        toast.success("Bike is already in the cart!");
 
         return 0;
       }
 
       if (customer) {
-        const updatedCart = [...customer.cart, { productId: id, quantity: value }];
+        const updatedCart = [...customer.cart, { bikeId: id, quantity: value }];
         await axios.patch(`http://localhost:8000/customers/${customer._id}`, { cart: updatedCart }, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        toast.success("Product added to Cart successfully!");
+        toast.success("Bike added to Cart successfully!");
       }
     } catch (error) {
-      console.error("Error adding product to Cart:", error);
-      toast.error("Error adding product to Cart:", error);
+      console.error("Error adding bike to Cart:", error);
+      toast.error("Error adding bike to Cart:", error);
     }
   };
 
@@ -101,17 +101,17 @@ const ProductDetailView = () => {
       const token = localStorage.getItem("token");
       const customer = await getCustomerData(token);
       if (customer) {
-        const updatedWishlist = [...customer.wishList, { productId: id }];
+        const updatedWishlist = [...customer.wishList, { bikeId: id }];
         await axios.patch(`http://localhost:8000/customers/${customer._id}`, { wishList: updatedWishlist }, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        toast.success("Product added to Wish List successfully!");
+        toast.success("Bike added to Wish List successfully!");
       }
     } catch (error) {
-      console.error("Error adding product to Wish List:", error);
-      toast.error("Error adding product to Wish List:", error);
+      console.error("Error adding bike to Wish List:", error);
+      toast.error("Error adding bike to Wish List:", error);
     }
   };
 
@@ -131,7 +131,7 @@ const ProductDetailView = () => {
     const customer = await getCustomerData(token);
     const newRating = {
       customerId: customer._id.toString(),
-      productId: id.toString(),
+      bikeId: id.toString(),
       content: content,
       star: parseInt(rating),
       likes: 0,
@@ -161,7 +161,7 @@ const ProductDetailView = () => {
           <div className="row mb-3">
             <div className="col-md-5 text-center">
               <img
-                src={product && product.imageUrls[0]}
+                src={bike && bike.imageUrls[0]}
                 className="img-fluid"
                 alt="Book"
                 style={{ width: '300px', height: '450px' }}
@@ -169,23 +169,23 @@ const ProductDetailView = () => {
             </div>
             <div className="col-md-7">
               <h1 className="h2 d-inline me-2">
-                {product && product.name}
+                {bike && bike.name}
               </h1>
               <dl className="row small mb-3">
                 <dt className="col-sm-3">Availability</dt>
-                {product && product.isAvailable && <dd className="col-sm-9 text-success strong">In Stock</dd>}
-                {product && !product.isAvailable && <dd className="col-sm-9 text-danger">Out of Stock</dd>}
+                {bike && bike.isAvailable && <dd className="col-sm-9 text-success strong">In Stock</dd>}
+                {bike && !bike.isAvailable && <dd className="col-sm-9 text-danger">Out of Stock</dd>}
                 <dt className="col-sm-3">Publisher</dt>
-                <dd className="col-sm-9">{product && product.publisher}</dd>
+                <dd className="col-sm-9">{bike && bike.publisher}</dd>
                 <dt className="col-sm-3">Author</dt>
-                <dd className="col-sm-9">{product && product.author}</dd>
+                <dd className="col-sm-9">{bike && bike.author}</dd>
               </dl>
 
               <div className="mb-3">
-                <span className="fw-bold h5 me-2">{product && (product.price - product.discount.value).toFixed(2)}</span>
-                <del className="small text-muted me-2">{product && product.price}</del>
+                <span className="fw-bold h5 me-2">{bike && (bike.price - bike.discount.value).toFixed(2)}</span>
+                <del className="small text-muted me-2">{bike && bike.price}</del>
                 <span className="rounded p-1 bg-warning  me-2 small">
-                  ${product && product.discount.value}
+                  ${bike && bike.discount.value}
                 </span>
               </div>
               <div className="mb-3">
@@ -213,7 +213,7 @@ const ProductDetailView = () => {
                     </button>
                   </div>
                 </div>
-                {product && product.isAvailable &&
+                {bike && bike.isAvailable &&
                   <button
                     type="button"
                     className="btn btn-sm btn-primary me-2"
@@ -233,7 +233,7 @@ const ProductDetailView = () => {
                 </button>
               </div>
               <div>
-                {product && product.imageUrls.map((url, index) => {
+                {bike && bike.imageUrls.map((url, index) => {
                   return (<img
                     key={index}
                     src={url}
@@ -292,7 +292,7 @@ const ProductDetailView = () => {
                   role="tabpanel"
                   aria-labelledby="nav-details-tab"
                 >
-                  {product && product.detail}
+                  {bike && bike.detail}
                 </div>
 
                 <div
@@ -301,7 +301,7 @@ const ProductDetailView = () => {
                   role="tabpanel"
                   aria-labelledby="nav-randr-tab"
                 >
-                  <h4>Rate the Product</h4>
+                  <h4>Rate the Bike</h4>
                   <div className="row mb-3 gx-1">
                     <div className="col-1">
                       <input type="number" value={rating} required className="form-control" min="0" max="5" onChange={handleRatingChange} />
@@ -341,7 +341,7 @@ const ProductDetailView = () => {
           </div>
         </div>
         <div className="col-md-4">
-          <CardFeaturedProduct cat={product && product.categories[0]} />
+          <CardFeaturedBike cat={bike && bike.categories[0]} />
           <CardServices />
         </div>
       </div>
@@ -350,4 +350,4 @@ const ProductDetailView = () => {
 }
 
 
-export default ProductDetailView;
+export default BikeDetailView;

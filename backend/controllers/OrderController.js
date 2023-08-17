@@ -2,7 +2,7 @@ const Order = require('../models/Order');
 
 const getAllOrders = async (req, res) => {
   try {
-    const orders = await Order.find().populate('products.productId coupon');
+    const orders = await Order.find().populate('bikes.bikeId coupon');
     res.json(orders);
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch orders' });
@@ -12,7 +12,7 @@ const getAllOrders = async (req, res) => {
 const getOrderById = async (req, res) => {
   const { id } = req.params;
   try {
-    const order = await Order.findById(id).populate('products.productId coupon');
+    const order = await Order.findById(id).populate('bikes.bikeId coupon');
     if (!order) {
       return res.status(404).json({ error: 'Order not found' });
     }
@@ -25,7 +25,7 @@ const getOrderById = async (req, res) => {
 const createOrder = async (req, res) => {
   const {
     customerId,
-    products,
+    bikes,
     coupon,
     totalPrice,
     status,
@@ -35,7 +35,7 @@ const createOrder = async (req, res) => {
   try {
     const order = new Order({
       customerId,
-      products,
+      bikes,
       coupon,
       totalPrice,
       status,

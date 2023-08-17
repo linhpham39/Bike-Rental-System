@@ -52,22 +52,22 @@ const customerSchema = new mongoose.Schema({
     },
     cart: [
         {
-            productId: {
+            bikeId: {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: 'Product',
+                ref: 'Bike',
                 required: true
             },
             quantity: {
                 type: Number,
                 required: true
-            }
+            }           //giờ thuê
         }
     ],
     wishList: [
         {
-            productId: {
+            bikeId: {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: 'Product',
+                ref: 'Bike',
                 required: true
             }
         }

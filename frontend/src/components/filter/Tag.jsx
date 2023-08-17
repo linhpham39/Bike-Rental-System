@@ -11,7 +11,7 @@ const FilterTag = (props) => {
         aria-expanded="true"
         aria-controls="filterTag"
       >
-        Product Tags
+        Bike Tags
       </div>
       <div className="card-body show" id="filterTag">
         <Link to="/" className="btn btn-sm btn-outline-info me-2 mb-2">

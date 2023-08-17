@@ -8,7 +8,7 @@ import { faCartPlus, faHeart } from "@fortawesome/free-solid-svg-icons";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const CardProductList = ({ product }) => {
+const CardBikeList = ({ bike }) => {
   const [notification, setNotification] = useState(null);
 
   const getCustomerData = async (token) => {
@@ -25,48 +25,48 @@ const CardProductList = ({ product }) => {
     }
   };
 
-  const handleAddToCart = async (productId) => {
+  const handleAddToCart = async (bikeId) => {
     try {
       const token = localStorage.getItem("token");
       const customer = await getCustomerData(token);
 
-      if (customer.cart.some(item => item.productId._id == productId)) {
-        toast.success("Product is already in the cart!");
+      if (customer.cart.some(item => item.bikeId._id == bikeId)) {
+        toast.success("Bike is already in the cart!");
 
         return 0;
       }
 
       if (customer) {
-        const updatedCart = [...customer.cart, { productId: productId, quantity: 1 }];
+        const updatedCart = [...customer.cart, { bikeId: bikeId, quantity: 1 }];
         await axios.patch(`http://localhost:8000/customers/${customer._id}`, { cart: updatedCart }, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        toast.success("Product added to Cart successfully!");
+        toast.success("Bike added to Cart successfully!");
       }
     } catch (error) {
-      console.error("Error adding product to Cart:", error);
-      toast.error("Error adding product to Cart:", error);
+      console.error("Error adding bike to Cart:", error);
+      toast.error("Error adding bike to Cart:", error);
     }
   };
 
-  const handleAddToWishlist = async (productId) => {
+  const handleAddToWishlist = async (bikeId) => {
     try {
       const token = localStorage.getItem("token");
       const customer = await getCustomerData(token);
       if (customer) {
-        const updatedWishlist = [...customer.wishList, { productId: productId }];
+        const updatedWishlist = [...customer.wishList, { bikeId: bikeId }];
         await axios.patch(`http://localhost:8000/customers/${customer._id}`, { wishList: updatedWishlist }, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        toast.success("Product added to Wish List successfully!");
+        toast.success("Bike added to Wish List successfully!");
       }
     } catch (error) {
-      console.error("Error adding product to Wish List:", error);
-      toast.error("Error adding product to Wish List:", error);
+      console.error("Error adding bike to Wish List:", error);
+      toast.error("Error adding bike to Wish List:", error);
     }
   };
 
@@ -75,11 +75,11 @@ const CardProductList = ({ product }) => {
       <ToastContainer autoClose={2000} />
       <div className="row g-0">
         <div className="col-md-3 text-center">
-          <Link to={`/product/${product._id}`}>
+          <Link to={`/bike/${bike._id}`}>
             <div
               className="image-container"
               style={{
-                backgroundImage: `url(${product.imageUrls[0]})`,
+                backgroundImage: `url(${bike.imageUrls[0]})`,
                 backgroundSize: "contain",
                 backgroundRepeat: "no-repeat",
                 backgroundPosition: "center",
@@ -93,41 +93,41 @@ const CardProductList = ({ product }) => {
         <div className="col-md-6">
           <div className="card-body">
             <h6 className="card-subtitle me-2 d-inline">
-              <Link to={`/product/${product._id}`} className="text-decoration-none">
-                {product.name}
+              <Link to={`/bike/${bike._id}`} className="text-decoration-none">
+                {bike.name}
               </Link>
             </h6>
 
             {/* <div>
               {Array.from({ length: 5 }, (_, key) => (
                 <IconStarFill
-                  className={product.ratings && key < product.ratings.length ? "text-warning me-1" : "text-secondary me-1"}
+                  className={bike.ratings && key < bike.ratings.length ? "text-warning me-1" : "text-secondary me-1"}
                   key={key}
                 />
               ))}
             </div> */}
 
-            {product.detail && (
-              <p className="small mt-2">{product.detail}</p>
+            {bike.detail && (
+              <p className="small mt-2">{bike.detail}</p>
             )}
           </div>
         </div>
         <div className="col-md-3">
           <div className="card-body">
             <div className="mb-2">
-              <span className="fw-bold h5">${(product.price - product.discount.value).toFixed(2)}</span>
-              {product.discount.value > 0 && (
+              <span className="fw-bold h5">${(bike.price - bike.discount.value).toFixed(2)}</span>
+              {bike.discount.value > 0 && (
                 <del className="small text-muted ms-2">
-                  ${(product.price).toFixed(2)}
+                  ${(bike.price).toFixed(2)}
                 </del>
               )}
-              {product.discount.value > 0 && (
+              {bike.discount.value > 0 && (
                 <span className={`rounded p-1 bg-warning ms-2 small`}>
-                  -${product.discount.value}
+                  -${bike.discount.value}
                 </span>
               )}
             </div>
-            {product.isAvailable && (
+            {bike.isAvailable && (
               <p className="text-success small mb-2">
                 <IconTruckFill /> Available
               </p>
@@ -138,7 +138,7 @@ const CardProductList = ({ product }) => {
                 type="button"
                 className="btn btn-sm btn-primary"
                 title="Add to cart"
-                onClick={() => handleAddToCart(product._id)}
+                onClick={() => handleAddToCart(bike._id)}
               >
                 <FontAwesomeIcon icon={faCartPlus} />
               </button>
@@ -146,7 +146,7 @@ const CardProductList = ({ product }) => {
                 type="button"
                 className="btn btn-sm btn-outline-secondary"
                 title="Add to wishlist"
-                onClick={() => handleAddToWishlist(product._id)}
+                onClick={() => handleAddToWishlist(bike._id)}
               >
                 <FontAwesomeIcon icon={faHeart} />
               </button>
@@ -158,4 +158,4 @@ const CardProductList = ({ product }) => {
   );
 };
 
-export default CardProductList;
+export default CardBikeList;

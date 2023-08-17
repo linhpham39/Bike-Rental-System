@@ -8,8 +8,8 @@ const FilterCategory = lazy(() => import("../../components/filter/Category"));
 const FilterPrice = lazy(() => import("../../components/filter/Price"));
 const FilterClearButton = lazy(() => import("../../components/filter/Clear"));
 const CardServices = lazy(() => import("../../components/card/CardServices"));
-const CardProductGrid = lazy(() => import("../../components/card/CardProductGrid"));
-const CardProductList = lazy(() => import("../../components/card/CardProductList"));
+const CardBikeGrid = lazy(() => import("../../components/card/CardBikeGrid"));
+const CardBikeList = lazy(() => import("../../components/card/CardBikeList"));
 
 const categoryNameMap = {
   "business-finance": "Business & Finance",
@@ -22,12 +22,12 @@ const categoryNameMap = {
   "all": "All"
 };
 
-const productNumberPerPage = 6;
+const bikeNumberPerPage = 6;
 
-const ProductListView = ({ catName }) => {
-  const [products, setProducts] = useState([]);
-  const [productsByCat, setProductsByCat] = useState([]);
-  const [filteredProducts, setFilteredProducts] = useState([]);
+const BikeListView = ({ catName }) => {
+  const [bikes, setBikes] = useState([]);
+  const [bikesByCat, setBikesByCat] = useState([]);
+  const [filteredBikes, setFilteredBikes] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
   const [priceFilterMode, setPriceFilterMode] = useState("all");
@@ -61,43 +61,43 @@ const ProductListView = ({ catName }) => {
   }, []);
 
   useEffect(() => {
-    const initializeProducts = async () => {
+    const initializeBikes = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/products");
-        setProducts(response.data);
+        const response = await axios.get("http://localhost:8000/bikes");
+        setBikes(response.data);
         setTotalItems(response.data.length);
       } catch (error) {
-        console.error("Error fetching products:", error);
+        console.error("Error fetching bikes:", error);
       }
     };
-    initializeProducts();
+    initializeBikes();
   }, []);
 
   useEffect(() => {
     setCurrentPage(1);
     if (catName === "all") {
-      setProductsByCat(products);
+      setBikesByCat(bikes);
     }
     else {
       console.log(catName);
-      setProductsByCat(products.filter(product => product.categories.includes(catName)));
+      setBikesByCat(bikes.filter(bike => bike.categories.includes(catName)));
     }
-  }, [catName, products]);
+  }, [catName, bikes]);
 
   useEffect(() => {
     if (priceFilterMode === "all") {
-      setFilteredProducts(productsByCat);
+      setFilteredBikes(bikesByCat);
     }
     else if (priceFilterMode === "low") {
-      setFilteredProducts(productsByCat.filter(product => product.price < 10));
+      setFilteredBikes(bikesByCat.filter(bike => bike.price < 10));
     } else if (priceFilterMode === "low-medium") {
-      setFilteredProducts(productsByCat.filter(product => product.price >= 10 && product.price <= 20));
+      setFilteredBikes(bikesByCat.filter(bike => bike.price >= 10 && bike.price <= 20));
     } else if (priceFilterMode === "medium") {
-      setFilteredProducts(productsByCat.filter(product => product.price >= 20 && product.price <= 30));
+      setFilteredBikes(bikesByCat.filter(bike => bike.price >= 20 && bike.price <= 30));
     } else if (priceFilterMode === "high") {
-      setFilteredProducts(productsByCat.filter(product => product.price >= 30));
+      setFilteredBikes(bikesByCat.filter(bike => bike.price >= 30));
     }
-  }, [priceFilterMode, productsByCat]);
+  }, [priceFilterMode, bikesByCat]);
 
   const clearFilters = () => {
     setPriceFilterMode("all");
@@ -111,7 +111,7 @@ const ProductListView = ({ catName }) => {
     setRank(event.target.value);
     switch (event.target.value) {
       case "latest":
-        setProductsByCat(productsByCat.sort((a, b) => {
+        setBikesByCat(bikesByCat.sort((a, b) => {
           if (a.createdAt < b.createdAt) {
             return -1;
           }
@@ -122,10 +122,10 @@ const ProductListView = ({ catName }) => {
         }))
         break;
       case "price":
-        setProductsByCat(productsByCat.sort((a, b) => { return a.price - b.price; }))
+        setBikesByCat(bikesByCat.sort((a, b) => { return a.price - b.price; }))
         break;
       case "r_price":
-        setProductsByCat(productsByCat.sort((a, b) => { return b.price - a.price; }))
+        setBikesByCat(bikesByCat.sort((a, b) => { return b.price - a.price; }))
         break;
       default:
         break;
@@ -168,7 +168,7 @@ const ProductListView = ({ catName }) => {
             <div className="row">
               <div className="col-7">
                 <span className="align-middle fw-bold">
-                  {filteredProducts.length} results
+                  {filteredBikes.length} results
                 </span>
               </div>
               <div className="col-5 d-flex justify-content-end">
@@ -207,22 +207,22 @@ const ProductListView = ({ catName }) => {
             <hr />
             <div className="row g-3">
               {view === "grid" &&
-                filteredProducts.slice((currentPage - 1) * productNumberPerPage, currentPage * productNumberPerPage).map((product, idx) => (
+                filteredBikes.slice((currentPage - 1) * bikeNumberPerPage, currentPage * bikeNumberPerPage).map((bike, idx) => (
                   <div key={idx} className="col-md-4">
-                    <CardProductGrid product={product} />
+                    <CardBikeGrid bike={bike} />
                   </div>
                 ))}
               {view === "list" &&
-                filteredProducts.slice((currentPage - 1) * productNumberPerPage, currentPage * productNumberPerPage).map((product, idx) => (
+                filteredBikes.slice((currentPage - 1) * bikeNumberPerPage, currentPage * bikeNumberPerPage).map((bike, idx) => (
                   <div key={idx} className="col-md-12">
-                    <CardProductList product={product} />
+                    <CardBikeList bike={bike} />
                   </div>
                 ))}
             </div>
             <hr />
             <Pagination
-              filteredProducts={filteredProducts}
-              pageLimit={productNumberPerPage}
+              filteredBikes={filteredBikes}
+              pageLimit={bikeNumberPerPage}
               pageNeighbours={1}
               currentPage={currentPage}
               handlePageChange={handlePageChange}
@@ -237,4 +237,4 @@ const ProductListView = ({ catName }) => {
   );
 };
 
-export default ProductListView;
+export default BikeListView;

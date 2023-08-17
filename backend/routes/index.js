@@ -1,7 +1,7 @@
 const express = require('express');
 const customerRoutes = require('./customer');
 const authRoutes = require('./auth');
-const productRoutes = require('./product');
+const bikeRoutes = require('./bike');
 const ratingRoutes = require('./rating');
 const orderRoutes = require('./order');
 const couponRoutes = require('./coupon');
@@ -12,7 +12,7 @@ router.get('/status', (req, res) => res.send('Server is up'));
 
 router.use('/auth', authRoutes);
 router.use('/customers', customerRoutes);
-router.use('/products', productRoutes);
+router.use('/bikes', bikeRoutes);
 router.use('/ratings', ratingRoutes);
 router.use('/orders', orderRoutes);
 router.use('/coupons', couponRoutes);

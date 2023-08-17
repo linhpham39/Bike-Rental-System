@@ -14,7 +14,7 @@ const ShippingReturns = (props) => {
       </p>
       <p>
         No Returns/Replacements Allowed - Returns or replacements are not
-        accepted by seller for this product. Cancellation allowed.
+        accepted by seller for this bike. Cancellation allowed.
       </p>
     </React.Fragment>
   );

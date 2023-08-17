@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import './ProductAdmin.css';
+import './BikeAdmin.css';
 
-const ProductAdmin = () => {
-  const [products, setProducts] = useState([]);
-  const [filteredProducts, setFilteredProducts] = useState([]);
+const BikeAdmin = () => {
+  const [bikes, setBikes] = useState([]);
+  const [filteredBikes, setFilteredBikes] = useState([]);
   const [name, setName] = useState('');
   const [publisher, setPublisher] = useState('');
   const [author, setAuthor] = useState('');
@@ -20,28 +20,28 @@ const ProductAdmin = () => {
   const [itemsPerPage] = useState(8);
 
   useEffect(() => {
-    fetchProducts();
+    fetchBikes();
   }, []);
 
   useEffect(() => {
-    filterProducts();
-  }, [searchTerm, products]);
+    filterBikes();
+  }, [searchTerm, bikes]);
 
-  const fetchProducts = async () => {
+  const fetchBikes = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/products');
-      setProducts(response.data);
+      const response = await axios.get('http://localhost:8000/bikes');
+      setBikes(response.data);
     } catch (error) {
-      console.error('Error fetching products:', error);
+      console.error('Error fetching bikes:', error);
     }
   };
 
-  const handleAddProduct = async (event) => {
+  const handleAddBike = async (event) => {
     event.preventDefault();
     const token = localStorage.getItem('token');
     try {
       const response = await axios.post(
-        'http://localhost:8000/products',
+        'http://localhost:8000/bikes',
         {
           name,
           publisher,
@@ -60,54 +60,54 @@ const ProductAdmin = () => {
       );
 
       if (response.status === 201) {
-        toast.success('Product added successfully!');
+        toast.success('Bike added successfully!');
         clearForm();
-        fetchProducts();
+        fetchBikes();
       } else {
-        console.error('Failed to add product');
-        toast.error('Failed to add product');
+        console.error('Failed to add bike');
+        toast.error('Failed to add bike');
       }
     } catch (error) {
-      console.error('Error adding product:', error);
-      toast.error('Error adding product');
+      console.error('Error adding bike:', error);
+      toast.error('Error adding bike');
     }
   };
 
-  const handleDeleteProduct = async (productId) => {
+  const handleDeleteBike = async (bikeId) => {
     const token = localStorage.getItem('token');
     try {
-      const response = await axios.delete(`http://localhost:8000/products/${productId}`, {
+      const response = await axios.delete(`http://localhost:8000/bikes/${bikeId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
 
       if (response.status === 204) {
-        toast.success('Product deleted successfully!');
-        fetchProducts();
+        toast.success('Bike deleted successfully!');
+        fetchBikes();
       } else {
-        console.error('Failed to delete product');
-        toast.error('Failed to delete product');
+        console.error('Failed to delete bike');
+        toast.error('Failed to delete bike');
       }
     } catch (error) {
-      console.error('Error deleting product:', error);
-      toast.error('Error deleting product');
+      console.error('Error deleting bike:', error);
+      toast.error('Error deleting bike');
     }
   };
 
-  const filterProducts = () => {
-    const filteredProducts = products.filter((product) =>
-      product.name.toLowerCase().includes(searchTerm.toLowerCase())
+  const filterBikes = () => {
+    const filteredBikes = bikes.filter((bike) =>
+      bike.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
-    setFilteredProducts(filteredProducts);
+    setFilteredBikes(filteredBikes);
   };
 
   const handleSearch = () => {
     // Implement search logic here
-    const filteredProducts = products.filter((product) =>
-      product.name.toLowerCase().includes(searchTerm.toLowerCase())
+    const filteredBikes = bikes.filter((bike) =>
+      bike.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
-    setFilteredProducts(filteredProducts);
+    setFilteredBikes(filteredBikes);
   };
 
   const clearForm = () => {
@@ -123,15 +123,15 @@ const ProductAdmin = () => {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredProducts.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = filteredBikes.slice(indexOfFirstItem, indexOfLastItem);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
-    <div className="product-admin-container">
+    <div className="bike-admin-container">
       <div className="column" style={{height: '750px' }}>
-        <h2>Add Product</h2>
-        <form onSubmit={handleAddProduct}>
+        <h2>Add Bike</h2>
+        <form onSubmit={handleAddBike}>
           <label htmlFor="name"><b>Name</b></label>
           <input
             type="text"
@@ -213,14 +213,14 @@ const ProductAdmin = () => {
             </div>
           </div>
           <div className="submit-button-container">
-            <button type="submit" className="submit-button">Add product</button>
+            <button type="submit" className="submit-button">Add bike</button>
           </div>
         </form>
       </div>
       <div className="column" style={{ width: '850px', height: '800px' }}>
         <div className="row">
           <div className="columna">
-            <h2>Product List</h2>
+            <h2>Bike List</h2>
           </div>
           <div className="columna">
             <div className="search-container">
@@ -245,14 +245,14 @@ const ProductAdmin = () => {
             </tr>
           </thead>
           <tbody>
-            {currentItems.map((product) => (
-              <tr key={product._id}>
-                <td>{product.name}</td>
-                <td>{product.categories.join(', ')}</td>
-                <td>{product.price}</td>
-                <td>{product.isAvailable ? 'Yes' : 'No'}</td>
+            {currentItems.map((bike) => (
+              <tr key={bike._id}>
+                <td>{bike.name}</td>
+                <td>{bike.categories.join(', ')}</td>
+                <td>{bike.price}</td>
+                <td>{bike.isAvailable ? 'Yes' : 'No'}</td>
                 <td>
-                  <button onClick={() => handleDeleteProduct(product._id)} className="delete-button">Delete</button>
+                  <button onClick={() => handleDeleteBike(bike._id)} className="delete-button">Delete</button>
                 </td>
               </tr>
             ))}
@@ -260,7 +260,7 @@ const ProductAdmin = () => {
         </table>
         <div>
           <ul className="pagination1">
-            {Array.from({ length: Math.ceil(filteredProducts.length / itemsPerPage) }).map(
+            {Array.from({ length: Math.ceil(filteredBikes.length / itemsPerPage) }).map(
               (item, index) => (
                 <li key={index} style={{ backgroundColor: 'f0f0f0', paddingBottom: '10px' }}>
                   <button onClick={() => paginate(index + 1)}>{index + 1}</button>
@@ -275,4 +275,4 @@ const ProductAdmin = () => {
   );
 };
 
-export default ProductAdmin;
+export default BikeAdmin;

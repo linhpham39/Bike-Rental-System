@@ -2,7 +2,7 @@ import React, { useEffect, useState, lazy } from "react";
 import axios from 'axios';
 import { Link } from "react-router-dom";
 
-const CardProductWishList = lazy(() => import("../../components/card/CardProductWishList"));
+const CardBikeWishList = lazy(() => import("../../components/card/CardBikeWishList"));
 
 const WishlistView = () => {
   const token = localStorage.getItem('token');
@@ -20,13 +20,13 @@ const WishlistView = () => {
         });
         const customer = response.data;
         
-        // Filter out duplicate products based on their IDs
-        const uniqueWishlistData = customer.wishList.reduce((uniqueProducts, product) => {
-          const isDuplicate = uniqueProducts.some((uniqueProduct) => uniqueProduct.productId._id === product.productId._id);
+        // Filter out duplicate bikes based on their IDs
+        const uniqueWishlistData = customer.wishList.reduce((uniqueBikes, bike) => {
+          const isDuplicate = uniqueBikes.some((uniqueBike) => uniqueBike.bikeId._id === bike.bikeId._id);
           if (!isDuplicate) {
-            uniqueProducts.push(product);
+            uniqueBikes.push(bike);
           }
-          return uniqueProducts;
+          return uniqueBikes;
         }, []);
         
         setWishListData(uniqueWishlistData);
@@ -47,9 +47,9 @@ const WishlistView = () => {
     }
   }, [wishListData]);
 
-  const handleRemoveProductWishList = async (productId) => {
+  const handleRemoveBikeWishList = async (bikeId) => {
     try {
-      const updatedWishlist = wishListData.filter((product) => product.productId._id !== productId);
+      const updatedWishlist = wishListData.filter((bike) => bike.bikeId._id !== bikeId);
       console.log(updatedWishlist);
       const response = await axios.patch(`http://localhost:8000/customers/${customerId}`,
         { wishList: updatedWishlist },
@@ -63,7 +63,7 @@ const WishlistView = () => {
         setWishListData(updatedWishlist);
       }
     } catch (error) {
-      console.error("Error removing product from wishlist:", error);
+      console.error("Error removing bike from wishlist:", error);
     }
   };
 
@@ -71,9 +71,9 @@ const WishlistView = () => {
     <div className="container" style={{ height: `${containerHeight}px`, overflow: "hidden" }}>
             <b><h2 className="my-3">Wishlists</h2></b>
       <div className="row g-3">
-        {wishListData.map((product, index) => (
+        {wishListData.map((bike, index) => (
           <div className="col-md-6" key={index}>
-            <CardProductWishList product={product.productId} handleRemove={handleRemoveProductWishList} />
+            <CardBikeWishList bike={bike.bikeId} handleRemove={handleRemoveBikeWishList} />
           </div>
         ))}
       </div>

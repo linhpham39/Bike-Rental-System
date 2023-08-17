@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 const Pagination = ({
-    filteredProducts,
+    filteredBikes,
     pageLimit,
     pageNeighbours,
     currentPage,
@@ -10,7 +10,7 @@ const Pagination = ({
     alignment,
 }) => {
     // Calculate the total number of pages
-    const totalPages = Math.ceil(filteredProducts.length / pageLimit);
+    const totalPages = Math.ceil(filteredBikes.length / pageLimit);
     if (totalPages <= 1 ) {
         return null;
       }
@@ -96,7 +96,7 @@ const Pagination = ({
 };
 
 Pagination.propTypes = {
-    filteredProducts: PropTypes.array.isRequired,
+    filteredBikes: PropTypes.array.isRequired,
     pageLimit: PropTypes.number.isRequired,
     pageNeighbours: PropTypes.number.isRequired,
     currentPage: PropTypes.number.isRequired,

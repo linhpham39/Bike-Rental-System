@@ -8,31 +8,31 @@ const Search = () => {
   const [input, setInput] = useState("");
   const [results, setResults] = useState([]);
 
-  const getProducts = async (value) => {
+  const getBikes = async (value) => {
     try {
-      const response = await axios.get("http://localhost:8000/products");
-      const products = response.data.filter((product) => {
+      const response = await axios.get("http://localhost:8000/bikes");
+      const bikes = response.data.filter((bike) => {
         return (
           value &&
-          product &&
-          product.name &&
-          product.name.toLowerCase().includes(value.toLowerCase())
+          bike &&
+          bike.name &&
+          bike.name.toLowerCase().includes(value.toLowerCase())
         );
       });
 
-      setResults(products.slice(0, 5)); // Limit the results to 5 items
+      setResults(bikes.slice(0, 5)); // Limit the results to 5 items
     } catch (error) {
-      console.error("Error fetching product:", error);
+      console.error("Error fetching bike:", error);
     }
   };
 
   const handleChange = (value) => {
     setInput(value);
-    getProducts(value);
+    getBikes(value);
   };
 
-  const handleResultClick = (productName) => {
-    setInput(productName);
+  const handleResultClick = (bikeName) => {
+    setInput(bikeName);
     setResults([]); // Clear the results when a result is clicked
   };
 
@@ -59,14 +59,14 @@ const Search = () => {
         </button>
       </div>
       <div className="search-results">
-        {results.map((product) => (
+        {results.map((bike) => (
           <Link
-            to={`/product/${product._id}`}
-            key={product._id}
+            to={`/bike/${bike._id}`}
+            key={bike._id}
             className="search-result"
-            onClick={() => handleResultClick(product.name)}
+            onClick={() => handleResultClick(bike.name)}
           >
-            {product.name}
+            {bike.name}
           </Link>
         ))}
       </div>

@@ -106,7 +106,7 @@ const ContactUsForm = (props) => {
         <div className="col-md-12">
           <Field
             id="informed"
-            label="Keep me informed via email or phone about its Products and Services."
+            label="Keep me informed via email or phone about its Bikes and Services."
             name="informed"
             component={renderFormCheckbox}
           />

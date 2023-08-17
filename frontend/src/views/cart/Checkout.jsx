@@ -19,9 +19,9 @@ const CheckoutView = () => {
   console.log(coupon);
   const [order, setOrder] = useState({
     customerId: customer._id,
-    products: cart.map((product, index) => ({
-      productId: product.productId._id,
-      quantity: product.quantity,
+    bikes: cart.map((bike, index) => ({
+      bikeId: bike.bikeId._id,
+      quantity: bike.quantity,
       key: index // Unique key prop
     })),
     delivery: {
@@ -326,14 +326,14 @@ const CheckoutView = () => {
                 <span className="badge bg-secondary float-end">{cart.length}</span>
               </div>
               <ul className="list-group list-group-flush">
-                {cart.map((product) => {
+                {cart.map((bike) => {
                   return (
                     <li className="list-group-item d-flex justify-content-between lh-sm">
                       <div>
-                        <h6 className="my-0">{product.productId.name}</h6>
-                        <small className="text-muted">Quantity: {product.quantity}</small>
+                        <h6 className="my-0">{bike.bikeId.name}</h6>
+                        <small className="text-muted">Quantity: {bike.quantity}</small>
                       </div>
-                      <span className="text-muted">${((product.productId.price - product.productId.discount.value) * product.quantity).toFixed(2)}</span>
+                      <span className="text-muted">${((bike.bikeId.price - bike.bikeId.discount.value) * bike.quantity).toFixed(2)}</span>
                     </li>
                   )
                 })}

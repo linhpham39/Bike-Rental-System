@@ -57,8 +57,8 @@ const CartView = () => {
       let total = 0;
       let dis = 0;
       for (const item of cartData) {
-        total += (item.productId.price - item.productId.discount.value) * item.quantity;
-        dis = dis + item.productId.discount.value * item.quantity;
+        total += (item.bikeId.price - item.bikeId.discount.value) * item.quantity;
+        dis = dis + item.bikeId.discount.value * item.quantity;
       }
       setTotalPrice(total);
       setTotalDiscount(dis);
@@ -73,8 +73,8 @@ const CartView = () => {
     let total = 0;
     let dis = 0;
     for (const item of cartData) {
-      total += (item.productId.price - item.productId.discount.value) * item.quantity;
-      dis = dis + item.productId.discount.value * item.quantity;
+      total += (item.bikeId.price - item.bikeId.discount.value) * item.quantity;
+      dis = dis + item.bikeId.discount.value * item.quantity;
     }
     return total.toFixed(2);
   };
@@ -148,8 +148,8 @@ const CartView = () => {
   const handleMakePurchase = (e) => {
     if (cartData.length === 0) {
       e.preventDefault();
-      // Display a toast message indicating that there are no products in the cart
-      toast.error("There are no products in the cart!");
+      // Display a toast message indicating that there are no bikes in the cart
+      toast.error("There are no bikes in the cart!");
     }
   };
 
@@ -190,7 +190,7 @@ const CartView = () => {
                 <table className="table table-borderless">
                   <thead className="text-muted">
                     <tr className="small text-uppercase">
-                      <th scope="col" className="text-center"><b>Product</b></th>
+                      <th scope="col" className="text-center"><b>Bike</b></th>
                       <th scope="col" width={120} className="text-center">
                         <b>Quantity</b>
                       </th>
@@ -207,9 +207,9 @@ const CartView = () => {
                           <div className="row">
                             <div className="col-3 d-none d-md-block">
                               <img
-                                src={item.productId.imageUrls[0]}
+                                src={item.bikeId.imageUrls[0]}
                                 width="80"
-                                alt="Product"
+                                alt="Bike"
                               />
                             </div>
                           </div>
@@ -239,9 +239,9 @@ const CartView = () => {
                           </div>
                         </td>
                         <td>
-                          <var className="price">${((item.productId.price - item.productId.discount.value) * item.quantity).toFixed(2)}</var>
+                          <var className="price">${((item.bikeId.price - item.bikeId.discount.value) * item.quantity).toFixed(2)}</var>
                           <small className="d-block text-muted">
-                            ${(item.productId.price - item.productId.discount.value).toFixed(2)} <del className="text-danger">{item.productId.price.toFixed(2)}</del> each
+                            ${(item.bikeId.price - item.bikeId.discount.value).toFixed(2)} <del className="text-danger">{item.bikeId.price.toFixed(2)}</del> each
                           </small>
                         </td>
                         <td className="text-end">

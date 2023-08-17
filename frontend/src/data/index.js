@@ -19,7 +19,7 @@ export const data = {
       description: " Praesent commodo cursus magna, vel scelerisque nisl.",
     },
   ],
-  iconProducts: [
+  iconBikes: [
     {
       to: "/category/",
       img: "IconTools",
@@ -85,11 +85,11 @@ export const data = {
       cssClass: "text-muted",
     }
   ],
-  products: [
+  bikes: [
     {
       id: 1,
       sku: "FAS-01",
-      link: "/product/detail",
+      link: "/bike/detail",
       categories: ["Business & Finance"],
       name: "A song of ice and fire",
       img: "https://upload.wikimedia.org/wikipedia/en/d/dc/A_Song_of_Ice_and_Fire_book_collection_box_set_cover.jpg",
@@ -107,7 +107,7 @@ export const data = {
     {
       id: 2,
       sku: "FAS-02",
-      link: "/product/detail",
+      link: "/bike/detail",
       name: "A song of ice and fire",
       img: "https://upload.wikimedia.org/wikipedia/en/d/dc/A_Song_of_Ice_and_Fire_book_collection_box_set_cover.jpg",
       price: 475,
@@ -124,7 +124,7 @@ export const data = {
     {
       id: 3,
       sku: "FAS-03",
-      link: "/product/detail",
+      link: "/bike/detail",
       name: "A song of ice and fire",
       img: "https://upload.wikimedia.org/wikipedia/en/d/dc/A_Song_of_Ice_and_Fire_book_collection_box_set_cover.jpg",
       price: 1900,
@@ -141,7 +141,7 @@ export const data = {
     {
       id: 4,
       sku: "FAS-04",
-      link: "/product/detail",
+      link: "/bike/detail",
       name: "A song of ice and fire",
       img: "https://upload.wikimedia.org/wikipedia/en/d/dc/A_Song_of_Ice_and_Fire_book_collection_box_set_cover.jpg",
       price: 10,

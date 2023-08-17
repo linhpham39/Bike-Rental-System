@@ -1,64 +1,64 @@
-.product-admin-container {
+.bike-admin-container {
     display: grid;
     grid-template-columns: 500px 1fr;
     grid-gap: 20px;
   }
   
-  .product-admin-container .column {
+  .bike-admin-container .column {
     padding: 20px;
     background-color: #f2f2f2;
     margin: 25px;
   }
   
-  .product-admin-container h2 {
+  .bike-admin-container h2 {
     margin-bottom: 10px;
   }
   
-  .product-admin-container form label {
+  .bike-admin-container form label {
     display: block;
     margin-bottom: 5px;
   }
   
-  .product-admin-container form input,
-  .product-admin-container form textarea {
+  .bike-admin-container form input,
+  .bike-admin-container form textarea {
     width: 100%;
     margin-bottom: 10px;
     padding: 5px;
   }
   
-  .product-admin-container table {
+  .bike-admin-container table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;
   }
   
-  .product-admin-container th,
-  .product-admin-container td {
+  .bike-admin-container th,
+  .bike-admin-container td {
     padding: 10px;
     text-align: center;
     border: 1px solid #ccc;
   }
   
-  .product-admin-container th {
+  .bike-admin-container th {
     background-color: #f2f2f2;
     text-align: center;
   }
   
-  .product-admin-container .pagination {
+  .bike-admin-container .pagination {
     list-style: none;
     display: flex;
     justify-content: center;
     margin-top: 20px;
   }
-    .product-admin-container tbody tr:nth-child(odd) {
+    .bike-admin-container tbody tr:nth-child(odd) {
       background-color: #f9f9f9;
     }
   
-  .product-admin-container .pagination li {
+  .bike-admin-container .pagination li {
     margin: 0 5px;
   }
   
-  .product-admin-container .pagination button {
+  .bike-admin-container .pagination button {
     padding: 5px 10px;
   }
   .radio-buttons {
@@ -140,7 +140,7 @@
     display: flex;
     justify-content: center;
   }
-  .product-admin-container button.delete-button {
+  .bike-admin-container button.delete-button {
     background-color: #dc3545;
     color: #fff;
     border: none;
@@ -150,7 +150,7 @@
     transition: background-color 0.3s ease;
   }
   
-  .product-admin-container button.delete-button:hover {
+  .bike-admin-container button.delete-button:hover {
     background-color: #c82333;
   }
   /* .row {

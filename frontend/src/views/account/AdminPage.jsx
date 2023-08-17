@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 
 import OrderAdmin from './OrderAdmin';
-import ProductAdmin from './ProductAdmin';
+import BikeAdmin from './BikeAdmin';
 import CouponAdmin from './CouponAdmin';
 
 import './AdminPage.css'; // Import file CSS đã tạo
@@ -11,7 +11,7 @@ import './AdminPage.css'; // Import file CSS đã tạo
 function AdminPage() {
   const navigate = useNavigate();
   const [admin, setAdmin] = useState(null);
-  const [activeTab, setActiveTab] = useState('product'); // Mặc định hiển thị ProductAdmin
+  const [activeTab, setActiveTab] = useState('bike'); // Mặc định hiển thị BikeAdmin
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -53,8 +53,8 @@ function AdminPage() {
       <nav>
         <ul>
           <li
-            className={activeTab === 'product' ? 'active' : ''}
-            onClick={() => handleTabChange('product')}
+            className={activeTab === 'bike' ? 'active' : ''}
+            onClick={() => handleTabChange('bike')}
           >
             PRODUCT
           </li>
@@ -73,7 +73,7 @@ function AdminPage() {
         </ul>
       </nav>
       <div>
-        {activeTab === 'product' && <ProductAdmin />}
+        {activeTab === 'bike' && <BikeAdmin />}
         {activeTab === 'order' && <OrderAdmin />}
         {activeTab === 'coupon' && <CouponAdmin />}
       </div>
