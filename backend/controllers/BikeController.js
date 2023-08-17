@@ -24,29 +24,16 @@ const getBikeById = async (req, res) => {
     }
 };
 
-// const getBikesByCategory = async (req, res) => {
-//     const { category } = req.params;
-
-//     try {
-//         const bikes = await Bike.find({ categories: category });
-
-//         res.json(bikes);
-//     } catch (error) {
-//         console.error('Error retrieving bikes by category:', error);
-//         res.status(500).json({ error: 'Failed to retrieve bikes by category' });
-//     }
-// };
-
-const getBikesByBrand = async (req, res) => {
-    const { brand } = req.params;
+const getBikesByDock = async (req, res) => {
+    const { dock } = req.params;
 
     try {
-        const bikes = await Bike.find({ brand });
+        const bikes = await Bike.find({ dock: dock });
 
         res.json(bikes);
     } catch (error) {
-        console.error('Error retrieving bikes by brand:', error);
-        res.status(500).json({ error: 'Failed to retrieve bikes by brand' });
+        console.error('Error retrieving bikes by dock:', error);
+        res.status(500).json({ error: 'Failed to retrieve bikes by dock' });
     }
 };
 
@@ -56,6 +43,7 @@ const createBike = async (req, res) => {
         brand,
         model,
         detail,
+        dock,
         imageUrls,
         price,
         discount,
@@ -69,6 +57,7 @@ const createBike = async (req, res) => {
             brand,
             model,
             detail,
+            dock,
             imageUrls,
             price,
             discount,
@@ -114,7 +103,7 @@ const deleteBikeById = async (req, res) => {
 module.exports = {
     getAllBikes,
     getBikeById,
-    getBikesByBrand,
+    getBikesByDock,
     createBike,
     updateBikeById,
     deleteBikeById
