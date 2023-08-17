@@ -1,7 +1,7 @@
 import React from "react";
 import { ReactComponent as IconCash } from "bootstrap-icons/icons/cash.svg";
 import { ReactComponent as IconHeadset } from "bootstrap-icons/icons/headset.svg";
-import { ReactComponent as IconTruck } from "bootstrap-icons/icons/truck.svg";
+import { ReactComponent as IconBike } from "bootstrap-icons/icons/bicycle.svg";
 const Support = (props) => {
   return (
     <div className={`row g-3 ${props.className}`}>
@@ -29,9 +29,9 @@ const Support = (props) => {
         <div className="card bg-success">
           <div className="card-body text-white">
             <span className="p-3 bg-light rounded-circle me-3 text-dark">
-              <IconTruck width={40} height={40} />
+              <IconBike width={40} height={40} />
             </span>
-            Quick delivery
+            High Quality
           </div>
         </div>
       </div>
