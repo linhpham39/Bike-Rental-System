@@ -11,7 +11,6 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const CardBikeList = ({ bike }) => {
   const [notification, setNotification] = useState(null);
-  const [isAdmin, setIsAdmin] = useState(false);
   const getCustomerData = async (token) => {
     if (token) {
       const response = await axios.get("http://localhost:8000/customers/token", {
@@ -20,22 +19,19 @@ const CardBikeList = ({ bike }) => {
         },
       });
        console.log("test1",response.data);
-      setIsAdmin(response.data.isAdmin);
-       console.log("test2",isAdmin);
+       
       return response.data;
     } else {
       setNotification("Not authenticated!");
       return null;
     }
   };
-  useEffect(() => {
-  }, [isAdmin]);
+ 
     
   const handleAddToCart = async (bikeId) => {
     try {
       const token = localStorage.getItem("token");
       const customer = await getCustomerData(token);
-      console.log("test3",isAdmin);
       if (customer.cart.some(item => item.bikeId._id == bikeId)) {
         toast.success("Bike is already in the cart!");
 
@@ -138,7 +134,7 @@ const CardBikeList = ({ bike }) => {
                 <IconTruckFill /> Available
               </p>
             )}
-            {isAdmin ==true  ? <p>dcmmm</p>: (
+          
             <div className="btn-group d-flex" role="group">
               <button
                 type="button"
@@ -157,8 +153,7 @@ const CardBikeList = ({ bike }) => {
                 <FontAwesomeIcon icon={faHeart} />
               </button>
             </div>
-              )
-              }
+              
           </div>
         </div>
       </div>
