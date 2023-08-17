@@ -12,6 +12,7 @@ import { ReactComponent as IconBellFill } from "bootstrap-icons/icons/bell-fill.
 import { ReactComponent as IconInfoCircleFill } from "bootstrap-icons/icons/info-circle-fill.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
+// import isAuth from "../../../backend/middlewares/isAuth";
 
 const Header = ({ isAuthenticated, handleLogout }) => {
   const [isAdmin, setIsAdmin] = useState(false);
@@ -25,7 +26,7 @@ const Header = ({ isAuthenticated, handleLogout }) => {
           }
         });
 
-        if (response.status === 200) {
+        if (response.status == 200) {
           const customerData = response.data;
           setIsAdmin(customerData.isAdmin);
         } else {
@@ -37,7 +38,8 @@ const Header = ({ isAuthenticated, handleLogout }) => {
     };
     fetchCustomer();
   }, []);
-
+  console.log("admin", isAdmin);
+  
   return (
     <header className="p-3 border-bottom bg-light">
       <div className="container-fluid">

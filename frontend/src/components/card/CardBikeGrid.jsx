@@ -17,7 +17,9 @@ const CardBikeGrid = ({ bike }) => {
           Authorization: `Bearer ${token}`,
         },
       });
+      console.log("test",response.data);
       return response.data;
+      
     } else {
       setNotification("Not authenticated!");
       return null;
