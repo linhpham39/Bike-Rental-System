@@ -1,29 +1,29 @@
 export const data = {
   banner: [
     {
-      to: "/link",
-      img: "../../images/banner/875_generated.jpg",
-      title: "First slide label",
-      description: "Nulla vitae elit libero, a pharetra augue mollis interdum",
+      to: "",
+      img: "../../images/banner/home4.jpg",
+      // title: "First slide label",
+      // description: "Nulla vitae elit libero, a pharetra augue mollis interdum",
     },
     {
-      to: "/link",
-      img: "../../images/banner/875_generated.jpg",
-      title: "Second slide label",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      to: "",
+      img: "../../images/banner/home4.jpg",
+      // title: "Second slide label",
+      // description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     },
     {
-      to: "/link",
-      img: "../../images/banner/875_generated.jpg",
-      title: "Third slide label",
-      description: " Praesent commodo cursus magna, vel scelerisque nisl.",
+      to: "",
+      img: "../../images/banner/home4.jpg",
+      // title: "Third slide label",
+      // description: " Praesent commodo cursus magna, vel scelerisque nisl.",
     },
   ],
   iconBikes: [
     {
       to: "/dock/",
       img: "IconTools",
-      title: "All",
+      title: "Endurance Road Bike",
       text: " Upto 20% off",
       tips: "Summer Discount",
       cssClass: "text-primary",
@@ -50,7 +50,7 @@ export const data = {
       title: "D7",
       text: " Upto 20% off",
       tips: "Summer Discount",
-      cssClass: "text-danger",
+      cssClass: "text-secondary",
     },
     {
       to: "/dock/D9",

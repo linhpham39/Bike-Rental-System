@@ -32,19 +32,31 @@ const Footer = () => {
                   className="text-light ms-3 me-3"
                 />
               </a>
-              <a href="https://www.facebook.com/" target="_blank" title="Facebook">
+              <a
+                href="https://www.facebook.com/"
+                target="_blank"
+                title="Facebook"
+              >
                 <FontAwesomeIcon
                   icon={faFacebookF}
                   className="text-light me-3"
                 />
               </a>
-              <a href="https://www.instagram.com/" target="_blank" title="Instagram">
+              <a
+                href="https://www.instagram.com/"
+                target="_blank"
+                title="Instagram"
+              >
                 <FontAwesomeIcon
                   icon={faInstagram}
                   className="text-light me-3"
                 />
               </a>
-              <a href="https://www.youtube.com/" target="_blank" title="Youtube">
+              <a
+                href="https://www.youtube.com/"
+                target="_blank"
+                title="Youtube"
+              >
                 <FontAwesomeIcon icon={faYoutube} className="text-light me-3" />
               </a>
             </div>
@@ -53,10 +65,16 @@ const Footer = () => {
         <div className="container-fluid bg-dark text-white">
           <div className="row ">
             <div className="col-md-3 py-3">
-              <div className="h6">Bookstore 15</div>
+              <div className="h6">Bookstore 13</div>
               <hr />
               <p>
-                Bookstore 15 is a haven for book lovers and a treasure trove of knowledge and imagination. It is a place where the tangible magic of books comes alive, offering a unique experience for readers and seekers of knowledge. Stepping into a bookstore, one is greeted by rows upon rows of shelves, filled with books of various genres, enticing covers, and intriguing titles.
+                Bike 13 is a paradise for cycling enthusiasts and a vault of
+                adventure and exploration. It's a hub where the palpable thrill
+                of bicycles ignites, providing an exceptional escapade for
+                riders and those in pursuit of active journeys. Upon entering
+                this bike haven, one is welcomed by lines upon lines of
+                displays, stacked with bicycles of diverse styles, captivating
+                designs, and enticing features.
               </p>
             </div>
             <div className="col-md-3 py-3">
@@ -189,7 +207,7 @@ const Footer = () => {
               </Link>
             </div>
             <div className="col-md-3 py-2">
-              © 2022-{new Date().getFullYear()} bookstore15.com
+              © 2022-{new Date().getFullYear()} bikestore13.com
             </div>
             <div className="col-md-3 py-2 bg-white">
               <img

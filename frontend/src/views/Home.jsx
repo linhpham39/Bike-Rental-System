@@ -16,7 +16,9 @@ const Carousel = lazy(() => import("../components/carousel/Carousel"));
 const CardIcon = lazy(() => import("../components/card/CardIcon"));
 const CardLogin = lazy(() => import("../components/card/CardLogin"));
 const CardImage = lazy(() => import("../components/card/CardImage"));
-const CardDealsOfTheDay = lazy(() => import("../components/card/CardDealsOfTheDay"));
+const CardDealsOfTheDay = lazy(() =>
+  import("../components/card/CardDealsOfTheDay")
+);
 
 const components = {
   IconBook: IconBook,
@@ -47,11 +49,7 @@ const HomeView = () => {
                 tips={bike.tips}
                 to={bike.to}
               >
-                <BikeImage
-                  className={bike.cssClass}
-                  width="80"
-                  height="80"
-                />
+                <BikeImage className={bike.cssClass} width="80" height="80" />
               </CardIcon>
             </div>
           );
@@ -74,7 +72,7 @@ const HomeView = () => {
           <div className="col-md-3">
             {isAuthenticated ? null : <CardLogin className="mb-3" />}
             <CardImage
-              src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTEwfHxib29rfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60"
+              src="https://th.bing.com/th/id/R.0912624137e211f37b2d762d6c1fabf8?rik=mINQDUD4bNBFaA&pid=ImgRaw&r=0"
               to="promo"
             />
           </div>
