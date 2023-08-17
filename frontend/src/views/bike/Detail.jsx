@@ -149,6 +149,7 @@ const BikeDetailView = () => {
 
     setRating(0);
     setContent("");
+    getRatings(id);
   };
 
   return (
@@ -309,7 +310,6 @@ const BikeDetailView = () => {
                       <input type="text" value={content} required className="form-control" onChange={handleContentChange} />
                     </div>
                     <div className="col">
-
                       <button className="btn btn-info" onClick={handleRatingSubmit}>Submit Rating</button>
                     </div>
                   </div>

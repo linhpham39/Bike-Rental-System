@@ -3,6 +3,8 @@ import { ReactComponent as IconSearch } from "bootstrap-icons/icons/search.svg";
 import axios from 'axios';
 import { Link } from "react-router-dom";
 import "./Search.css"; // Import CSS file for Search component
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Search = () => {
   const [input, setInput] = useState("");
@@ -36,8 +38,16 @@ const Search = () => {
     setResults([]); // Clear the results when a result is clicked
   };
 
+  const handleSubmit = (e) => {
+    if (results.length === 0) {
+      e.preventDefault();
+      // Display a toast message indicating that there are no bikes match
+      toast.error("Not found any match!");
+    }
+  }
   return (
     <form action="#" className="search">
+      <ToastContainer autoClose={2000} />
       <div className="input-group">
         <input
           id="search"
@@ -54,6 +64,7 @@ const Search = () => {
           className="btn btn-primary text-white"
           type="submit"
           aria-label="Search"
+          onClick={(e) => handleSubmit(e)}
         >
           <IconSearch />
         </button>
