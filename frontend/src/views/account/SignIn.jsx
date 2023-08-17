@@ -14,6 +14,7 @@ const SignInView = ({ isAuthenticated, handleLogin }) => {
       localStorage.setItem("token", token);
       handleLogin();
       navigate("/"); // Navigate to the home page
+      window.location.reload();
     } catch (error) {
       if (error.response.status === 401) {
         setErrorMessage("Invalid username or password");

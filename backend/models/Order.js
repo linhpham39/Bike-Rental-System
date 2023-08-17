@@ -35,6 +35,12 @@ const orderSchema = new mongoose.Schema({
   createdDate: {
     type: Date,
     default: Date.now
+  },
+  startTime: {
+    type: Date
+  },
+  endTime: {
+    type: Date
   }
 });
 
