@@ -19,11 +19,9 @@ const NotificationView = lazy(() => import("./views/account/Notification"));
 const MyProfileView = lazy(() => import("./views/account/CustomerProfileEditor.jsx"));
 const BikeListView = lazy(() => import("./views/bike/List"));
 const BikeDetailView = lazy(() => import("./views/bike/Detail"));
-const StarZoneView = lazy(() => import("./views/bike/StarZone"));
 const CartView = lazy(() => import("./views/cart/Cart"));
 const CheckoutView = lazy(() => import("./views/cart/Checkout"));
 const InvoiceView = lazy(() => import("./views/cart/Invoice"));
-const DocumentationView = lazy(() => import("./views/Documentation"));
 const NotFoundView = lazy(() => import("./views/pages/404"));
 const InternalServerErrorView = lazy(() => import("./views/pages/500"));
 const ContactUsView = lazy(() => import("./views/pages/ContactUs"));
@@ -79,7 +77,6 @@ function App() {
             <Route exact path="/dock/food-drink" element={<BikeListView catName="food-drink" />} /> */}
 
             <Route path='/bike/:id' element={<BikeDetailView />} />
-            <Route exact path="/star/zone" element={<StarZoneView />} />
             <Route exact path="/cart" element={<CartView />} />
             <Route exact path="/checkout" element={<CheckoutView />} />
             <Route path='/invoice/:id' element={<InvoiceView />} />

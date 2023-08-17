@@ -36,9 +36,9 @@ const CardFeaturedBike = () => {
             </div>
             <div className="col-md-8">
               <h6 className="text-capitalize mb-1">
-                <Link to={`/bike/${bike._id}`} className="text-decoration-none">
+                <a href={`/bike/${bike._id}`} className="text-decoration-none">
                   {bikes && bike.name}
-                </Link>
+                </a>
               </h6>
               <span className="fw-bold h5">${(bike.price - bike.discount.value).toFixed(2)}/h</span>
               {bike.price > 0 && (
