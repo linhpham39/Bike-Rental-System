@@ -10,6 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const CardBikeList = ({ bike }) => {
   const [notification, setNotification] = useState(null);
+  const isAdmin = localStorage.getItem("isAdmin");
 
   const getCustomerData = async (token) => {
     if (token) {
@@ -134,7 +135,7 @@ const CardBikeList = ({ bike }) => {
             )}
 
             <div className="btn-group d-flex" role="group">
-              <button
+              {!isAdmin && <button
                 type="button"
                 className="btn btn-sm btn-primary"
                 title="Add to cart"
@@ -142,14 +143,15 @@ const CardBikeList = ({ bike }) => {
               >
                 <FontAwesomeIcon icon={faCartPlus} />
               </button>
-              <button
+              }
+              {!isAdmin && <button
                 type="button"
                 className="btn btn-sm btn-outline-secondary"
                 title="Add to wishlist"
                 onClick={() => handleAddToWishlist(bike._id)}
               >
                 <FontAwesomeIcon icon={faHeart} />
-              </button>
+              </button>}
             </div>
           </div>
         </div>

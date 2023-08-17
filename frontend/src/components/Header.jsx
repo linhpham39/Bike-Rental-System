@@ -28,6 +28,8 @@ const Header = ({ isAuthenticated, handleLogout }) => {
         if (response.status === 200) {
           const customerData = response.data;
           setIsAdmin(customerData.isAdmin);
+          if (customerData.isAdmin)
+            localStorage.setItem("isAdmin", true);
         } else {
           console.error('Failed to fetch customer information');
         }

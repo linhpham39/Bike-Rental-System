@@ -36,6 +36,7 @@ function App() {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("isAdmin")
     setIsAuthenticated(false);
   };
   return (
