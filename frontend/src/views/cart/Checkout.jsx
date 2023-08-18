@@ -1,83 +1,57 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, lazy } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useLocation } from 'react-router-dom';
 import { ReactComponent as IconEnvelope } from "bootstrap-icons/icons/envelope.svg";
 import { ReactComponent as IconCreditCard2Front } from "bootstrap-icons/icons/credit-card-2-front.svg";
 import { ReactComponent as IconCart3 } from "bootstrap-icons/icons/cart3.svg";
-import { useNavigate } from "react-router-dom";
+const StripeContainer = lazy(() => import("../../components/payment/StripeContainer"));
 
-
-const CheckoutView = () => {
-  let location = useLocation();
-  console.log("test2",location.state);
-  const cart = location.state.cart;
-  const customer = location.state.customer;
-  const totalPrice = location.state.totalPrice;
-  const coupon = location.state.coupon;
-  console.log(coupon);
-  const [order, setOrder] = useState({
-    customerId: customer._id,
-    bikes: cart.map((bike, index) => ({
-      bikeId: bike.bikeId._id,
-      quantity: bike.quantity,
-      key: index // Unique key prop
-    })),
-    coupon: "",
-    totalPrice: totalPrice - coupon.value,
-    status: "pending",
-    createdDate: Date.now()
-  });
-
-  useEffect(() => {
-    if (coupon && coupon.value !== 0) {
-      const str = coupon._id.toString();
-      setOrder(prevState => ({
-        ...prevState,
-        coupon: str
-      }));
-    } else {
-      setOrder(prevState => ({
-        ...prevState,
-        coupon: null
-      }));
-    }
-  }, []);
+const CheckoutView = ({ state }) => {
+  const { id } = useParams();
+  const [order, setOrder] = useState(null);
+  const [customer, setCustomer] = useState();
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
 
-  const handlePayment = async () => {
-
+  const getOrders = async (id) => {
     try {
-      const token = localStorage.getItem("token");
-
-      await axios.post("http://localhost:8000/orders/", order, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
+      const response = await axios.get(`http://localhost:8000/orders/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+      let orderFetch = response.data;
+      setOrder(orderFetch);
     } catch (error) {
-      console.error("Error adding order:", error);
-
+      console.error("Error fetching bikes:", error);
     }
-    emptyCart();
-    navigate("/"); // Navigate to the home page
-  }
+  };
 
-  const emptyCart = async () => {
+  const getCustomer = async () => {
     try {
-      const token = localStorage.getItem("token");
-      if (token) {
-        await axios.patch(`http://localhost:8000/customers/${customer._id}`, { cart: [] }, {
+      const response = await axios.get(
+        "http://localhost:8000/customers/token",
+        {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        });
-      } else {
-        console.log("No token in localstorage");
-      }
+        }
+      );
+      const customer = response.data;
+      setCustomer(customer);
     } catch (error) {
-      console.error('Error updating data:', error);
+      console.error("Error:", error);
     }
+  };
+  useEffect(() => {
+    getCustomer();
+    getOrders(id);
+    console.log(order);
+  }, [])
+
+
+  const handlePayment = async () => {
 
   }
   return (
@@ -101,7 +75,7 @@ const CheckoutView = () => {
                       className="form-control"
                       placeholder="Email Address"
                       aria-label="Email Address"
-                      defaultValue={customer.email}
+                      defaultValue={customer && customer.email}
                     />
                   </div>
                   <div className="col-md-6">
@@ -110,7 +84,7 @@ const CheckoutView = () => {
                       className="form-control"
                       placeholder="Mobile no"
                       aria-label="Mobile no"
-                      defaultValue={customer.mobileNumber}
+                      defaultValue={customer && customer.mobileNumber}
                     />
                   </div>
                 </div>
@@ -209,101 +183,22 @@ const CheckoutView = () => {
                 <IconCreditCard2Front className="i-va" /> Payment Method
               </div>
               <div className="card-body">
-                <div className="row g-3 mb-3 border-bottom">
-                  <div className="col-md-6">
-                    <div className="form-check">
-                      <input
-                        id="credit"
-                        name="paymentMethod"
-                        type="radio"
-                        className="form-check-input"
-                        defaultChecked
-                        required
-                      />
-                      <label className="form-check-label" htmlFor="credit">
-                        Credit card
-                        <img
-                          src="../../images/payment/cards.webp"
-                          alt="..."
-                          className="ms-3"
-                          height={26}
-                        />
-                      </label>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-check">
-                      <input
-                        id="paypal"
-                        name="paymentMethod"
-                        type="radio"
-                        className="form-check-input"
-                        required
-                      />
-                      <label className="form-check-label" htmlFor="paypal">
-                        PayPal
-                        <img
-                          src="../../images/payment/paypal_64.webp"
-                          alt="..."
-                          className="ms-3"
-                          height={26}
-                        />
-                      </label>
-                    </div>
-                  </div>
+
+                <div className="mb-2">
+                  Credit card support:
+                  <img
+                    src="../../images/payment/cards.webp"
+                    alt="..."
+                    className="ms-3"
+                    height={26}
+                  />
                 </div>
-                <div className="row g-3">
-                  <div className="col-md-6">
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Name on card"
-                      defaultValue="Master Card"
-                      required
-                    />
-                  </div>
-                  <div className="col-md-6">
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Card number"
-                      defaultValue="1234 1234 1234 5678"
-                      required
-                    />
-                  </div>
-                  <div className="col-md-4">
-                    <input
-                      type="number"
-                      className="form-control"
-                      placeholder="Expiration month"
-                      defaultValue={12}
-                      required
-                    />
-                  </div>
-                  <div className="col-md-4">
-                    <input
-                      type="number"
-                      className="form-control"
-                      placeholder="Expiration year"
-                      defaultValue={2035}
-                      required
-                    />
-                  </div>
-                  <div className="col-md-4">
-                    <input
-                      type="number"
-                      className="form-control"
-                      placeholder="CVV"
-                      defaultValue={612}
-                      required
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="card-footer border-info d-grid">
-                <button type="button" className="btn btn-info" onClick={handlePayment}>
-                  Pay Now <strong>${(order.totalPrice).toFixed(2)}</strong>
-                </button>
+
+                <StripeContainer
+                  amount={order && order.totalPrice}
+                  handlePayment={handlePayment}
+                  order_id={id}
+                />
               </div>
             </div>
           </div>
@@ -312,10 +207,10 @@ const CheckoutView = () => {
             <div className="card">
               <div className="card-header">
                 <IconCart3 className="i-va" /> Cart{" "}
-                <span className="badge bg-secondary float-end">{cart.length}</span>
+                <span className="badge bg-secondary float-end">{order && order.bikes.length}</span>
               </div>
               <ul className="list-group list-group-flush">
-                {cart.map((bike) => {
+                {order && order.bikes.map((bike) => {
                   return (
                     <li className="list-group-item d-flex justify-content-between lh-sm">
                       <div>
@@ -331,13 +226,13 @@ const CheckoutView = () => {
                 <li className="list-group-item d-flex justify-content-between bg-light">
                   <div className="text-success">
                     <h6 className="my-0">Coupon</h6>
-                    <small>{coupon.code}</small>
+                    <small>{order && order.coupon.code}</small>
                   </div>
-                  <span className="text-success">−${coupon.value.toFixed(2)}</span>
+                  <span className="text-success">−${order && order.coupon.value.toFixed(2)}</span>
                 </li>
                 <li className="list-group-item d-flex justify-content-between">
                   <span>Total (USD)</span>
-                  <strong>${(order.totalPrice).toFixed(2)}</strong>
+                  {order && <strong>${(order.totalPrice).toFixed(2)}</strong>}
                 </li>
               </ul>
             </div>
@@ -347,5 +242,6 @@ const CheckoutView = () => {
     </React.Fragment>
   );
 }
+
 
 export default CheckoutView;

@@ -79,7 +79,7 @@ function App() {
 
             <Route path='/bike/:id' element={<BikeDetailView />} />
             <Route exact path="/cart" element={<CartView />} />
-            <Route exact path="/checkout" element={<CheckoutView />} />
+            <Route exact path="/checkout/:id" element={<CheckoutView />} />
             <Route path='/invoice/:id' element={<InvoiceView />} />
 
             <Route exact path="/contact-us" element={<ContactUsView />} />

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, lazy } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { ReactComponent as IconTrash } from "bootstrap-icons/icons/trash.svg";
 import { ReactComponent as IconChevronRight } from "bootstrap-icons/icons/chevron-right.svg";
 import { ReactComponent as IconChevronLeft } from "bootstrap-icons/icons/chevron-left.svg";
@@ -9,7 +9,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-// import { events } from "../../../../backend/models/Coupon";
 const CouponApplyForm = lazy(() =>
   import("../../components/others/CouponApplyForm")
 );
@@ -27,7 +26,6 @@ const CartView = () => {
     totalDiscount: totalDiscount,
     coupon: coupon
   }
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -200,7 +198,7 @@ const CartView = () => {
 
     }
     emptyCart();
-   // navigate("/"); // Navigate to the home page
+    // navigate("/"); // Navigate to the home page
   }
 
   const emptyCart = async () => {

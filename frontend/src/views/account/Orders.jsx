@@ -170,15 +170,14 @@ const OrdersView = () => {
                   </span> */}
                   {order.status == "returned" && (
                     <Link
-                      to="/checkout"
-                       //state={order}
+                      to={`/checkout/${order._id}`}
                       className="btn btn-primary float-end"
-                      // onClick={(e) => {
-                      //   return handleRentBike(e);
-                      // }}
+                    // onClick={(e) => {
+                    //   return handleRentBike(e);
+                    // }}
                     >
                       Payment
-                       {/* <IconChevronRight className="i-va" /> */}
+                      {/* <IconChevronRight className="i-va" /> */}
                     </Link>
                   )}
                 </div>
