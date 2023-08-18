@@ -78,8 +78,8 @@ function OrderAdmin() {
           <tr>
             <th>Order ID</th>
             <th>Status</th>
-            <th>Delivery Info</th>
-            <th>Delivery Fee</th>
+            {/* <th>Delivery Info</th>
+            <th>Delivery Fee</th> */}
             <th>Total Price</th>
             <th>Action</th>
           </tr>
@@ -91,10 +91,10 @@ function OrderAdmin() {
       <td className={`status-cell ${order.status}`}>
         {order.status}
       </td>
-      <td>
+      {/* <td>
         {order.delivery.name} at {order.delivery.shippingAddress.address}, {order.delivery.shippingAddress.district}, {order.delivery.shippingAddress.city}<br />
       </td>
-      <td>{order.delivery.fee.toFixed(2)}</td>
+      <td>{order.delivery.fee.toFixed(2)}</td> */}
       <td>${order.totalPrice.toFixed(2)}</td>
       <td>
         {order.status === 'pending' && (
