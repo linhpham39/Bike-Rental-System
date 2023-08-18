@@ -39,10 +39,13 @@ function OrderAdmin() {
   const handleChangeStatus = async (orderId, newStatus) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.patch(
+      var response;
+      if(newStatus === 'renting') {
+      response = await axios.patch(
         `http://localhost:8000/orders/${orderId}`,
         {
-          status: newStatus
+          status: newStatus,
+          startTime: Date.now()
         },
         {
           headers: {
@@ -50,7 +53,33 @@ function OrderAdmin() {
           }
         }
       );
-  
+      }else if (newStatus === 'returned') {
+        response = await axios.patch(
+          `http://localhost:8000/orders/${orderId}`,
+          {
+            status: newStatus,
+            endTime: Date.now()
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          }
+        );
+      }
+      else {
+        response = await axios.patch(
+          `http://localhost:8000/orders/${orderId}`,
+          {
+            status: newStatus
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          }
+        );
+      }
       if (response.status === 200) {
         fetchOrders();
       } else {
