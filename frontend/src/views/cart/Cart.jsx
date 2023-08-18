@@ -1,7 +1,6 @@
 import React, { useState, useEffect, lazy } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
-import { ReactComponent as IconHeartFill } from "bootstrap-icons/icons/heart-fill.svg";
+import { Link, useNavigate } from "react-router-dom";
 import { ReactComponent as IconTrash } from "bootstrap-icons/icons/trash.svg";
 import { ReactComponent as IconChevronRight } from "bootstrap-icons/icons/chevron-right.svg";
 import { ReactComponent as IconChevronLeft } from "bootstrap-icons/icons/chevron-left.svg";
@@ -22,14 +21,13 @@ const CartView = () => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalDiscount, setTotalDiscount] = useState(0);
   const data = {
-
     cart: cartData,
     customer: customer,
     totalPrice: totalPrice,
     totalDiscount: totalDiscount,
     coupon: coupon
-
   }
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,9 +39,9 @@ const CartView = () => {
               Authorization: `Bearer ${token}`,
             },
           });
-          console.log(response.data.cart);
           setCartData(response.data.cart);
           setCustomer(response.data);
+
         } catch (error) {
           console.error("Error fetching data:", error);
         }
@@ -52,6 +50,7 @@ const CartView = () => {
     fetchData();
   }, []);
 
+  // Recalculate the total price
   useEffect(() => {
     if (cartData.length > 0) {
       let total = 0;
@@ -67,17 +66,6 @@ const CartView = () => {
     }
     // console.log(cartData);
   }, [cartData]);
-
-
-  const calculateTotalPrice = () => {
-    let total = 0;
-    let dis = 0;
-    for (const item of cartData) {
-      total += (item.bikeId.price - item.bikeId.discount.value) * item.quantity;
-      dis = dis + item.bikeId.discount.value * item.quantity;
-    }
-    return total.toFixed(2);
-  };
 
   const patchCartData = async (updatedCartData) => {
     try {
@@ -145,11 +133,13 @@ const CartView = () => {
     });
   };
 
-  const handleMakePurchase = (e) => {
+  const handleRentBike = (e) => {
     if (cartData.length === 0) {
       e.preventDefault();
       // Display a toast message indicating that there are no bikes in the cart
       toast.error("There are no bikes in the cart!");
+    } else {
+      createOrder();
     }
   };
 
@@ -176,7 +166,60 @@ const CartView = () => {
       }
     }
   };
+  const createOrder = async () => {
+    let str = null
+    if (coupon && coupon.value !== 0) {
+      str = coupon._id.toString()
+    }
+    const order = {
+      customerId: customer._id,
+      bikes: cartData.map((bike, index) => ({
+        bikeId: bike.bikeId._id,
+        quantity: bike.quantity
+      })),
+      coupon: str,
+      totalPrice: totalPrice - coupon.value,
+      status: "pending",
+      createdDate: Date.now(),
+      startTime: null,
+      endTime: null
+    }
+    console.log(order);
+    try {
+      const token = localStorage.getItem("token");
 
+      await axios.post("http://localhost:8000/orders/", order, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+
+    } catch (error) {
+      console.error("Error adding order:", error);
+
+    }
+    emptyCart();
+    navigate("/"); // Navigate to the home page
+  }
+
+  const emptyCart = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (token) {
+        await axios.patch(`http://localhost:8000/customers/${customer._id}`, { cart: [] }, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+      } else {
+        console.log("No token in localstorage");
+      }
+    } catch (error) {
+      console.error('Error updating data:', error);
+    }
+
+  }
   return (
     <React.Fragment>
       <div className="border-top p-4 text-white mb-3 " style={{ background: "DodgerBlue" }}>
@@ -192,7 +235,7 @@ const CartView = () => {
                     <tr className="small text-uppercase">
                       <th scope="col" className="text-center"><b>Bike</b></th>
                       <th scope="col" width={120} className="text-center">
-                        <b>Quantity</b>
+                        <b>Hour</b>
                       </th>
                       <th scope="col" width={150}>
                         <b>Price</b>
@@ -241,7 +284,7 @@ const CartView = () => {
                         <td>
                           <var className="price">${((item.bikeId.price - item.bikeId.discount.value) * item.quantity).toFixed(2)}</var>
                           <small className="d-block text-muted">
-                            ${(item.bikeId.price - item.bikeId.discount.value).toFixed(2)} <del className="text-danger">{item.bikeId.price.toFixed(2)}</del> each
+                            ${(item.bikeId.price - item.bikeId.discount.value).toFixed(2)} <del className="text-danger">{item.bikeId.price.toFixed(2)}</del> per hour
                           </small>
                         </td>
                         <td className="text-end">
@@ -258,13 +301,13 @@ const CartView = () => {
                 <Link to="/checkout" state={data}
 
                   className="btn btn-primary float-end" onClick={(e) => {
-                    return handleMakePurchase(e)
+                    return handleRentBike(e)
 
                   }}>
-                  Make Purchase <IconChevronRight className="i-va" />
+                  Rent bike <IconChevronRight className="i-va" />
                 </Link>
                 <Link to="/" className="btn btn-secondary">
-                  <IconChevronLeft className="i-va" /> Continue shopping
+                  <IconChevronLeft className="i-va" /> Go back
                 </Link>
               </div>
             </div>

@@ -29,7 +29,9 @@ const createOrder = async (req, res) => {
     coupon,
     totalPrice,
     status,
-    createdDate
+    createdDate,
+    startTime,
+    endTime
   } = req.body;
 
   try {
@@ -39,7 +41,9 @@ const createOrder = async (req, res) => {
       coupon,
       totalPrice,
       status,
-      createdDate
+      createdDate,
+      startTime,
+      endTime
     });
     await order.save();
     res.status(201).json(order);

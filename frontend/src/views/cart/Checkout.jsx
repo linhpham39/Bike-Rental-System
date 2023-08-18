@@ -1,20 +1,17 @@
-import React, { useState, useEffect, lazy } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useLocation } from 'react-router-dom';
 import { ReactComponent as IconEnvelope } from "bootstrap-icons/icons/envelope.svg";
-import { ReactComponent as IconTruck } from "bootstrap-icons/icons/truck.svg";
-import { ReactComponent as IconReceipt } from "bootstrap-icons/icons/receipt.svg";
 import { ReactComponent as IconCreditCard2Front } from "bootstrap-icons/icons/credit-card-2-front.svg";
 import { ReactComponent as IconCart3 } from "bootstrap-icons/icons/cart3.svg";
-import { Link, useNavigate } from "react-router-dom";
-import { prefix } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
+
 
 const CheckoutView = () => {
   let location = useLocation();
   const cart = location.state.cart;
   const customer = location.state.customer;
   const totalPrice = location.state.totalPrice;
-  const totalDiscount = location.state.totalDiscount;
   const coupon = location.state.coupon;
   console.log(coupon);
   const [order, setOrder] = useState({
@@ -65,6 +62,7 @@ const CheckoutView = () => {
     emptyCart();
     navigate("/"); // Navigate to the home page
   }
+
   const emptyCart = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -329,7 +327,7 @@ const CheckoutView = () => {
                   )
                 })}
 
-            
+
                 <li className="list-group-item d-flex justify-content-between bg-light">
                   <div className="text-success">
                     <h6 className="my-0">Coupon</h6>
