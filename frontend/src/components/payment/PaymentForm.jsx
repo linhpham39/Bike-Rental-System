@@ -60,6 +60,7 @@ export default function PaymentForm({ amount, handlePayment, order_id }) {
                     setSuccess(true);
                     window.location.reload(false);
                 }
+                { toast.success("Order checkout successfully!") }
             } catch (error) {
                 console.log("Error", error)
                 toast.error("Failed checkout please try again");
@@ -84,8 +85,7 @@ export default function PaymentForm({ amount, handlePayment, order_id }) {
                 </form>
                 :
                 <div>
-                    {<h2>Pay booking Successfully!</h2>}
-                    {toast.success("Order checkout successfully!")}
+                    {<h2>Pay booking Successfully</h2>}
                 </div>
             }
 
