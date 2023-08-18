@@ -7,8 +7,10 @@ import { ReactComponent as IconChevronLeft } from "bootstrap-icons/icons/chevron
 import { ReactComponent as IconTruck } from "bootstrap-icons/icons/truck.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+
+import "react-toastify/dist/ReactToastify.css";
+import { socket } from "../../socket";
 const CouponApplyForm = lazy(() =>
   import("../../components/others/CouponApplyForm")
 );
@@ -24,22 +26,24 @@ const CartView = () => {
     customer: customer,
     totalPrice: totalPrice,
     totalDiscount: totalDiscount,
-    coupon: coupon
-  }
+    coupon: coupon,
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       const token = localStorage.getItem("token");
       if (token) {
         try {
-          const response = await axios.get("http://localhost:8000/customers/token", {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
+          const response = await axios.get(
+            "http://localhost:8000/customers/token",
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
           setCartData(response.data.cart);
           setCustomer(response.data);
-
         } catch (error) {
           console.error("Error fetching data:", error);
         }
@@ -54,7 +58,8 @@ const CartView = () => {
       let total = 0;
       let dis = 0;
       for (const item of cartData) {
-        total += (item.bikeId.price - item.bikeId.discount.value) * item.quantity;
+        total +=
+          (item.bikeId.price - item.bikeId.discount.value) * item.quantity;
         dis = dis + item.bikeId.discount.value * item.quantity;
       }
       setTotalPrice(total);
@@ -69,18 +74,22 @@ const CartView = () => {
     try {
       const token = localStorage.getItem("token");
       if (token) {
-        await axios.patch(`http://localhost:8000/customers/${customer._id}`, { cart: updatedCartData }, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        await axios.patch(
+          `http://localhost:8000/customers/${customer._id}`,
+          { cart: updatedCartData },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
       } else {
         console.log("No token in localstorage");
       }
     } catch (error) {
-      console.error('Error updating data:', error);
+      console.error("Error updating data:", error);
     }
-  }
+  };
 
   const handleMinusQuantity = (index) => {
     setCartData((prevCartData) => {
@@ -88,7 +97,7 @@ const CartView = () => {
       if (updatedCartData[index].quantity > 1) {
         updatedCartData[index] = {
           ...updatedCartData[index],
-          quantity: updatedCartData[index].quantity - 1
+          quantity: updatedCartData[index].quantity - 1,
         };
       }
       patchCartData(updatedCartData);
@@ -101,7 +110,7 @@ const CartView = () => {
       const updatedCartData = [...prevCartData];
       updatedCartData[index] = {
         ...updatedCartData[index],
-        quantity: updatedCartData[index].quantity + 1
+        quantity: updatedCartData[index].quantity + 1,
       };
       patchCartData(updatedCartData);
       return updatedCartData;
@@ -110,7 +119,11 @@ const CartView = () => {
 
   const handleQuantityChangeByInput = (event, index) => {
     const newQuantity = parseInt(event.target.value);
-    if (isNaN(newQuantity) || newQuantity <= 0 || !Number.isInteger(newQuantity)) {
+    if (
+      isNaN(newQuantity) ||
+      newQuantity <= 0 ||
+      !Number.isInteger(newQuantity)
+    ) {
       return;
     }
 
@@ -138,6 +151,7 @@ const CartView = () => {
       toast.error("There are no bikes in the cart!");
     } else {
       createOrder();
+      //TODO
     }
   };
 
@@ -150,11 +164,14 @@ const CartView = () => {
     const token = localStorage.getItem("token");
     if (token) {
       try {
-        const response = await axios.get(`http://localhost:8000/coupons/code/${values.coupon}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await axios.get(
+          `http://localhost:8000/coupons/code/${values.coupon}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         setCoupon(response.data);
         toast.success("Coupon applied successfully!");
       } catch (error) {
@@ -165,23 +182,23 @@ const CartView = () => {
     }
   };
   const createOrder = async () => {
-    let str = null
+    let str = null;
     if (coupon && coupon.value !== 0) {
-      str = coupon._id.toString()
+      str = coupon._id.toString();
     }
     const order = {
       customerId: customer._id,
       bikes: cartData.map((bike, index) => ({
         bikeId: bike.bikeId._id,
-        quantity: bike.quantity
+        quantity: bike.quantity,
       })),
       coupon: str,
       totalPrice: totalPrice - coupon.value,
       status: "pending",
       createdDate: Date.now(),
       startTime: null,
-      endTime: null
-    }
+      endTime: null,
+    };
     console.log(order);
     try {
       const token = localStorage.getItem("token");
@@ -191,36 +208,40 @@ const CartView = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-
-
+      socket.emit("CreateOrder", customer._id);
     } catch (error) {
       console.error("Error adding order:", error);
-
     }
     emptyCart();
     // navigate("/"); // Navigate to the home page
-  }
+  };
 
   const emptyCart = async () => {
     try {
       const token = localStorage.getItem("token");
       if (token) {
-        await axios.patch(`http://localhost:8000/customers/${customer._id}`, { cart: [] }, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        await axios.patch(
+          `http://localhost:8000/customers/${customer._id}`,
+          { cart: [] },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
       } else {
         console.log("No token in localstorage");
       }
     } catch (error) {
-      console.error('Error updating data:', error);
+      console.error("Error updating data:", error);
     }
-
-  }
+  };
   return (
     <React.Fragment>
-      <div className="border-top p-4 text-white mb-3 " style={{ background: "DodgerBlue" }}>
+      <div
+        className="border-top p-4 text-white mb-3 "
+        style={{ background: "DodgerBlue" }}
+      >
         <h1 className="display-8">Shopping Cart</h1>
       </div>
       <div className="container mb -6">
@@ -231,7 +252,9 @@ const CartView = () => {
                 <table className="table table-borderless">
                   <thead className="text-muted">
                     <tr className="small text-uppercase">
-                      <th scope="col" className="text-center"><b>Bike</b></th>
+                      <th scope="col" className="text-center">
+                        <b>Bike</b>
+                      </th>
                       <th scope="col" width={120} className="text-center">
                         <b>Hour</b>
                       </th>
@@ -268,7 +291,9 @@ const CartView = () => {
                               type="text"
                               className="form-control"
                               value={item.quantity}
-                              onChange={(event) => handleQuantityChangeByInput(event, index)}
+                              onChange={(event) =>
+                                handleQuantityChangeByInput(event, index)
+                              }
                             />
                             <button
                               className="btn btn-primary text-white"
@@ -280,13 +305,29 @@ const CartView = () => {
                           </div>
                         </td>
                         <td>
-                          <var className="price">${((item.bikeId.price - item.bikeId.discount.value) * item.quantity).toFixed(2)}</var>
+                          <var className="price">
+                            $
+                            {(
+                              (item.bikeId.price - item.bikeId.discount.value) *
+                              item.quantity
+                            ).toFixed(2)}
+                          </var>
                           <small className="d-block text-muted">
-                            ${(item.bikeId.price - item.bikeId.discount.value).toFixed(2)} <del className="text-danger">{item.bikeId.price.toFixed(2)}</del> per hour
+                            $
+                            {(
+                              item.bikeId.price - item.bikeId.discount.value
+                            ).toFixed(2)}{" "}
+                            <del className="text-danger">
+                              {item.bikeId.price.toFixed(2)}
+                            </del>{" "}
+                            per hour
                           </small>
                         </td>
                         <td className="text-end">
-                          <button className="btn btn-sm btn-outline-danger" onClick={() => handleDeleteItem(index)}>
+                          <button
+                            className="btn btn-sm btn-outline-danger"
+                            onClick={() => handleDeleteItem(index)}
+                          >
                             <IconTrash className="i-va" />
                           </button>
                         </td>
@@ -296,12 +337,14 @@ const CartView = () => {
                 </table>
               </div>
               <div className="card-footer">
-                <Link to="/account/orders" state={data}
-
-                  className="btn btn-primary float-end" onClick={(e) => {
-                    return handleRentBike(e)
-
-                  }}>
+                <Link
+                  to="/account/orders"
+                  state={data}
+                  className="btn btn-primary float-end"
+                  onClick={(e) => {
+                    return handleRentBike(e);
+                  }}
+                >
                   Rent bike <IconChevronRight className="i-va" />
                 </Link>
                 <Link to="/" className="btn btn-secondary">
@@ -330,7 +373,9 @@ const CartView = () => {
                     Coupon:{" "}
                     <span className="small text-muted">{coupon.code}</span>{" "}
                   </dt>
-                  <dd className="col-6 text-success text-end">-${coupon.value}</dd>
+                  <dd className="col-6 text-success text-end">
+                    -${coupon.value}
+                  </dd>
                 </dl>
                 <dl className="row">
                   <dt className="col-6">Total price:</dt>
@@ -355,10 +400,16 @@ const CartView = () => {
         <div className="container">
           <h6>Payment and refund policy</h6>
           <p>
-            We accept various payment methods and ensure the security of your payment information. Prices displayed are in the designated currency and may be subject to taxes and fees. Payment processing is prompt and handled securely.
+            We accept various payment methods and ensure the security of your
+            payment information. Prices displayed are in the designated currency
+            and may be subject to taxes and fees. Payment processing is prompt
+            and handled securely.
           </p>
           <p>
-            Refunds are available based on eligibility criteria outlined in the policy. Refund requests must be made within a specified timeframe. Approved refunds are processed through the original payment method. Please note that processing times for refunds may vary.
+            Refunds are available based on eligibility criteria outlined in the
+            policy. Refund requests must be made within a specified timeframe.
+            Approved refunds are processed through the original payment method.
+            Please note that processing times for refunds may vary.
           </p>
         </div>
       </div>

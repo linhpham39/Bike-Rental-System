@@ -20,7 +20,7 @@ const CardBikeList = ({ bike }) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log("test1", response.data);
+      // console.log("test1", response.data);
 
       return response.data;
     } else {

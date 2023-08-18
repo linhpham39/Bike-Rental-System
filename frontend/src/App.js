@@ -9,6 +9,8 @@ import "./App.min.css";
 import CustomerProfile from "./views/account/CustomerProfileView";
 import AdminPage from "./views/account/AdminPage";
 import { socket } from "./socket";
+import { toast } from "react-toastify";
+import axios from "axios";
 // import BikeListView from "./views/bike/List"
 const HomeView = lazy(() => import("./views/Home"));
 const SignInView = lazy(() => import("./views/account/SignIn"));
@@ -35,39 +37,50 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(
     !!localStorage.getItem("token")
   );
-
-  // const fetchCustomer = async () => {
-  //   const token = localStorage.getItem("token");
-  //   try {
-  //     const response = await fetch("http://localhost:8000/customers/token", {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     });
-
-  //     if (response.ok) {
-  //       const customerData = await response.json();
-  //       console.log(customerData);
-  //       setCustomer(customerData);
-  //     } else {
-  //       console.error("Failed to fetch customer information");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error:", error);
-  //   }
-  // };
-  //
   if (localStorage.getItem("token") != null) {
-    if (customer == null) {
-      fetchCustomer();
-    }
     socket.connect();
-    socket.emit("hello");
   }
 
-  // socket.on("setUp", () => {
-  //   console.log(customer.isAdmin + ": " + customer._id);
-  // });
+  socket.on("Noti new order", async (customerID) => {
+    console.log("hi");
+    const token = localStorage.getItem("token");
+    if (token) {
+      const response = await axios.get(
+        "http://localhost:8000/customers/token",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log("response", response);
+      if (response.data._id == customerID) {
+        toast.success("New Order is created");
+      }
+      if (response.data.isAdmin == true) {
+        toast.success("New Order is created");
+      }
+    }
+  });
+
+  socket.on("orderStatusUpdated", async (status, customerID) => {
+    console.log("hi");
+    const token = localStorage.getItem("token");
+    if (token) {
+      const response = await axios.get(
+        "http://localhost:8000/customers/token",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log("response", response);
+      if (response.data._id == customerID) {
+        toast.success("Your order is " + status);
+      }
+    }
+  });
 
   const handleLogin = () => {
     setIsAuthenticated(true);
