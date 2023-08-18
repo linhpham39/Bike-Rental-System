@@ -29,10 +29,48 @@ const BikeAdmin = () => {
 
   const fetchBikes = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/bikes');
+      const response = await axios.get('http://localhost:8000/bikes/notDeleted');
       setBikes(response.data);
     } catch (error) {
       console.error('Error fetching bikes:', error);
+    }
+  };
+  const handleAvailabeBike = async (bikeId) => {
+    const token = localStorage.getItem('token');
+    try {
+      const response = await axios.patch(`http://localhost:8000/bikes/${bikeId}`,
+      {
+        isAvailable: 'available',
+      },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      fetchBikes();
+    }
+    catch (error) {
+      console.error('Error changing bike status:', error);
+    }
+  };
+  const handleNotAvailabeBike = async (bikeId) => {
+    const token = localStorage.getItem('token');
+    try {
+      const response = await axios.patch(`http://localhost:8000/bikes/${bikeId}`,
+      {
+        isAvailable: 'notAvailable',
+      },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      fetchBikes();
+    }
+    catch (error) {
+      console.error('Error changing bike status:', error);
     }
   };
 
@@ -76,13 +114,17 @@ const BikeAdmin = () => {
   const handleDeleteBike = async (bikeId) => {
     const token = localStorage.getItem('token');
     try {
-      const response = await axios.delete(`http://localhost:8000/bikes/${bikeId}`, {
+      const response = await axios.patch(`http://localhost:8000/bikes/${bikeId}`,
+      {
+        isAvailable: 'deleted',
+      },
+       {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
 
-      if (response.status === 204) {
+      if (response.status === 200) {
         toast.success('Bike deleted successfully!');
         fetchBikes();
       } else {
@@ -118,7 +160,7 @@ const BikeAdmin = () => {
     setDetail('');
     setImageUrls('');
     setPrice(0);
-    setIsAvailable(true);
+    setIsAvailable('available');
   };
 
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -195,8 +237,8 @@ const BikeAdmin = () => {
                 type="radio"
                 name="isAvailable"
                 value="yes"
-                checked={isAvailable === true}
-                onChange={() => setIsAvailable(true)}
+                checked={isAvailable === 'available'}
+                onChange={() => setIsAvailable('available')}
               />
               <label htmlFor="isAvailableYes">Yes</label>
             </div>
@@ -206,8 +248,8 @@ const BikeAdmin = () => {
                 type="radio"
                 name="isAvailable"
                 value="no"
-                checked={isAvailable === false}
-                onChange={() => setIsAvailable(false)}
+                checked={isAvailable === 'notAvailable'	}
+                onChange={() => setIsAvailable('notAvailable')}
               />
               <label htmlFor="isAvailableNo">No</label>
             </div>
@@ -242,6 +284,7 @@ const BikeAdmin = () => {
               <th>Price</th>
               <th>Is Available</th>
               <th>Action</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -250,9 +293,13 @@ const BikeAdmin = () => {
                 <td>{bike.name}</td>
                 <td>{bike.dock}</td>
                 <td>{bike.price}</td>
-                <td>{bike.isAvailable ? 'Yes' : 'No'}</td>
+                <td>{bike.isAvailable =='available' ? 'Yes' : 'No'}</td>
                 <td>
                   <button onClick={() => handleDeleteBike(bike._id)} className="delete-button">Delete</button>
+                </td>
+                <td>
+                  {bike.isAvailable == 'notAvailable' && <button onClick={() => handleAvailabeBike(bike._id)} className="available-button">Mark Available</button>}
+                  {bike.isAvailable == 'available' && <button onClick={() => handleNotAvailabeBike(bike._id)} className="notAvailable-button">Mark Not Available</button>}
                 </td>
               </tr>
             ))}

@@ -112,7 +112,7 @@ const CardBikeGrid = ({ bike }) => {
           <span className="text-muted small">{bike.rating}</span>
         </div>
         <div className="btn-group d-flex" role="group">
-          <button
+          {bike.isAvailable == 'available' &&  <button
             type="button"
             className="btn btn-sm btn-primary"
             title="Add to cart"
@@ -120,6 +120,7 @@ const CardBikeGrid = ({ bike }) => {
           >
             <FontAwesomeIcon icon={faCartPlus} />
           </button>
+          }
           <button
             type="button"
             className="btn btn-sm btn-outline-secondary"

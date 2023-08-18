@@ -63,7 +63,7 @@ const BikeListView = ({ catName }) => {
   useEffect(() => {
     const initializeBikes = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/bikes");
+        const response = await axios.get("http://localhost:8000/bikes/notDeleted");
         setBikes(response.data);
         setTotalItems(response.data.length);
       } catch (error) {

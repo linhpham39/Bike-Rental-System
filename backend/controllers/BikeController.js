@@ -100,11 +100,26 @@ const deleteBikeById = async (req, res) => {
     }
 };
 
+const  getBikeNotDeleted = async (req, res) => {
+    //get the bike where isAvailable = 'available' or 'notAvailable'
+    try {
+        const bikes = await Bike.find({ isAvailable: { $ne: 'deleted' } });
+        if (!bikes) {
+            return res.status(404).json({ error: 'Bike not found' });
+        }
+        res.json(bikes);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to fetch bike' });
+    }
+};
+
+
 module.exports = {
     getAllBikes,
     getBikeById,
     getBikesByDock,
     createBike,
     updateBikeById,
-    deleteBikeById
+    deleteBikeById,
+    getBikeNotDeleted
 };

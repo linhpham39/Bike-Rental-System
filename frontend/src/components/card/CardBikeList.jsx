@@ -12,7 +12,6 @@ import 'react-toastify/dist/ReactToastify.css';
 const CardBikeList = ({ bike }) => {
   const [notification, setNotification] = useState(null);
   const isAdmin = localStorage.getItem("isAdmin");
-
   const getCustomerData = async (token) => {
     if (token) {
       const response = await axios.get("http://localhost:8000/customers/token", {
@@ -131,14 +130,20 @@ const CardBikeList = ({ bike }) => {
                 </span>
               )}
             </div>
-            {bike.isAvailable && (
+            {bike.isAvailable == 'available' && (
               <p className="text-success small mb-2">
                 <IconTruckFill /> Available
               </p>
             )}
+      
+            {bike.isAvailable == 'notAvailable' && (
+              <p className="text-danger small mb-2">
+                <IconTruckFill /> Not Available
+              </p>
+            )}
 
             <div className="btn-group d-flex" role="group">
-              {!isAdmin && <button
+              {!isAdmin && bike.isAvailable == 'available' && <button 
                 type="button"
                 className="btn btn-sm btn-primary"
                 title="Add to cart"
@@ -147,7 +152,7 @@ const CardBikeList = ({ bike }) => {
                 <FontAwesomeIcon icon={faCartPlus} />
               </button>
               }
-              {!isAdmin && <button
+              {!isAdmin && <button 
                 type="button"
                 className="btn btn-sm btn-outline-secondary"
                 title="Add to wishlist"
