@@ -9,8 +9,8 @@ const SignUpView = ({ isAuthenticated, handleLogin }) => {
   const onSubmit = async (values) => {
     try {
       await axios.post("http://localhost:8000/auth/register", values);
-      handleLogin();
-      navigate("/");
+      // handleLogin();
+      navigate("/account/signin");
     } catch (error) {
       console.error(error.response.data);
     }
@@ -18,7 +18,7 @@ const SignUpView = ({ isAuthenticated, handleLogin }) => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate("/");
+      navigate("/account/signin");
     }
   }, [isAuthenticated, navigate]);
 
