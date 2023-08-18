@@ -5,14 +5,15 @@ import { ReactComponent as IconEnvelope } from "bootstrap-icons/icons/envelope.s
 import { ReactComponent as IconCreditCard2Front } from "bootstrap-icons/icons/credit-card-2-front.svg";
 import { ReactComponent as IconCart3 } from "bootstrap-icons/icons/cart3.svg";
 const StripeContainer = lazy(() => import("../../components/payment/StripeContainer"));
-
+const PASSFEE = 10
 const CheckoutView = ({ state }) => {
   const { id } = useParams();
   const [order, setOrder] = useState(null);
   const [customer, setCustomer] = useState();
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
-
+  var extraFee = 0;
+  var extraTime = 0;
   const getOrders = async (id) => {
     try {
       const response = await axios.get(`http://localhost:8000/orders/${id}`,
@@ -50,7 +51,6 @@ const CheckoutView = ({ state }) => {
     console.log(order);
   }, [])
 
-
   const handlePayment = async () => {
     try {
       const token = localStorage.getItem('token');
@@ -72,10 +72,22 @@ const CheckoutView = ({ state }) => {
       console.error('Error changing order status:', error);
     }
   }
+
+  const calculateTime = () => {
+    let rentTime = new Date(order.endTime).getTime() - new Date(order.startTime).getTime();
+    rentTime = Math.ceil((rentTime / (3600 * 1000) - 0.1));
+    order.bikes.map((bike, idx) => {
+      console.log(rentTime, bike.quantity);
+      extraTime = extraTime + Math.max(rentTime - bike.quantity, 0);
+    })
+    return extraFee = extraTime * PASSFEE;
+  }
   return (
     <React.Fragment>
       <div className="border-top p-4 text-white mb-3" style={{ background: "DodgerBlue" }}>
-
+        {order && console.log(new Date(order.endTime))}
+        {order && console.log(new Date(order.startTime))}
+        {order && console.log(calculateTime())}
         <h1 className="display-6"><b>Checkout</b></h1>
       </div>
       <div className="container mb-3">
@@ -109,93 +121,6 @@ const CheckoutView = ({ state }) => {
               </div>
             </div>
 
-            {/* <div className="card mb-3">
-              <div className="card-header">
-                <IconTruck className="i-va" /> Shipping Infomation
-              </div>
-              <div className="card-body">
-                <div className="row g-3">
-                  <div className="col-md-12">
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Name"
-                      defaultValue={order.delivery.name}
-                      required
-                      onChange={(e) => setOrder(prevState => ({
-                        ...prevState,
-                        delivery: {
-                          ...prevState.delivery,
-                          name: e.target.value
-                        }
-                      }))}
-                    />
-                  </div>
-                  <div className="col-md-12">
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Addresss"
-                      defaultValue={order.delivery.shippingAddress.address}
-                      onChange={(e) => setOrder(prevState => ({
-                        ...prevState,
-                        delivery: {
-                          ...prevState.delivery,
-                          shippingAddress: {
-                            ...prevState.delivery.shippingAddress,
-                            address: e.target.value
-                          }
-
-                        }
-                      }))}
-                      required
-                    />
-                  </div>
-
-                  <div className="col-md-6">
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="City"
-                      defaultValue={order.delivery.shippingAddress.city}
-
-                      onChange={(e) => setOrder(prevState => ({
-                        ...prevState,
-                        delivery: {
-                          ...prevState.delivery,
-                          shippingAddress: {
-                            ...prevState.delivery.shippingAddress,
-                            city: e.target.value
-                          }
-                        }
-                      }))}
-                      required
-                    />
-                  </div>
-                  <div className="col-md-6">
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="District"
-                      defaultValue={order.delivery.shippingAddress.district
-                      }
-                      onChange={(e) => setOrder(prevState => ({
-                        ...prevState,
-                        delivery: {
-                          ...prevState.delivery,
-                          shippingAddress: {
-                            ...prevState.delivery.shippingAddress,
-                            district: e.target.value
-                          }
-                        }
-                      }))}
-                      required
-                    />
-                  </div>
-
-                </div>
-              </div>
-            </div> */}
             <div className="card mb-3 border-info">
               <div className="card-header bg-info">
                 <IconCreditCard2Front className="i-va" /> Payment Method
@@ -213,7 +138,7 @@ const CheckoutView = ({ state }) => {
                 </div>
 
                 <StripeContainer
-                  amount={order && order.totalPrice}
+                  amount={order && (order.totalPrice + extraFee)}
                   handlePayment={handlePayment}
                   order_id={id}
                 />
@@ -240,17 +165,24 @@ const CheckoutView = ({ state }) => {
                   )
                 })}
 
-
                 <li className="list-group-item d-flex justify-content-between bg-light">
                   <div className="text-success">
                     <h6 className="my-0">Coupon</h6>
-                    <small>{order && order.coupon.code}</small>
+                    {order && <small>{order.coupon && order.coupon.code}</small>}
                   </div>
-                  <span className="text-success">−${order && order.coupon.value.toFixed(2)}</span>
+                  {order !== null && <span className="text-success">−${order.coupon ? order.coupon.value.toFixed(2) : "0.00"}</span>}
+                </li>
+
+                <li className="list-group-item d-flex justify-content-between bg-light">
+                  <div className="text-danger">
+                    <h6 className="my-0">Extra Fee</h6>
+                    {order && <small>Late hours: {extraTime}</small>}
+                  </div>
+                  {order !== null && <span className="text-danger">${extraFee.toFixed(2)}</span>}
                 </li>
                 <li className="list-group-item d-flex justify-content-between">
                   <span>Total (USD)</span>
-                  {order && <strong>${(order.totalPrice).toFixed(2)}</strong>}
+                  {order && <strong>${(order.totalPrice + extraFee).toFixed(2)}</strong>}
                 </li>
               </ul>
             </div>

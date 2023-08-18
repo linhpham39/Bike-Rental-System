@@ -10,9 +10,8 @@ const SignUpView = ({ isAuthenticated, handleLogin }) => {
   const onSubmit = async (values) => {
     try {
       await axios.post("http://localhost:8000/auth/register", values);
-      handleLogin();
-      socket.connect();
-      navigate("/");
+      // handleLogin();
+      navigate("/account/signin");
     } catch (error) {
       console.error(error.response.data);
     }
@@ -20,8 +19,7 @@ const SignUpView = ({ isAuthenticated, handleLogin }) => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      socket.connect();
-      navigate("/");
+      navigate("/account/signin");
     }
   }, [isAuthenticated, navigate]);
 

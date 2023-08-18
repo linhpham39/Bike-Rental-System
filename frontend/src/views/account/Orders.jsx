@@ -14,46 +14,76 @@ const OrdersView = () => {
   const token = localStorage.getItem("token");
   const [customerId, setCustomerId] = useState(null);
   const [orders, setOrders] = useState([]);
+  const [status, setStatus] = useState("");
+
+  const getCustomer = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:8000/customers/token",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const customer = response.data;
+      setCustomerId(customer._id);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  const getOrders = async () => {
+    try {
+      const response = await axios.get("http://localhost:8000/orders", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      let ordersFetch = response.data.filter((order) => {
+        return order.customerId == customerId;
+      });
+      setOrders(ordersFetch);
+    } catch (error) {
+      console.error("Error fetching bikes:", error);
+    }
+  };
 
   useEffect(() => {
-    const getCustomer = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:8000/customers/token",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        const customer = response.data;
-        setCustomerId(customer._id);
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    };
     getCustomer();
   }, []);
 
   useEffect(() => {
-    const getOrders = async () => {
-      try {
-        const response = await axios.get("http://localhost:8000/orders", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        let ordersFetch = response.data.filter((order) => {
-          return order.customerId == customerId;
-        });
-        setOrders(ordersFetch);
-      } catch (error) {
-        console.error("Error fetching bikes:", error);
-      }
-    };
     getOrders();
   }, [customerId]);
+
+  useEffect(() => {
+    getOrders();
+  }, [status])
+
+  const handleCancel = async (oid) => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.patch(
+        `http://localhost:8000/orders/${oid}`,
+        {
+          status: "canceled",
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+
+      );
+      setStatus("canceld");
+    } catch (error) {
+      console.error('Error changing order status:', error);
+    }
+  }
+
+
 
   return (
     <div className="container mb-3">
@@ -150,6 +180,12 @@ const OrdersView = () => {
                       Renting
                     </span>
                   )}
+                  {order.status == "returned" && (
+                    <span className="text-success">
+                      <FontAwesomeIcon icon={faHistory} className="me-1" />
+                      Returned
+                    </span>
+                  )}
                 </div>
                 <div>
                   <span className="me-2">Total Price:</span>
@@ -179,6 +215,14 @@ const OrdersView = () => {
                       Payment
                       {/* <IconChevronRight className="i-va" /> */}
                     </Link>
+                  )}
+                  {order.status == "pending" && (
+                    <a
+                      onClick={(e) => { return handleCancel(order._id) }}
+                      className="btn btn-danger float-end"
+                    >
+                      Cancel
+                    </a>
                   )}
                 </div>
               </div>
