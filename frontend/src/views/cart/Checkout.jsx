@@ -5,14 +5,15 @@ import { ReactComponent as IconEnvelope } from "bootstrap-icons/icons/envelope.s
 import { ReactComponent as IconCreditCard2Front } from "bootstrap-icons/icons/credit-card-2-front.svg";
 import { ReactComponent as IconCart3 } from "bootstrap-icons/icons/cart3.svg";
 const StripeContainer = lazy(() => import("../../components/payment/StripeContainer"));
-
+const PASSFEE = 10
 const CheckoutView = ({ state }) => {
   const { id } = useParams();
   const [order, setOrder] = useState(null);
   const [customer, setCustomer] = useState();
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
-
+  var extraFee = 0;
+  var extraTime = 0;
   const getOrders = async (id) => {
     try {
       const response = await axios.get(`http://localhost:8000/orders/${id}`,
@@ -71,10 +72,22 @@ const CheckoutView = ({ state }) => {
       console.error('Error changing order status:', error);
     }
   }
+
+  const calculateTime = () => {
+    let rentTime = new Date(order.endTime).getTime() - new Date(order.startTime).getTime();
+    rentTime = Math.ceil((rentTime / (3600 * 1000) - 0.1));
+    order.bikes.map((bike, idx) => {
+      console.log(rentTime, bike.quantity);
+      extraTime = extraTime + Math.max(rentTime - bike.quantity, 0);
+    })
+    return extraFee = extraTime * PASSFEE;
+  }
   return (
     <React.Fragment>
       <div className="border-top p-4 text-white mb-3" style={{ background: "DodgerBlue" }}>
-
+        {order && console.log(new Date(order.endTime))}
+        {order && console.log(new Date(order.startTime))}
+        {order && console.log(calculateTime())}
         <h1 className="display-6"><b>Checkout</b></h1>
       </div>
       <div className="container mb-3">
@@ -125,7 +138,7 @@ const CheckoutView = ({ state }) => {
                 </div>
 
                 <StripeContainer
-                  amount={order && order.totalPrice}
+                  amount={order && (order.totalPrice + extraFee)}
                   handlePayment={handlePayment}
                   order_id={id}
                 />
@@ -159,9 +172,17 @@ const CheckoutView = ({ state }) => {
                   </div>
                   {order !== null && <span className="text-success">−${order.coupon ? order.coupon.value.toFixed(2) : "0.00"}</span>}
                 </li>
+
+                <li className="list-group-item d-flex justify-content-between bg-light">
+                  <div className="text-danger">
+                    <h6 className="my-0">Extra Fee</h6>
+                    {order && <small>Late hours: {extraTime}</small>}
+                  </div>
+                  {order !== null && <span className="text-danger">${extraFee.toFixed(2)}</span>}
+                </li>
                 <li className="list-group-item d-flex justify-content-between">
                   <span>Total (USD)</span>
-                  {order && <strong>${(order.totalPrice).toFixed(2)}</strong>}
+                  {order && <strong>${(order.totalPrice + extraFee).toFixed(2)}</strong>}
                 </li>
               </ul>
             </div>
