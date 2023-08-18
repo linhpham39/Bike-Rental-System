@@ -172,8 +172,8 @@ const BikeDetailView = () => {
               </h1>
               <dl className="row small mb-3">
                 <dt className="col-sm-3">Availability</dt>
-                {bike && bike.isAvailable && <dd className="col-sm-9 text-success strong">In Stock</dd>}
-                {bike && !bike.isAvailable && <dd className="col-sm-9 text-danger">Out of Stock</dd>}
+                {bike && bike.isAvailable =='available' && <dd className="col-sm-9 text-success strong">Available</dd>}
+                {bike && bike.isAvailable=='notAvailable' && <dd className="col-sm-9 text-danger">Not available</dd>}
                 <dt className="col-sm-3">Brand</dt>
                 <dd className="col-sm-9">{bike && bike.brand}</dd>
                 <dt className="col-sm-3">Model</dt>
@@ -213,7 +213,7 @@ const BikeDetailView = () => {
                     </button>
                   </div>
                 </div>
-                {bike && bike.isAvailable &&
+                {bike && bike.isAvailable=='available' &&
                   <button
                     type="button"
                     className="btn btn-sm btn-primary me-2"

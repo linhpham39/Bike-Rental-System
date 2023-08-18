@@ -149,6 +149,24 @@
     cursor: pointer;
     transition: background-color 0.3s ease;
   }
+  .available-button{
+    background-color: #299337;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  .notAvailable-button{
+    background-color: #cacf32;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
   
   .bike-admin-container button.delete-button:hover {
     background-color: #c82333;

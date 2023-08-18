@@ -6,6 +6,8 @@ const router = express.Router();
 
 router.get('/', BikeController.getAllBikes);
 
+router.get('/notDeleted', BikeController.getBikeNotDeleted);
+
 router.get('/:id', BikeController.getBikeById);
 
 router.post("/", isAuth, BikeController.createBike);

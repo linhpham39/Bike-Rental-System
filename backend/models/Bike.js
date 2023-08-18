@@ -40,8 +40,8 @@ const bikeSchema = new mongoose.Schema({
         }
     },
     isAvailable: {
-        type: Boolean,
-        default: true
+        type: String,
+        default: 'available'
     },
     ratings: [{
         type: mongoose.Schema.Types.ObjectId,
