@@ -82,6 +82,7 @@ function OrderAdmin() {
             <th>Delivery Fee</th> */}
             <th>Total Price</th>
             <th>Action</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -98,11 +99,29 @@ function OrderAdmin() {
       <td>${order.totalPrice.toFixed(2)}</td>
       <td>
         {order.status === 'pending' && (
-          <button onClick={() => handleChangeStatus(order._id, 'completed')}>
-            Mark as Completed
+          <button id='renting' className='renting' onClick={() => handleChangeStatus(order._id, 'renting')}>
+            Renting
           </button>
         )}
+        {order.status === 'renting' && (
+          <button className='return' onClick={() => handleChangeStatus(order._id, 'returned')}>
+            Return
+          </button>
+        )}
+        {order.status === 'returned' && (
+          <button className='complete' onClick={() => handleChangeStatus(order._id, 'completed')}>
+            Complete
+          </button>
+        )}
+        
       </td>
+        <td>
+        {order.status === 'pending' && (
+          <button className='cancel' onClick={() => handleChangeStatus(order._id, 'canceled')}>
+            Cancel
+          </button>
+        )}
+        </td>
     </tr>
   ))}
 </tbody>
