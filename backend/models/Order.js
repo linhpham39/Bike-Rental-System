@@ -13,7 +13,7 @@ const orderSchema = new mongoose.Schema({
         ref: 'Bike',
         required: true
       },
-      rentHour: {
+      quantity: {
         type: Number,
         required: true
       }

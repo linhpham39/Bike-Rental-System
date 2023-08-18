@@ -109,7 +109,6 @@ const OrdersView = () => {
                     </div>
                   );
                 })}
-                <div className="me-2">Shipping Fee: ${order.delivery.fee.toFixed(2)}</div>
                 <div className="me-2">Coupon: -${order.coupon !== null ? order.coupon.value : 0}</div>
               </div>
               <div className="card-footer border-secondary d-flex justify-content-between">
