@@ -50,7 +50,6 @@ const CheckoutView = ({ state }) => {
     console.log(order);
   }, [])
 
-
   const handlePayment = async () => {
     try {
       const token = localStorage.getItem('token');
@@ -109,93 +108,6 @@ const CheckoutView = ({ state }) => {
               </div>
             </div>
 
-            {/* <div className="card mb-3">
-              <div className="card-header">
-                <IconTruck className="i-va" /> Shipping Infomation
-              </div>
-              <div className="card-body">
-                <div className="row g-3">
-                  <div className="col-md-12">
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Name"
-                      defaultValue={order.delivery.name}
-                      required
-                      onChange={(e) => setOrder(prevState => ({
-                        ...prevState,
-                        delivery: {
-                          ...prevState.delivery,
-                          name: e.target.value
-                        }
-                      }))}
-                    />
-                  </div>
-                  <div className="col-md-12">
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Addresss"
-                      defaultValue={order.delivery.shippingAddress.address}
-                      onChange={(e) => setOrder(prevState => ({
-                        ...prevState,
-                        delivery: {
-                          ...prevState.delivery,
-                          shippingAddress: {
-                            ...prevState.delivery.shippingAddress,
-                            address: e.target.value
-                          }
-
-                        }
-                      }))}
-                      required
-                    />
-                  </div>
-
-                  <div className="col-md-6">
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="City"
-                      defaultValue={order.delivery.shippingAddress.city}
-
-                      onChange={(e) => setOrder(prevState => ({
-                        ...prevState,
-                        delivery: {
-                          ...prevState.delivery,
-                          shippingAddress: {
-                            ...prevState.delivery.shippingAddress,
-                            city: e.target.value
-                          }
-                        }
-                      }))}
-                      required
-                    />
-                  </div>
-                  <div className="col-md-6">
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="District"
-                      defaultValue={order.delivery.shippingAddress.district
-                      }
-                      onChange={(e) => setOrder(prevState => ({
-                        ...prevState,
-                        delivery: {
-                          ...prevState.delivery,
-                          shippingAddress: {
-                            ...prevState.delivery.shippingAddress,
-                            district: e.target.value
-                          }
-                        }
-                      }))}
-                      required
-                    />
-                  </div>
-
-                </div>
-              </div>
-            </div> */}
             <div className="card mb-3 border-info">
               <div className="card-header bg-info">
                 <IconCreditCard2Front className="i-va" /> Payment Method
@@ -240,13 +152,12 @@ const CheckoutView = ({ state }) => {
                   )
                 })}
 
-
                 <li className="list-group-item d-flex justify-content-between bg-light">
                   <div className="text-success">
                     <h6 className="my-0">Coupon</h6>
-                    <small>{order && order.coupon.code}</small>
+                    {order && <small>{order.coupon && order.coupon.code}</small>}
                   </div>
-                  <span className="text-success">−${order && order.coupon.value.toFixed(2)}</span>
+                  {order !== null && <span className="text-success">−${order.coupon ? order.coupon.value.toFixed(2) : "0.00"}</span>}
                 </li>
                 <li className="list-group-item d-flex justify-content-between">
                   <span>Total (USD)</span>

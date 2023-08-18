@@ -20,16 +20,16 @@ const CardBikeList = ({ bike }) => {
           Authorization: `Bearer ${token}`,
         },
       });
-       console.log("test1",response.data);
-       
+      console.log("test1", response.data);
+
       return response.data;
     } else {
       setNotification("Not authenticated!");
       return null;
     }
   };
- 
-    
+
+
   const handleAddToCart = async (bikeId) => {
     try {
       const token = localStorage.getItem("token");
@@ -136,7 +136,7 @@ const CardBikeList = ({ bike }) => {
                 <IconTruckFill /> Available
               </p>
             )}
-          
+
             <div className="btn-group d-flex" role="group">
               {!isAdmin && <button
                 type="button"
@@ -156,7 +156,7 @@ const CardBikeList = ({ bike }) => {
                 <FontAwesomeIcon icon={faHeart} />
               </button>}
             </div>
-              
+
           </div>
         </div>
       </div>
