@@ -200,7 +200,7 @@ const CartView = () => {
 
     }
     emptyCart();
-    navigate("/"); // Navigate to the home page
+   // navigate("/"); // Navigate to the home page
   }
 
   const emptyCart = async () => {
@@ -298,7 +298,7 @@ const CartView = () => {
                 </table>
               </div>
               <div className="card-footer">
-                <Link to="/checkout" state={data}
+                <Link to="/account/orders" state={data}
 
                   className="btn btn-primary float-end" onClick={(e) => {
                     return handleRentBike(e)

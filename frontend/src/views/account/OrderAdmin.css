@@ -61,9 +61,10 @@
     color: red;
   }
   
-  .renting{
-    color: rgb(249, 71, 113)
-  }
+
    #renting{
     background-color: #f0ac3e;
+  }
+  button.cancel{
+    background-color: #d33737;
   }

@@ -144,6 +144,12 @@ const OrdersView = () => {
                       Pending
                     </span>
                   )}
+                  {order.status == "renting" && (
+                    <span className="text-info">
+                      <FontAwesomeIcon icon={faHistory} className="me-1" />
+                      Renting
+                    </span>
+                  )}
                 </div>
                 <div>
                   <span className="me-2">Total Price:</span>
@@ -165,7 +171,7 @@ const OrdersView = () => {
                   {order.status == "returned" && (
                     <Link
                       to="/checkout"
-                      // state={data}
+                       //state={order}
                       className="btn btn-primary float-end"
                       // onClick={(e) => {
                       //   return handleRentBike(e);

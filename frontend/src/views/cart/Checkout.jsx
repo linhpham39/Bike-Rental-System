@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 const CheckoutView = () => {
   let location = useLocation();
+  console.log("test2",location.state);
   const cart = location.state.cart;
   const customer = location.state.customer;
   const totalPrice = location.state.totalPrice;
