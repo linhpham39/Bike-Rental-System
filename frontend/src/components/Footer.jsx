@@ -65,7 +65,7 @@ const Footer = () => {
         <div className="container-fluid bg-dark text-white">
           <div className="row ">
             <div className="col-md-3 py-3">
-              <div className="h6">Bookstore 13</div>
+              <div className="h6">Bikestore 13</div>
               <hr />
               <p>
                 Bike 13 is a paradise for cycling enthusiasts and a vault of

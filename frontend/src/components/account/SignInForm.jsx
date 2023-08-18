@@ -61,7 +61,7 @@ const SignInForm = (props) => {
       </Link>
       <Link
         className="float-end"
-        to="/account/forgotpassword"
+        to="/account/signin"
         title="Forgot Password"
       >
         Forgot password?

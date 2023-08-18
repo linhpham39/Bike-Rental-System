@@ -28,7 +28,7 @@ const SignUpView = ({ isAuthenticated, handleLogin }) => {
         <div className="col-md-6 p-3 d-none d-md-block">
           <Link to="/">
             <img
-              src="https://images.unsplash.com/photo-1558901357-ca41e027e43a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=639&q=80"
+              src="https://th.bing.com/th/id/R.cc8f9d96bafcce6c2270cd479cc90e1d?rik=i7UnptFGtlR3sA&riu=http%3a%2f%2fcdn.shorebread.com%2fwp-content%2fuploads%2f2013%2f09%2fman-riding-bike-against-sunset_98376213.jpg&ehk=9FS5f4pPoFAGK10NH%2fCLIvcDUSkTI%2fbtbm4aPRdA8Co%3d&risl=&pid=ImgRaw&r=0"
               alt="..."
               className="img-fluid"
               style={{ border: "10px solid white" }}

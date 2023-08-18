@@ -1,6 +1,6 @@
 import React, { lazy, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import axios from 'axios';
+import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCheckCircle,
@@ -11,48 +11,49 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 const OrdersView = () => {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
   const [customerId, setCustomerId] = useState(null);
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
     const getCustomer = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/customers/token', {
-          headers: {
-            Authorization: `Bearer ${token}`
+        const response = await axios.get(
+          "http://localhost:8000/customers/token",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
-        });
+        );
         const customer = response.data;
         setCustomerId(customer._id);
       } catch (error) {
-        console.error('Error:', error);
+        console.error("Error:", error);
       }
     };
     getCustomer();
-
-  }, [])
+  }, []);
 
   useEffect(() => {
     const getOrders = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/orders",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`
-            }
-          });
+        const response = await axios.get("http://localhost:8000/orders", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
         let ordersFetch = response.data.filter((order) => {
           return order.customerId == customerId;
-        })
+        });
         setOrders(ordersFetch);
       } catch (error) {
         console.error("Error fetching bikes:", error);
       }
     };
     getOrders();
-  }, [customerId])
+  }, [customerId]);
 
   return (
     <div className="container mb-3">
@@ -91,35 +92,40 @@ const OrdersView = () => {
                       <div className="col-md-10">
                         <div className="card-body">
                           <h6>
-                            <Link to={`/bike/${bike.bikeId._id}`} className="text-decoration-none">
+                            <Link
+                              to={`/bike/${bike.bikeId._id}`}
+                              className="text-decoration-none"
+                            >
                               {bike.bikeId.name}
                             </Link>
                           </h6>
                           <div className="small">
                             <span className="text-muted me-2">Price:</span>
-                            <span className="me-3">{`$${(bike.bikeId.price - bike.bikeId.discount.value).toFixed(2)}`}</span>
-                            <del className="me-3 text-muted">{`$${bike.bikeId.price.toFixed(2)}`}</del>
+                            <span className="me-3">{`$${(
+                              bike.bikeId.price - bike.bikeId.discount.value
+                            ).toFixed(2)}`}</span>
+                            <del className="me-3 text-muted">{`$${bike.bikeId.price.toFixed(
+                              2
+                            )}`}</del>
                             <span className="text-muted me-2">Quantity:</span>
                             <span className="me-3">{`${bike.quantity}`}</span>
                           </div>
                           <div className="mt-2"></div>
                         </div>
-
                       </div>
                     </div>
                   );
                 })}
-                <div className="me-2">Coupon: -${order.coupon !== null ? order.coupon.value : 0}</div>
+                <div className="me-2">
+                  Coupon: -${order.coupon !== null ? order.coupon.value : 0}
+                </div>
               </div>
               <div className="card-footer border-secondary d-flex justify-content-between">
                 <div>
                   <span className="me-2">Status:</span>
                   {order.status == "completed" && (
                     <span className="text-success">
-                      <FontAwesomeIcon
-                        icon={faCheckCircle}
-                        className="me-1"
-                      />
+                      <FontAwesomeIcon icon={faCheckCircle} className="me-1" />
                       Completed
                     </span>
                   )}
@@ -131,17 +137,22 @@ const OrdersView = () => {
                   )}
                   {order.status == "pending" && (
                     <span className="text-warning">
-                      <FontAwesomeIcon icon={faExclamationTriangle} className="me-1" />
+                      <FontAwesomeIcon
+                        icon={faExclamationTriangle}
+                        className="me-1"
+                      />
                       Pending
                     </span>
                   )}
                 </div>
                 <div>
                   <span className="me-2">Total Price:</span>
-                  <span className="me-2 text-success">${order.totalPrice.toFixed(2)}</span>
+                  <span className="me-2 text-success">
+                    ${order.totalPrice.toFixed(2)}
+                  </span>
                 </div>
                 <div>
-                  <span className="me-2">Invoice:</span>
+                  {/* <span className="me-2">Invoice:</span>
                   <span className="text-success">
                     <Link to={`/invoice/${order._id}`}>
                       <FontAwesomeIcon
@@ -150,7 +161,20 @@ const OrdersView = () => {
                       />
                       Download
                     </Link>
-                  </span>
+                  </span> */}
+                  {order.status == "returned" && (
+                    <Link
+                      to="/checkout"
+                      // state={data}
+                      className="btn btn-primary float-end"
+                      // onClick={(e) => {
+                      //   return handleRentBike(e);
+                      // }}
+                    >
+                      Payment
+                       {/* <IconChevronRight className="i-va" /> */}
+                    </Link>
+                  )}
                 </div>
               </div>
             </div>
@@ -159,7 +183,6 @@ const OrdersView = () => {
       </div>
     </div>
   );
-
-}
+};
 
 export default OrdersView;

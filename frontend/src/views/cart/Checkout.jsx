@@ -54,7 +54,6 @@ const CheckoutView = () => {
         },
       });
 
-
     } catch (error) {
       console.error("Error adding order:", error);
 
