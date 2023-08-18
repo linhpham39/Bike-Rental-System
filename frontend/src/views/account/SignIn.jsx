@@ -1,6 +1,7 @@
 import React, { lazy, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { socket } from "../../socket";
 const SignInForm = lazy(() => import("../../components/account/SignInForm"));
 
 const SignInView = ({ isAuthenticated, handleLogin }) => {
@@ -9,12 +10,16 @@ const SignInView = ({ isAuthenticated, handleLogin }) => {
 
   const onSubmit = async (values) => {
     try {
-      const response = await axios.post("http://localhost:8000/auth/login", values);
+      const response = await axios.post(
+        "http://localhost:8000/auth/login",
+        values
+      );
       const token = response.data.token;
       localStorage.setItem("token", token);
       handleLogin();
+      // socket.connect();
       navigate("/"); // Navigate to the home page
-      window.location.reload();
+      // window.location.reload();
     } catch (error) {
       if (error.response.status === 401) {
         setErrorMessage("Invalid username or password");
@@ -45,7 +50,9 @@ const SignInView = ({ isAuthenticated, handleLogin }) => {
         </div>
         <div className="col-md-6 p-3">
           <h4 className="text-center">Sign In</h4>
-          {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
+          {errorMessage && (
+            <div className="alert alert-danger">{errorMessage}</div>
+          )}
           <SignInForm onSubmit={onSubmit} />
         </div>
       </div>

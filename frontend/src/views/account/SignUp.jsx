@@ -1,6 +1,7 @@
 import React, { lazy, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { socket } from "../../socket";
 const SingUpForm = lazy(() => import("../../components/account/SignUpForm"));
 
 const SignUpView = ({ isAuthenticated, handleLogin }) => {
@@ -10,6 +11,7 @@ const SignUpView = ({ isAuthenticated, handleLogin }) => {
     try {
       await axios.post("http://localhost:8000/auth/register", values);
       handleLogin();
+      socket.connect();
       navigate("/");
     } catch (error) {
       console.error(error.response.data);
@@ -18,6 +20,7 @@ const SignUpView = ({ isAuthenticated, handleLogin }) => {
 
   useEffect(() => {
     if (isAuthenticated) {
+      socket.connect();
       navigate("/");
     }
   }, [isAuthenticated, navigate]);
