@@ -19,9 +19,13 @@ const io = new Server(httpServer, {
 
 io.on("connection", (socket) => {
   console.log(socket.id);
-  socket.on("hello", () => {
-    console.log("hello");
-    socket.emit("setUp");
+  socket.on("CreateOrder", (customerID) => {
+    io.emit("Noti new order", customerID);
+  });
+
+  socket.on("orderUpdated", (status, customerID) => {
+
+    io.emit("orderStatusUpdated", status, customerID);
   });
 
   socket.on("disconnect", (reason) => {
