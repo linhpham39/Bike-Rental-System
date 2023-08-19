@@ -1,6 +1,6 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js"
 import axios from "axios"
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 
 
@@ -57,8 +57,6 @@ export default function PaymentForm({ amount, handlePayment, order_id }) {
 
                 if (response.data.success) {
                     console.log("Successful payment")
-                    window.location.reload(false);
-                    setSuccess(true);
                     handlePayment();
                 }
 
