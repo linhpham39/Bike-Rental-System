@@ -352,11 +352,11 @@ const CartView = () => {
                 </Link>
               </div>
             </div>
-            <div className="alert alert-success mt-3">
+            {/* <div className="alert alert-success mt-3">
               <p className="m-0">
                 <IconTruck className="i-va me-2" /> Delivery within 1-2 days
               </p>
-            </div>
+            </div> */}
           </div>
           <div className="col-md-4">
             <div className="card mb-3">

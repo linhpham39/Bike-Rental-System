@@ -7,20 +7,20 @@ import { ReactComponent as IconBell } from "bootstrap-icons/icons/bell.svg";
 
 const SettingForm = () => {
   return (
-    <div className="card border-danger">
-      <h6 className="card-header">
-        <IconGearFill className="text-danger" /> Setting
-      </h6>
-      <ul className="list-group list-group-flush">
-        <li className="list-group-item bg-danger text-white">
-          <p>Danger Zone!</p>
-          <button type="button" className="btn btn-sm btn-light">
-            <IconTrash /> Delete Account{" "}
-          </button>
-        </li>
-      </ul>
-    </div>
-  );
+    // <div className="card border-danger">
+    //   <h6 className="card-header">
+    //     <IconGearFill className="text-danger" /> Setting
+    //   </h6>
+    //   <ul className="list-group list-group-flush">
+    //     <li className="list-group-item bg-danger text-white">
+    //       <p>Danger Zone!</p>
+    //       <button type="button" className="btn btn-sm btn-light">
+    //         <IconTrash /> Delete Account{" "}
+    //       </button>
+    //     </li>
+    //   </ul>
+    // </div>
+  null);
 };
 
 export default SettingForm;

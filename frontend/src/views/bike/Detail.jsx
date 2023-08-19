@@ -341,7 +341,7 @@ const BikeDetailView = () => {
         </div>
         <div className="col-md-4">
           <CardFeaturedBike />
-          <CardServices />
+          {/* <CardServices /> */}
         </div>
       </div>
     </div>
