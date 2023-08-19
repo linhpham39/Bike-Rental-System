@@ -1,4 +1,4 @@
-# Bookstore E-commerce Website
+# Bikestore Rental Website
 
 This repo is for our class project (IT4409E). We used MERN stack to build the website. Happy watching!
 
