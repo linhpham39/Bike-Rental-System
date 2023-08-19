@@ -1,13 +1,11 @@
 import React, { lazy, useEffect, useState, useSearchParams } from "react";
 import { useParams } from "react-router-dom";
-import { ReactComponent as IconStarFill } from "bootstrap-icons/icons/star-fill.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartPlus, faHeart, faShoppingCart, faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 const CardFeaturedBike = lazy(() => import("../../components/card/CardFeaturedBike"));
-const CardServices = lazy(() => import("../../components/card/CardServices"));
 const RatingsReviews = lazy(() => import("../../components/others/RatingsReviews"));
 const RentingReturn = lazy(() => import("../../components/others/RentingReturn"));
 const SizeChart = lazy(() => import("../../components/others/SizeChart"));

@@ -93,14 +93,7 @@ const Header = ({ isAuthenticated, handleLogout }) => {
                     <hr className="dropdown-divider" />
                   </li>}
 
-                  {!isAdmin && <li>
-                    <Link className="dropdown-item" to="/support">
-                      <IconInfoCircleFill className="text-success" /> Support
-                    </Link>
-                  </li>}
-                  <li>
-                    <hr className="dropdown-divider" />
-                  </li>
+
                   <li>
                     <Link
                       className="dropdown-item"
