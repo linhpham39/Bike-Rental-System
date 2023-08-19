@@ -34,7 +34,7 @@ function OrderAdmin() {
     const filteredOrders = orders.filter((order) =>
       order.status.toLowerCase().includes(statusFilter.toLowerCase())
     );
-    setFilteredOrders(filteredOrders);
+    setFilteredOrders(filteredOrders.reverse());
   };
 
   const handleChangeStatus = async (orderId, customerId, newStatus) => {
@@ -55,6 +55,32 @@ function OrderAdmin() {
           }
         );
         socket.emit("orderUpdated", "renting", customerId);
+        //update bike status, order contains many bikes
+        const order = await axios.get(`http://localhost:8000/orders/${orderId}`, 
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            },
+            }
+            );
+        const bikes = order.data.bikes;
+        console.log("bikes", bikes);
+        bikes.forEach(async (bike) => {
+          const bikeId = bike.bikeId._id;
+          const bikeResponse = await axios.patch(
+            `http://localhost:8000/bikes/${bikeId}`,
+            {
+              isAvailable: "notAvailable",
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          console.log("bikeResponse", bikeResponse);
+        }
+        );
       } else if (newStatus === "returned") {
         response = await axios.patch(
           `http://localhost:8000/orders/${orderId}`,
@@ -69,6 +95,30 @@ function OrderAdmin() {
           }
         );
         socket.emit("orderUpdated", "returned", customerId);
+        //update bike status, order contains many bikes
+        const order = await axios.get(`http://localhost:8000/orders/${orderId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            },
+            });
+        console.log("order", order);    
+        const bikes = order.data.bikes;
+        console.log("bikes", bikes);
+        bikes.forEach(async (bike) => {
+          const bikeId = bike.bikeId._id;
+          const bikeResponse = await axios.patch(
+            `http://localhost:8000/bikes/${bikeId}`,
+            {
+              isAvailable: "available",
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+        });
       } else {
         response = await axios.patch(
           `http://localhost:8000/orders/${orderId}`,
@@ -111,6 +161,7 @@ function OrderAdmin() {
         <thead>
           <tr>
             <th>Order ID</th>
+            <th>Bike</th>
             <th>Status</th>
             {/* <th>Delivery Info</th>
             <th>Delivery Fee</th> */}
@@ -123,6 +174,13 @@ function OrderAdmin() {
           {filteredOrders.map((order) => (
             <tr key={order._id}>
               <td>{order._id}</td>
+              {/* print name of bikes */}
+              <td>
+                {order.bikes && order.bikes.map((bike) => (
+                  console.log("bike", bike),
+                  <div key={bike.bikeId._id}>{bike.bikeId.name}</div>
+                ))}
+              </td>
               <td className={`status-cell ${order.status}`}>{order.status}</td>
               {/* <td>
         {order.delivery.name} at {order.delivery.shippingAddress.address}, {order.delivery.shippingAddress.district}, {order.delivery.shippingAddress.city}<br />
