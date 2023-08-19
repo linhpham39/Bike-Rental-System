@@ -57,10 +57,11 @@ export default function PaymentForm({ amount, handlePayment, order_id }) {
 
                 if (response.data.success) {
                     console.log("Successful payment")
-                    setSuccess(true);
                     window.location.reload(false);
+                    setSuccess(true);
+                    handlePayment();
                 }
-                { toast.success("Order checkout successfully!") }
+
             } catch (error) {
                 console.log("Error", error)
                 toast.error("Failed checkout please try again");
@@ -79,7 +80,7 @@ export default function PaymentForm({ amount, handlePayment, order_id }) {
                         <CardElement options={CARD_OPTIONS} />
 
                     </fieldset>
-                    <button className="btn btn-info mt-2" onClick={handlePayment}>
+                    <button className="btn btn-info mt-2">
                         {amount && <strong> Pay ${amount.toFixed(2)}</strong>}
                     </button>
                 </form>
