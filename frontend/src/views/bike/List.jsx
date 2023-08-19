@@ -1,7 +1,8 @@
 import React, { lazy, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTh, faBars } from "@fortawesome/free-solid-svg-icons";
-import axios from 'axios';
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 const Pagination = lazy(() => import("../../components/Pagination"));
 const Breadcrumb = lazy(() => import("../../components/Breadcrumb"));
 const FilterDock = lazy(() => import("../../components/filter/Dock"));
@@ -12,14 +13,14 @@ const CardBikeGrid = lazy(() => import("../../components/card/CardBikeGrid"));
 const CardBikeList = lazy(() => import("../../components/card/CardBikeList"));
 
 const dockNameMap = {
-  "D5": "D5",
-  "D3": "D3",
-  "D7": "D7",
-  "D9": "D9",
-  "B1": "B1",
+  D5: "D5",
+  D3: "D3",
+  D7: "D7",
+  D9: "D9",
+  B1: "B1",
   // "romance": "Romance",
   // "food-drink": "Food & Drink",
-  "all": "All"
+  all: "All",
 };
 
 const bikeNumberPerPage = 6;
@@ -34,26 +35,27 @@ const BikeListView = ({ catName }) => {
   const [rank, setRank] = useState("latest");
   const [view, setView] = useState("list");
   const [customer, setCustomer] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
 
     const fetchCustomer = async () => {
       try {
-        const response = await fetch('http://localhost:8000/customers/token', {
+        const response = await fetch("http://localhost:8000/customers/token", {
           headers: {
-            Authorization: `Bearer ${token}`
-          }
+            Authorization: `Bearer ${token}`,
+          },
         });
 
         if (response.ok) {
           const customerData = await response.json();
           setCustomer(customerData);
         } else {
-          console.error('Failed to fetch customer information');
+          console.error("Failed to fetch customer information");
         }
       } catch (error) {
-        console.error('Error:', error);
+        console.error("Error:", error);
       }
     };
 
@@ -63,7 +65,9 @@ const BikeListView = ({ catName }) => {
   useEffect(() => {
     const initializeBikes = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/bikes/notDeleted");
+        const response = await axios.get(
+          "http://localhost:8000/bikes/notDeleted"
+        );
         setBikes(response.data);
         setTotalItems(response.data.length);
       } catch (error) {
@@ -77,29 +81,32 @@ const BikeListView = ({ catName }) => {
     setCurrentPage(1);
     if (catName === "all") {
       setBikesByCat(bikes);
-    }
-    else {
+    } else {
       console.log(catName);
-      setBikesByCat(bikes.filter(bike => bike.dock.includes(catName)));
+      setBikesByCat(bikes.filter((bike) => bike.dock.includes(catName)));
     }
   }, [catName, bikes]);
 
   useEffect(() => {
     if (priceFilterMode === "all") {
       setFilteredBikes(bikesByCat);
-    }
-    else if (priceFilterMode === "low") {
-      setFilteredBikes(bikesByCat.filter(bike => bike.price < 10));
+    } else if (priceFilterMode === "low") {
+      setFilteredBikes(bikesByCat.filter((bike) => bike.price < 10));
     } else if (priceFilterMode === "low-medium") {
-      setFilteredBikes(bikesByCat.filter(bike => bike.price >= 10 && bike.price <= 20));
+      setFilteredBikes(
+        bikesByCat.filter((bike) => bike.price >= 10 && bike.price <= 20)
+      );
     } else if (priceFilterMode === "medium") {
-      setFilteredBikes(bikesByCat.filter(bike => bike.price >= 20 && bike.price <= 30));
+      setFilteredBikes(
+        bikesByCat.filter((bike) => bike.price >= 20 && bike.price <= 30)
+      );
     } else if (priceFilterMode === "high") {
-      setFilteredBikes(bikesByCat.filter(bike => bike.price >= 30));
+      setFilteredBikes(bikesByCat.filter((bike) => bike.price >= 30));
     }
   }, [priceFilterMode, bikesByCat]);
 
   const clearFilters = () => {
+    navigate("/dock/");
     setPriceFilterMode("all");
   };
 
@@ -111,25 +118,35 @@ const BikeListView = ({ catName }) => {
     setRank(event.target.value);
     switch (event.target.value) {
       case "latest":
-        setBikesByCat(bikesByCat.sort((a, b) => {
-          if (a.createdAt < b.createdAt) {
-            return -1;
-          }
-          if (a.createdAt > b.createdAt) {
-            return 1;
-          }
-          return 0;
-        }))
+        setBikesByCat(
+          bikesByCat.sort((a, b) => {
+            if (a.createdAt < b.createdAt) {
+              return -1;
+            }
+            if (a.createdAt > b.createdAt) {
+              return 1;
+            }
+            return 0;
+          })
+        );
         break;
       case "price":
-        setBikesByCat(bikesByCat.sort((a, b) => { return a.price - b.price; }))
+        setBikesByCat(
+          bikesByCat.sort((a, b) => {
+            return a.price - b.price;
+          })
+        );
         break;
       case "r_price":
-        setBikesByCat(bikesByCat.sort((a, b) => { return b.price - a.price; }))
+        setBikesByCat(
+          bikesByCat.sort((a, b) => {
+            return b.price - a.price;
+          })
+        );
         break;
       default:
         break;
-    };
+    }
   };
 
   const handlePageChange = (pageNumber) => {
@@ -149,10 +166,12 @@ const BikeListView = ({ catName }) => {
         }}
       >
         <div className="container text-center">
-          <span className="display-5 px-3 rounded shadow" style={{ backgroundColor: 'rgb(13 169 253)', color: 'white' }}>
+          <span
+            className="display-5 px-3 rounded shadow"
+            style={{ backgroundColor: "rgb(13 169 253)", color: "white" }}
+          >
             <b>{dockNameMap[catName]}</b>
           </span>
-
         </div>
       </div>
       <Breadcrumb catName={dockNameMap[catName]} />
@@ -162,7 +181,6 @@ const BikeListView = ({ catName }) => {
             <FilterDock />
             <FilterPrice handleChangePriceFilter={handleChangePriceFilter} />
             <FilterClearButton clearFilters={clearFilters} />
-            {/* <CardServices /> */}
           </div>
           <div className="col-md-9">
             <div className="row">
@@ -187,8 +205,9 @@ const BikeListView = ({ catName }) => {
                     aria-label="Grid"
                     type="button"
                     onClick={() => onChangeView("grid")}
-                    className={`btn ${view === "grid" ? "btn-primary" : "btn-outline-primary"
-                      }`}
+                    className={`btn ${
+                      view === "grid" ? "btn-primary" : "btn-outline-primary"
+                    }`}
                   >
                     <FontAwesomeIcon icon={faTh} />
                   </button>
@@ -196,8 +215,9 @@ const BikeListView = ({ catName }) => {
                     aria-label="List"
                     type="button"
                     onClick={() => onChangeView("list")}
-                    className={`btn ${view === "list" ? "btn-primary" : "btn-outline-primary"
-                      }`}
+                    className={`btn ${
+                      view === "list" ? "btn-primary" : "btn-outline-primary"
+                    }`}
                   >
                     <FontAwesomeIcon icon={faBars} />
                   </button>
@@ -207,17 +227,27 @@ const BikeListView = ({ catName }) => {
             <hr />
             <div className="row g-3">
               {view === "grid" &&
-                filteredBikes.slice((currentPage - 1) * bikeNumberPerPage, currentPage * bikeNumberPerPage).map((bike, idx) => (
-                  <div key={idx} className="col-md-4">
-                    <CardBikeGrid bike={bike} />
-                  </div>
-                ))}
+                filteredBikes
+                  .slice(
+                    (currentPage - 1) * bikeNumberPerPage,
+                    currentPage * bikeNumberPerPage
+                  )
+                  .map((bike, idx) => (
+                    <div key={idx} className="col-md-4">
+                      <CardBikeGrid bike={bike} />
+                    </div>
+                  ))}
               {view === "list" &&
-                filteredBikes.slice((currentPage - 1) * bikeNumberPerPage, currentPage * bikeNumberPerPage).map((bike, idx) => (
-                  <div key={idx} className="col-md-12">
-                    <CardBikeList bike={bike} />
-                  </div>
-                ))}
+                filteredBikes
+                  .slice(
+                    (currentPage - 1) * bikeNumberPerPage,
+                    currentPage * bikeNumberPerPage
+                  )
+                  .map((bike, idx) => (
+                    <div key={idx} className="col-md-12">
+                      <CardBikeList bike={bike} />
+                    </div>
+                  ))}
             </div>
             <hr />
             <Pagination
@@ -229,7 +259,6 @@ const BikeListView = ({ catName }) => {
               sizing=""
               alignment="justify-content-center"
             />
-
           </div>
         </div>
       </div>

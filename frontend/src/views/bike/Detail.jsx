@@ -2,14 +2,26 @@ import React, { lazy, useEffect, useState, useSearchParams } from "react";
 import { useParams } from "react-router-dom";
 import { ReactComponent as IconStarFill } from "bootstrap-icons/icons/star-fill.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCartPlus, faHeart, faShoppingCart, faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
-import axios from 'axios';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-const CardFeaturedBike = lazy(() => import("../../components/card/CardFeaturedBike"));
+import {
+  faCartPlus,
+  faHeart,
+  faShoppingCart,
+  faMinus,
+  faPlus,
+} from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+const CardFeaturedBike = lazy(() =>
+  import("../../components/card/CardFeaturedBike")
+);
 const CardServices = lazy(() => import("../../components/card/CardServices"));
-const RatingsReviews = lazy(() => import("../../components/others/RatingsReviews"));
-const RentingReturn = lazy(() => import("../../components/others/RentingReturn"));
+const RatingsReviews = lazy(() =>
+  import("../../components/others/RatingsReviews")
+);
+const RentingReturn = lazy(() =>
+  import("../../components/others/RentingReturn")
+);
 const SizeChart = lazy(() => import("../../components/others/SizeChart"));
 const BikeDetailView = () => {
   const [bike, setBike] = useState(null);
@@ -18,6 +30,7 @@ const BikeDetailView = () => {
   const [rating, setRating] = useState(0);
   const [ratings, setRatings] = useState([]);
   const [content, setContent] = useState("");
+  const [isRent, setIsRent] = useState(false);
 
   const handleRatingChange = (event) => {
     console.log(rating);
@@ -37,31 +50,76 @@ const BikeDetailView = () => {
         console.error("Error fetching bike:", error);
       }
     };
-
-
     getBike(id);
     getRatings(id);
-  }, [])
+  }, []);
   useEffect(() => {
+    checkRented();
+  }, [bike]);
 
-  }, [ratings])
+  useEffect(() => {}, [ratings]);
   const getRatings = async (id) => {
     try {
       const response = await axios.get(`http://localhost:8000/ratings`);
-      const ratings = response.data.filter((rating) => { return (rating.bikeId === id) });
+      const ratings = response.data.filter((rating) => {
+        return rating.bikeId === id;
+      });
       setRatings(ratings);
     } catch (error) {
       console.error("Error fetching bike:", error);
     }
   };
 
-  const getCustomerData = async (token) => {
+  const checkRented = async () => {
+    const token = localStorage.getItem("token");
+    let customer;
+    let orders;
     if (token) {
-      const response = await axios.get("http://localhost:8000/customers/token", {
+      const response = await axios.get(
+        "http://localhost:8000/customers/token",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      customer = response.data;
+    } else {
+      return null;
+    }
+    try {
+      const response = await axios.get("http://localhost:8000/orders", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
+      orders = response.data.filter((order) => {
+        return order.customerId == customer._id;
+      });
+    } catch (error) {
+      console.error("Error fetching bikes:", error);
+    }
+    for (const order of orders) {
+      if (order.bikes[0].bikeId._id == bike._id) {
+        setIsRent(true);
+        break;
+      }
+    }
+    console.log(bike._id);
+    console.log(isRent);
+    return isRent;
+  };
+
+  const getCustomerData = async (token) => {
+    if (token) {
+      const response = await axios.get(
+        "http://localhost:8000/customers/token",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       return response.data;
     } else {
       return null;
@@ -73,7 +131,7 @@ const BikeDetailView = () => {
       const token = localStorage.getItem("token");
       const customer = await getCustomerData(token);
 
-      if (customer.cart.some(item => item.bikeId._id == id)) {
+      if (customer.cart.some((item) => item.bikeId._id == id)) {
         toast.success("Bike is already in the cart!");
 
         return 0;
@@ -81,11 +139,15 @@ const BikeDetailView = () => {
 
       if (customer) {
         const updatedCart = [...customer.cart, { bikeId: id, quantity: value }];
-        await axios.patch(`http://localhost:8000/customers/${customer._id}`, { cart: updatedCart }, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        await axios.patch(
+          `http://localhost:8000/customers/${customer._id}`,
+          { cart: updatedCart },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         toast.success("Bike added to Cart successfully!");
       }
     } catch (error) {
@@ -100,11 +162,15 @@ const BikeDetailView = () => {
       const customer = await getCustomerData(token);
       if (customer) {
         const updatedWishlist = [...customer.wishList, { bikeId: id }];
-        await axios.patch(`http://localhost:8000/customers/${customer._id}`, { wishList: updatedWishlist }, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        await axios.patch(
+          `http://localhost:8000/customers/${customer._id}`,
+          { wishList: updatedWishlist },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         toast.success("Bike added to Wish List successfully!");
       }
     } catch (error) {
@@ -133,7 +199,7 @@ const BikeDetailView = () => {
       content: content,
       star: parseInt(rating),
       likes: 0,
-      dislikes: 0
+      dislikes: 0,
     };
 
     console.log(newRating);
@@ -163,17 +229,19 @@ const BikeDetailView = () => {
                 src={bike && bike.imageUrls[0]}
                 className="img-fluid"
                 alt="Book"
-                style={{ width: '300px', height: '450px' }}
+                style={{ width: "300px", height: "450px" }}
               />
             </div>
             <div className="col-md-7">
-              <h1 className="h2 d-inline me-2">
-                {bike && bike.name}
-              </h1>
+              <h1 className="h2 d-inline me-2">{bike && bike.name}</h1>
               <dl className="row small mb-3">
                 <dt className="col-sm-3">Availability</dt>
-                {bike && bike.isAvailable =='available' && <dd className="col-sm-9 text-success strong">Available</dd>}
-                {bike && bike.isAvailable=='notAvailable' && <dd className="col-sm-9 text-danger">Not available</dd>}
+                {bike && bike.isAvailable == "available" && (
+                  <dd className="col-sm-9 text-success strong">Available</dd>
+                )}
+                {bike && bike.isAvailable == "notAvailable" && (
+                  <dd className="col-sm-9 text-danger">Not available</dd>
+                )}
                 <dt className="col-sm-3">Brand</dt>
                 <dd className="col-sm-9">{bike && bike.brand}</dd>
                 <dt className="col-sm-3">Model</dt>
@@ -181,8 +249,12 @@ const BikeDetailView = () => {
               </dl>
 
               <div className="mb-3">
-                <span className="fw-bold h5 me-2">${bike && (bike.price - bike.discount.value).toFixed(2)}/h</span>
-                <del className="small text-muted me-2">${bike && bike.price}/h</del>
+                <span className="fw-bold h5 me-2">
+                  ${bike && (bike.price - bike.discount.value).toFixed(2)}/h
+                </span>
+                <del className="small text-muted me-2">
+                  ${bike && bike.price}/h
+                </del>
                 <span className="rounded p-1 bg-warning  me-2 small">
                   -${bike && bike.discount.value}
                 </span>
@@ -213,7 +285,7 @@ const BikeDetailView = () => {
                     </button>
                   </div>
                 </div>
-                {bike && bike.isAvailable=='available' &&
+                {bike && bike.isAvailable == "available" && (
                   <button
                     type="button"
                     className="btn btn-sm btn-primary me-2"
@@ -222,7 +294,7 @@ const BikeDetailView = () => {
                   >
                     <FontAwesomeIcon icon={faCartPlus} /> Add to cart
                   </button>
-                }
+                )}
                 <button
                   type="button"
                   className="btn btn-sm btn-outline-secondary"
@@ -233,14 +305,18 @@ const BikeDetailView = () => {
                 </button>
               </div>
               <div>
-                {bike && bike.imageUrls.map((url, index) => {
-                  return (<img
-                    key={index}
-                    src={url}
-                    className="border border-secondary me-2" width="100"
-                    alt="..."
-                  />);
-                })}
+                {bike &&
+                  bike.imageUrls.map((url, index) => {
+                    return (
+                      <img
+                        key={index}
+                        src={url}
+                        className="border border-secondary me-2"
+                        width="100"
+                        alt="..."
+                      />
+                    );
+                  })}
               </div>
             </div>
           </div>
@@ -281,7 +357,6 @@ const BikeDetailView = () => {
                   >
                     Renting & Returns
                   </a>
-
                 </div>
               </nav>
 
@@ -294,31 +369,61 @@ const BikeDetailView = () => {
                 >
                   {bike && bike.detail}
                 </div>
-
-                <div
-                  className="tab-pane fade"
-                  id="nav-randr"
-                  role="tabpanel"
-                  aria-labelledby="nav-randr-tab"
-                >
-                  <h4>Rate the Bike</h4>
-                  <div className="row mb-3 gx-1">
-                    <div className="col-1">
-                      <input type="number" value={rating} required className="form-control" min="0" max="5" onChange={handleRatingChange} />
-                    </div>
-                    <div className="col-8">
-                      <input type="text" value={content} required className="form-control" onChange={handleContentChange} />
-                    </div>
-                    <div className="col">
-                      <button className="btn btn-info" onClick={handleRatingSubmit}>Submit Rating</button>
-                    </div>
+                {isRent == false && (
+                  <div
+                    className="tab-pane fade"
+                    id="nav-randr"
+                    role="tabpanel"
+                    aria-labelledby="nav-randr-tab"
+                  >
+                    <p>You must rent this bike before Rating</p>
                   </div>
-                  {ratings && ratings.map((rating, index) => {
-                    return (
-                      <RatingsReviews key={index} rating={rating} />
-                    )
-                  })}
-                </div>
+                )}
+                {isRent == true && (
+                  <div
+                    className="tab-pane fade"
+                    id="nav-randr"
+                    role="tabpanel"
+                    aria-labelledby="nav-randr-tab"
+                  >
+                    <h4>Rate the Bike</h4>
+                    <div className="row mb-3 gx-1">
+                      <div className="col-1">
+                        <input
+                          type="number"
+                          value={rating}
+                          required
+                          className="form-control"
+                          min="0"
+                          max="5"
+                          onChange={handleRatingChange}
+                        />
+                      </div>
+                      <div className="col-8">
+                        <input
+                          type="text"
+                          value={content}
+                          required
+                          className="form-control"
+                          onChange={handleContentChange}
+                        />
+                      </div>
+                      <div className="col">
+                        <button
+                          className="btn btn-info"
+                          onClick={handleRatingSubmit}
+                        >
+                          Submit Rating
+                        </button>
+                      </div>
+                    </div>
+                    {ratings &&
+                      ratings.map((rating, index) => {
+                        return <RatingsReviews key={index} rating={rating} />;
+                      })}
+                  </div>
+                )}
+
                 <div
                   className="tab-pane fade"
                   id="nav-ship-returns"
@@ -346,7 +451,6 @@ const BikeDetailView = () => {
       </div>
     </div>
   );
-}
-
+};
 
 export default BikeDetailView;
