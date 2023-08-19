@@ -120,7 +120,8 @@ const BikeDetailView = () => {
   };
 
   const handlePlusClick = () => {
-    setValue(value + 1);
+    if (value < 24)
+      setValue(value + 1);
   };
 
   const handleRatingSubmit = async () => {
@@ -172,8 +173,8 @@ const BikeDetailView = () => {
               </h1>
               <dl className="row small mb-3">
                 <dt className="col-sm-3">Availability</dt>
-                {bike && bike.isAvailable =='available' && <dd className="col-sm-9 text-success strong">Available</dd>}
-                {bike && bike.isAvailable=='notAvailable' && <dd className="col-sm-9 text-danger">Not available</dd>}
+                {bike && bike.isAvailable == 'available' && <dd className="col-sm-9 text-success strong">Available</dd>}
+                {bike && bike.isAvailable == 'notAvailable' && <dd className="col-sm-9 text-danger">Not available</dd>}
                 <dt className="col-sm-3">Brand</dt>
                 <dd className="col-sm-9">{bike && bike.brand}</dd>
                 <dt className="col-sm-3">Model</dt>
@@ -213,7 +214,7 @@ const BikeDetailView = () => {
                     </button>
                   </div>
                 </div>
-                {bike && bike.isAvailable=='available' &&
+                {bike && bike.isAvailable == 'available' &&
                   <button
                     type="button"
                     className="btn btn-sm btn-primary me-2"

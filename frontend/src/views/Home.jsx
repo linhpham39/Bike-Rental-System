@@ -1,7 +1,5 @@
 import React, { lazy } from "react";
-import { Link } from "react-router-dom";
 import { data } from "../data";
-import { ReactComponent as IconBook } from "bootstrap-icons/icons/book.svg";
 import { ReactComponent as IconDock } from "bootstrap-icons/icons/geo-alt.svg";
 const Support = lazy(() => import("../components/Support"));
 const Banner = lazy(() => import("../components/carousel/Banner"));
@@ -9,9 +7,7 @@ const Carousel = lazy(() => import("../components/carousel/Carousel"));
 const CardIcon = lazy(() => import("../components/card/CardIcon"));
 const CardLogin = lazy(() => import("../components/card/CardLogin"));
 const CardImage = lazy(() => import("../components/card/CardImage"));
-const CardDealsOfTheDay = lazy(() =>
-  import("../components/card/CardDealsOfTheDay")
-);
+
 
 const components = {
   IconBook: IconDock,

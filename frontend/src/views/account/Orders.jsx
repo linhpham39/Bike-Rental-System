@@ -131,13 +131,9 @@ const OrdersView = () => {
                           </h6>
                           <div className="small">
                             <span className="text-muted me-2">Price:</span>
-                            <span className="me-3">{`$${(
-                              bike.bikeId.price - bike.bikeId.discount.value
-                            ).toFixed(2)}`}</span>
-                            <del className="me-3 text-muted">{`$${bike.bikeId.price.toFixed(
-                              2
-                            )}`}</del>
-                            <span className="text-muted me-2">Quantity:</span>
+                            <span className="me-3">{`$${(bike.bikeId.price - bike.bikeId.discount.value).toFixed(2)}`}</span>
+                            <del className="me-3 text-muted">{`$${bike.bikeId.price.toFixed(2)}`}</del>
+                            <span className="text-muted me-2">Rent hour:</span>
                             <span className="me-3">{`${bike.quantity}`}</span>
                           </div>
                           <div className="mt-2"></div>
@@ -194,26 +190,12 @@ const OrdersView = () => {
                   </span>
                 </div>
                 <div>
-                  {/* <span className="me-2">Invoice:</span>
-                  <span className="text-success">
-                    <Link to={`/invoice/${order._id}`}>
-                      <FontAwesomeIcon
-                        icon={faFileInvoice}
-                        className="me-1"
-                      />
-                      Download
-                    </Link>
-                  </span> */}
                   {order.status == "returned" && (
                     <Link
                       to={`/checkout/${order._id}`}
                       className="btn btn-primary float-end"
-                    // onClick={(e) => {
-                    //   return handleRentBike(e);
-                    // }}
                     >
                       Payment
-                      {/* <IconChevronRight className="i-va" /> */}
                     </Link>
                   )}
                   {order.status == "pending" && (
