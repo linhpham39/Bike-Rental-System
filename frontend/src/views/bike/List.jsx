@@ -8,7 +8,6 @@ const Breadcrumb = lazy(() => import("../../components/Breadcrumb"));
 const FilterDock = lazy(() => import("../../components/filter/Dock"));
 const FilterPrice = lazy(() => import("../../components/filter/Price"));
 const FilterClearButton = lazy(() => import("../../components/filter/Clear"));
-const CardServices = lazy(() => import("../../components/card/CardServices"));
 const CardBikeGrid = lazy(() => import("../../components/card/CardBikeGrid"));
 const CardBikeList = lazy(() => import("../../components/card/CardBikeList"));
 

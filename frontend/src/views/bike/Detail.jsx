@@ -1,27 +1,13 @@
 import React, { lazy, useEffect, useState, useSearchParams } from "react";
 import { useParams } from "react-router-dom";
-import { ReactComponent as IconStarFill } from "bootstrap-icons/icons/star-fill.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCartPlus,
-  faHeart,
-  faShoppingCart,
-  faMinus,
-  faPlus,
-} from "@fortawesome/free-solid-svg-icons";
-import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-const CardFeaturedBike = lazy(() =>
-  import("../../components/card/CardFeaturedBike")
-);
-const CardServices = lazy(() => import("../../components/card/CardServices"));
-const RatingsReviews = lazy(() =>
-  import("../../components/others/RatingsReviews")
-);
-const RentingReturn = lazy(() =>
-  import("../../components/others/RentingReturn")
-);
+import { faCartPlus, faHeart, faShoppingCart, faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
+import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+const CardFeaturedBike = lazy(() => import("../../components/card/CardFeaturedBike"));
+const RatingsReviews = lazy(() => import("../../components/others/RatingsReviews"));
+const RentingReturn = lazy(() => import("../../components/others/RentingReturn"));
 const SizeChart = lazy(() => import("../../components/others/SizeChart"));
 const BikeDetailView = () => {
   const [bike, setBike] = useState(null);
@@ -186,7 +172,8 @@ const BikeDetailView = () => {
   };
 
   const handlePlusClick = () => {
-    setValue(value + 1);
+    if (value < 24)
+      setValue(value + 1);
   };
 
   const handleRatingSubmit = async () => {
@@ -236,12 +223,8 @@ const BikeDetailView = () => {
               <h1 className="h2 d-inline me-2">{bike && bike.name}</h1>
               <dl className="row small mb-3">
                 <dt className="col-sm-3">Availability</dt>
-                {bike && bike.isAvailable == "available" && (
-                  <dd className="col-sm-9 text-success strong">Available</dd>
-                )}
-                {bike && bike.isAvailable == "notAvailable" && (
-                  <dd className="col-sm-9 text-danger">Not available</dd>
-                )}
+                {bike && bike.isAvailable == 'available' && <dd className="col-sm-9 text-success strong">Available</dd>}
+                {bike && bike.isAvailable == 'notAvailable' && <dd className="col-sm-9 text-danger">Not available</dd>}
                 <dt className="col-sm-3">Brand</dt>
                 <dd className="col-sm-9">{bike && bike.brand}</dd>
                 <dt className="col-sm-3">Model</dt>
@@ -285,7 +268,7 @@ const BikeDetailView = () => {
                     </button>
                   </div>
                 </div>
-                {bike && bike.isAvailable == "available" && (
+                {bike && bike.isAvailable == 'available' &&(
                   <button
                     type="button"
                     className="btn btn-sm btn-primary me-2"

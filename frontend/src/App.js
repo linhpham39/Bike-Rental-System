@@ -18,7 +18,7 @@ const SignUpView = lazy(() => import("./views/account/SignUp"));
 const ForgotPasswordView = lazy(() => import("./views/account/ForgotPassword"));
 const OrdersView = lazy(() => import("./views/account/Orders"));
 const WishlistView = lazy(() => import("./views/account/Wishlist"));
-const NotificationView = lazy(() => import("./views/account/Notification"));
+
 const MyProfileView = lazy(() =>
   import("./views/account/CustomerProfileEditor.jsx")
 );
@@ -26,11 +26,8 @@ const BikeListView = lazy(() => import("./views/bike/List"));
 const BikeDetailView = lazy(() => import("./views/bike/Detail"));
 const CartView = lazy(() => import("./views/cart/Cart"));
 const CheckoutView = lazy(() => import("./views/cart/Checkout"));
-const InvoiceView = lazy(() => import("./views/cart/Invoice"));
 const NotFoundView = lazy(() => import("./views/pages/404"));
 const InternalServerErrorView = lazy(() => import("./views/pages/500"));
-const ContactUsView = lazy(() => import("./views/pages/ContactUs"));
-const SupportView = lazy(() => import("./views/pages/Support"));
 
 function App() {
   // const [customer, setCustomer] = useState(null);
@@ -142,11 +139,7 @@ function App() {
             />
             <Route exact path="/account/orders" element={<OrdersView />} />
             <Route exact path="/account/wishlist" element={<WishlistView />} />
-            <Route
-              exact
-              path="/account/notification"
-              element={<NotificationView />}
-            />
+
             <Route
               exact
               path="/dock"
@@ -177,16 +170,10 @@ function App() {
               path="/dock/B1"
               element={<BikeListView catName="B1" />}
             />
-            {/* <Route exact path="/dock/romance" element={<BikeListView catName="romance" />} />
-            <Route exact path="/dock/food-drink" element={<BikeListView catName="food-drink" />} /> */}
 
             <Route path="/bike/:id" element={<BikeDetailView />} />
             <Route exact path="/cart" element={<CartView />} />
             <Route exact path="/checkout/:id" element={<CheckoutView />} />
-            <Route path="/invoice/:id" element={<InvoiceView />} />
-
-            <Route exact path="/contact-us" element={<ContactUsView />} />
-            <Route exact path="/support" element={<SupportView />} />
 
             <Route exact path="/500" element={<InternalServerErrorView />} />
             <Route path="*" element={<NotFoundView />} />

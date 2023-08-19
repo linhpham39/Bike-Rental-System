@@ -41,7 +41,7 @@ const Header = ({ isAuthenticated, handleLogout }) => {
     fetchCustomer();
   }, []);
   console.log("admin", isAdmin);
-  
+
   return (
     <header className="p-3 border-bottom bg-light">
       <div className="container-fluid">
@@ -92,19 +92,8 @@ const Header = ({ isAuthenticated, handleLogout }) => {
                   {!isAdmin && <li>
                     <hr className="dropdown-divider" />
                   </li>}
-                  {!isAdmin && <li>
-                    <Link className="dropdown-item" to="/account/notification">
-                      <IconBellFill className="text-primary" /> Notification
-                    </Link>
-                  </li>}
-                  {!isAdmin && <li>
-                    <Link className="dropdown-item" to="/support">
-                      <IconInfoCircleFill className="text-success" /> Support
-                    </Link>
-                  </li>}
-                  <li>
-                    <hr className="dropdown-divider" />
-                  </li>
+
+
                   <li>
                     <Link
                       className="dropdown-item"

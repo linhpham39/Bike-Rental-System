@@ -54,8 +54,6 @@ const CheckoutView = ({ state }) => {
   const handlePayment = async () => {
     try {
       const token = localStorage.getItem('token');
-
-
       const response = await axios.patch(
         `http://localhost:8000/orders/${id}`,
         {
@@ -71,6 +69,7 @@ const CheckoutView = ({ state }) => {
     } catch (error) {
       console.error('Error changing order status:', error);
     }
+    navigate('/account/orders');
   }
 
   const calculateTime = () => {

@@ -129,7 +129,7 @@ const Footer = () => {
               <ul className="list-group list-group-flush">
                 <li className="list-group-item bg-dark text-white border-light">
                   <Link
-                    to="/support"
+                    to="/"
                     className="text-decoration-none text-white stretched-link"
                   >
                     Return Policy
@@ -137,7 +137,7 @@ const Footer = () => {
                 </li>
                 <li className="list-group-item bg-dark text-white border-light">
                   <Link
-                    to="/support"
+                    to="/"
                     className="text-decoration-none text-white stretched-link"
                   >
                     Terms Of Use
@@ -145,7 +145,7 @@ const Footer = () => {
                 </li>
                 <li className="list-group-item bg-dark text-white border-light">
                   <Link
-                    to="/support"
+                    to="/"
                     className="text-decoration-none text-white stretched-link"
                   >
                     Account
@@ -153,7 +153,7 @@ const Footer = () => {
                 </li>
                 <li className="list-group-item bg-dark text-white border-light">
                   <Link
-                    to="/support"
+                    to="/"
                     className="text-decoration-none text-white stretched-link"
                   >
                     Privacy
@@ -161,7 +161,7 @@ const Footer = () => {
                 </li>
                 <li className="list-group-item bg-dark text-white border-light">
                   <Link
-                    to="/support"
+                    to="/"
                     className="text-decoration-none text-white stretched-link"
                   >
                     Taxes
