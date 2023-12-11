@@ -19,10 +19,10 @@ const CardBikeList2 = ({ bike, handleRemove }) => {
               </Link>
             </h6>
 
-            {bike.isAvailable && (
+            {bike.isAvailable == 'available' && (
               <span className="badge bg-success me-2">Available</span>
             )}
-            {!bike.isAvailable && <span className="badge bg-danger me-2">Not Available</span>}
+            {!bike.isAvailable == 'available' && <span className="badge bg-danger me-2">Not Available</span>}
           </div>
 
 
