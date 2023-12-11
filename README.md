@@ -71,3 +71,11 @@ This repo is for our class project (IT4409E). We used MERN stack to build the we
     POST /coupons/
     PATCH /coupons/:id
     DELETE /coupons/:id
+
+### Author
+    Ngo Quang Minh
+    Cao Dang Dat
+    Pham Khanh Linh
+    Nguyen Minh Huyen
+    Hoang Huy Chien
+    Nguyen Tran Minh Ngoc
