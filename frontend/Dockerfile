@@ -12,7 +12,7 @@ RUN "npm" "install"
 #copying all files from backend folder to container
 COPY . . 
 
-EXPOSE 3000
+EXPOSE 8000
 
 #running the app
 CMD ["npm", "start"]
