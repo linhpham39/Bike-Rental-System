@@ -3,6 +3,6 @@ const mongoose = require('./config/mongoose');
 
 const PORT = process.env.PORT || 3000;
 
-
+// cmt for testing CI/CD
 mongoose.start();
 app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
