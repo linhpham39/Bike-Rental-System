@@ -34,6 +34,6 @@ jobs:
       - name: build and push io server
         uses: docker/build-push-action@v2
         with:
-          context: ./io_server
+          context: ./server
           push: true
           tags: linhpham39/bike_rental_system_io_server:latest
